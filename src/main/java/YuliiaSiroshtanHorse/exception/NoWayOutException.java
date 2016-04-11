@@ -1,6 +1,6 @@
 package YuliiaSiroshtanHorse.exception;
 
-public class NoWayOutException extends Exception {
+public class NoWayOutException extends RuntimeException {
     public NoWayOutException(String message) {
         super(message);
     }
