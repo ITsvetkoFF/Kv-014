@@ -1,9 +1,9 @@
-package bfs;
+package AndriiAbramovHorse.bfs;
 
-import bfs.helpers.Field;
-import bfs.parse.FieldParser;
-import bfs.parse.FileFieldParser;
-import bfs.parse.XLSXFieldParser;
+import AndriiAbramovHorse.bfs.helpers.Field;
+import AndriiAbramovHorse.bfs.parse.FieldParser;
+import AndriiAbramovHorse.bfs.parse.FileFieldParser;
+import AndriiAbramovHorse.bfs.parse.XLSXFieldParser;
 
 import java.io.File;
 import java.io.IOException;

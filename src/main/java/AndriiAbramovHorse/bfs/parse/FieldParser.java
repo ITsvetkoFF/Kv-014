@@ -1,4 +1,4 @@
-package bfs.parse;
+package AndriiAbramovHorse.bfs.parse;
 
 /**
  * Created by Abrasha on 04-Apr-16.
