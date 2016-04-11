@@ -2,15 +2,15 @@ package AndriiAbramovHorse.bfs.helpers;
 
 public class Node {
 
-    private final bfs.helpers.Coords coords;
+    private final Coords coords;
     private int mark;
 
     public Node(int y, int x) {
-        this.coords = new bfs.helpers.Coords(y, x);
+        this.coords = new Coords(y, x);
         this.mark = 0;
     }
 
-    public bfs.helpers.Coords getCoords() {
+    public Coords getCoords() {
         return coords;
     }
 
@@ -23,6 +23,6 @@ public class Node {
     }
 
     public boolean isAvailableToStepIn() {
-        return this.mark == bfs.helpers.Field.FREE || this.mark == bfs.helpers.Field.FINISH;
+        return this.mark == Field.FREE || this.mark == Field.FINISH;
     }
 }
