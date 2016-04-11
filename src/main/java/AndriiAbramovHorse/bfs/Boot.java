@@ -56,15 +56,15 @@ public class Boot {
 
     public static int[][] findPath(int[][] field) {
 
-        final long bfsStartTime = time();
+        // final long bfsStartTime = time();
 
         final int[][] path = new Field(field).processBFS();
 
-        final long bfsExecutionTime = time() - bfsStartTime;
+        // final long bfsExecutionTime = time() - bfsStartTime;
 
 
-        System.out.printf("Algorithm time = %4d ms\n", bfsExecutionTime / 1_000_000);
-        System.out.printf("Length of path = %4d steps\n", path.length - 1);
+        // System.out.printf("Algorithm time = %4d ms\n", bfsExecutionTime / 1_000_000);
+        // System.out.printf("Length of path = %4d steps\n", path.length - 1);
 
         return path;
 
