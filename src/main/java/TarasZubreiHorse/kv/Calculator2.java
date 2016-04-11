@@ -38,7 +38,7 @@ public class Calculator2 implements Calc {
             final List<Point> newPoints = new LinkedList<>();
             for (final Point point : points) {
                 if (map[point.x][point.y] == BlockType.DESTINATION)
-                    return getPath(matrix[point.x][point.y]);
+                    return getPath(point);
                 else
                     newPoints.addAll(move(point));
             }
