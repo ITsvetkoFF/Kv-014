@@ -1,4 +1,4 @@
-package bfs.figures;
+package AndriiAbramovHorse.bfs.figures;
 
 import bfs.helpers.Coords;
 

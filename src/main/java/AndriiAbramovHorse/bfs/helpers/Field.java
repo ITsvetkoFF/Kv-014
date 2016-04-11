@@ -1,6 +1,6 @@
-package bfs.helpers;
+package AndriiAbramovHorse.bfs.helpers;
 
-import bfs.figures.Horse;
+import AndriiAbramovHorse.bfs.figures.Horse;
 
 import java.util.LinkedList;
 import java.util.List;
