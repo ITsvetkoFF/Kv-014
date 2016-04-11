@@ -30,7 +30,7 @@ public class Main {
 
     public static void main(String[] args) {
         long time1 = System.currentTimeMillis();
-        int[][] arr = XLSParser.parse(args[0]);
+//        int[][] arr = XLSParser.parse(args[0]);
         long time2 = System.currentTimeMillis();
         Main m = new Main();
         /*m.field2[0][0] = -2;
@@ -40,8 +40,8 @@ public class Main {
         System.out.println("Pathfind alg: " + (System.currentTimeMillis() - time2));
         System.out.println(path.size());
         System.out.println(m.listToArray(path));*/
-        List<Node> path = m.findPath(arr);
-        XLSParser.writeToFile(args[0], path, System.currentTimeMillis() - time1, System.currentTimeMillis() - time2);
+//        List<Node> path = m.findPath(arr);
+//        XLSParser.writeToFile(args[0], path, System.currentTimeMillis() - time1, System.currentTimeMillis() - time2);
     }
     public int[][] getPath(int[][] field) {
         return listToArray(findPath(field));

@@ -1,6 +1,6 @@
 package AndriiAbramovHorse.bfs.figures;
 
-import bfs.helpers.Coords;
+import AndriiAbramovHorse.bfs.helpers.Coords;
 
 import java.util.List;
 

@@ -57,7 +57,7 @@ public class Field {
         }
     }
 
-    private Node getNodeAt(bfs.helpers.Coords coords) {
+    private Node getNodeAt(AndriiAbramovHorse.bfs.helpers.Coords coords) {
         return this.field[coords.getY()][coords.getX()];
     }
 
@@ -124,7 +124,7 @@ public class Field {
 
         while (!current.getCoords().equals(startCoords)) {
 
-            final bfs.helpers.Coords cc = current.getCoords();
+            final AndriiAbramovHorse.bfs.helpers.Coords cc = current.getCoords();
             result[level][Y] = cc.getY();
             result[level][X] = cc.getX();
 
@@ -142,7 +142,7 @@ public class Field {
         final int withMark = toNode.getMark() - 1;
 
         return possibleSteps.stream()
-                .map(e -> new bfs.helpers.Coords(y + e.getY(), x + e.getX()))
+                .map(e -> new AndriiAbramovHorse.bfs.helpers.Coords(y + e.getY(), x + e.getX()))
                 .filter(this::isAccessible)
                 .map(this::getNodeAt)
                 .filter(e -> e.getMark() == withMark)

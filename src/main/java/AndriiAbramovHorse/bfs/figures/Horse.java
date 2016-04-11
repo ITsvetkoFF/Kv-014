@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Abrasha on 04-Apr-16.
  */
-public class Horse implements bfs.figures.Figure {
+public class Horse implements Figure {
     public List<Coords> getPossibleMoves() {
         List<Coords> moves = Arrays.asList(
                 new Coords(-1, -2),

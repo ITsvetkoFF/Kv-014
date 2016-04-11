@@ -21,10 +21,20 @@ public class YuliiaSiroshtanHorse {
     private static Queue<List<Integer>> coordinatesQueue = new ConcurrentLinkedQueue<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
 
-    public static int[][] compute(int[][] matrix) throws InvalidMatrixException, NoWayOutException {
-        board = new Board(matrix);
+    public static int[][] compute(int[][] matrix) {
+        try {
+            board = new Board(matrix);
+        } catch (InvalidMatrixException e) {
+            //
+        }
         piece = new Knight(board);
-        return compute(piece);
+        int[][] result = null;
+        try {
+            result = compute(piece);
+        } catch (NoWayOutException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static int[][] compute(Piece piece) throws NoWayOutException {
