@@ -1,4 +1,4 @@
-package bfs.parse;
+package AndriiAbramovHorse.bfs.parse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
