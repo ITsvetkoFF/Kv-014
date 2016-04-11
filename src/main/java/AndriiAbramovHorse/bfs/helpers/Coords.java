@@ -1,4 +1,4 @@
-package bfs.helpers;
+package AndriiAbramovHorse.bfs.helpers;
 
 import java.util.Objects;
 
