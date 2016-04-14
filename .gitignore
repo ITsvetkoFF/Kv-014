@@ -1,3 +1,6 @@
+.idea/
+gradle*
+*.iml
 
 # Created by https://www.gitignore.io/api/java,jetbrains,osx
 

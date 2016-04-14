@@ -1,0 +1,23 @@
+ext {
+    sourceComp = 1.8
+    sourceVersion = '0.0.1-SNAPSHOT'
+    hibernate_core = 'org.hibernate:hibernate-core:4.3.11.Final'
+    spring_core = 'org.springframework:spring-core:4.2.5.RELEASE'
+    apache_commons_lang = 'org.apache.commons:commons-lang3:3.4'
+    apache_commons_collections4 = 'org.apache.commons:commons-collections4:4.1'
+    junit = 'junit:junit:4.12'
+}
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = sourceComp
+    version = sourceVersion
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        testCompile junit
+    }
+}
+task show << {
+    print version
+}
