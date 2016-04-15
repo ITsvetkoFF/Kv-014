@@ -1,0 +1,29 @@
+// dependency versions
+def spring_version = '4.2.5.RELEASE'
+def hibernate_version = '4.3.11.Final'
+def junit_version = '4.12'
+def apache_commons_lang_version = '3.4'
+def apache_commons_collections_version = '4.1'
+
+def sourceComp = 1.8
+def sourceVersion = '0.0.1-SNAPSHOT'
+
+ext {
+    hibernate_core = "org.hibernate:hibernate-core:$hibernate_version"
+    spring_core = "org.springframework:spring-core:$spring_version"
+    apache_commons_lang = "org.apache.commons:commons-lang3:$apache_commons_lang_version"
+    apache_commons_collections4 = "org.apache.commons:commons-collections4:$apache_commons_collections_version"
+    junit = "junit:junit:$junit_version"
+}
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = sourceComp
+    version = sourceVersion
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        testCompile junit
+    }
+}
