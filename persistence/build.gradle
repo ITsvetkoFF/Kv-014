@@ -1,3 +1,4 @@
 dependencies {
     compile project(':core')
+    compile spring_context
 }
