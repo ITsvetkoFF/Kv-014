@@ -1,6 +1,4 @@
-.idea/
-gradle*
-*.iml
+### Gradle ###
 
 # Created by https://www.gitignore.io/api/java,jetbrains,osx
 
@@ -24,6 +22,9 @@ hs_err_pid*
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
+
+*.iml
+.idea/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
@@ -41,6 +42,10 @@ hs_err_pid*
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
+
+build/
+.gradle/
+gradle*
 
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
