@@ -16,9 +16,9 @@ ext {
     junit = "junit:junit:$junit_version"
 }
 
-
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'pmd'
     sourceCompatibility = sourceComp
     version = sourceVersion
     repositories {
@@ -27,5 +27,36 @@ subprojects {
     }
     dependencies {
         testCompile junit
+    }
+    pmd {
+        ignoreFailures = true
+        reportsDir = file("$project.buildDir/pmd/")
+        ruleSets = [ 'java-basic',
+                     'java-braces',
+                     'java-clone',
+                     'java-codesize',
+                     'java-controversial',
+                     'java-coupling',
+                     'java-design',
+                     'java-empty',
+                     'java-finalizers',
+                     'java-imports',
+                     'java-optimizations',
+                     'java-strictexception',
+                     'java-strings',
+                     'java-typeresolution',
+                     'java-unnecessary',
+                     'java-unusedcode'
+        ]
+    }
+    task pmd(type: Pmd) {
+        source = fileTree('/src/test/java') + fileTree('/src/main/java')
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+    check.doLast {
+        project.tasks.getByName("pmd").execute()
     }
 }
