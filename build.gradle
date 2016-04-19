@@ -51,7 +51,7 @@ pmd {
     ]
 }
 task pmd(type: Pmd) {
-    subprojects.forEach() {source += fileTree('/'+it.name+'/src/test/java') + fileTree('/'+it.name+'/src/main/java')}
+    subprojects.each() {source += fileTree('/'+it.name+'/src/test/java') + fileTree('/'+it.name+'/src/main/java')}
     reports {
         xml.enabled = false
         html.enabled = true
