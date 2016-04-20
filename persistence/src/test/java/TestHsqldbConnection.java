@@ -1,3 +1,5 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,30 +14,40 @@ import static org.springframework.util.Assert.notNull;
 
 public class TestHsqldbConnection {
 
-    @Test
-    public void textConnection() throws SQLException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("persistence-test-ctx.xml");
+    private ClassPathXmlApplicationContext context;
+    private Connection connection;
+
+
+    @Before
+    public void setUp() throws SQLException {
+        context = new ClassPathXmlApplicationContext("persistence-test-ctx.xml");
         context.getEnvironment().setActiveProfiles("dev");
         context.refresh();
 
         final DataSource dataSource = (DataSource) context.getBean("dataSource");
-        notNull(dataSource, "DataSource Bean is not loaded.");
 
-        final Connection connection = dataSource.getConnection();
+        connection = dataSource.getConnection();
+
+    }
+
+
+    @Test
+    public void testConnection() throws SQLException {
         notNull(connection, "Connection is not established.");
 
         final Statement selectStatement = connection.createStatement();
-
         final ResultSet rs = selectStatement.executeQuery("SELECT * FROM ZOO.CLASSES");
 
-        isTrue(rs.next(), "Result set is emmpty.");
+        isTrue(rs.next(), "Result set is empty.");
 
         rs.close();
         selectStatement.close();
-        connection.close();
-        connection.close();
+    }
 
-
+    @After
+    public void tearDown() throws SQLException {
+        connection.close();
+        context.close();
     }
 
 }
