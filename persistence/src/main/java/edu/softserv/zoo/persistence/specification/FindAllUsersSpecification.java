@@ -1,14 +1,7 @@
 package edu.softserv.zoo.persistence.specification;
 
+@Hibernate
 @EntityType(Object.class)
-public class FindAllUsersSpecification<T> implements Specification<T> {
-    @Override
-    public Class<T> entityType() {
-        return null;
-    }
-
-    @Override
-    public Object query() {
-        return null;
-    }
+@Query()
+public interface FindAllUsersSpecification<T> extends Specification<T> {
 }
