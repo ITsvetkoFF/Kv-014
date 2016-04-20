@@ -6,4 +6,8 @@ package edu.softserv.zoo.persistence.specification;
  * Created: 19.04.2016
  */
 public interface Specification<T> {
+
+    Class<T> entityType();
+
+    Object query();
 }
