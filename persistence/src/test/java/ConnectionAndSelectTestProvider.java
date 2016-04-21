@@ -25,6 +25,9 @@ public abstract class ConnectionAndSelectTestProvider {
 
     protected boolean testSelect(Connection connection) {
 
+        if (connection == null)
+            return false;
+
         boolean result = false;
         Statement selectStatement = null;
         ResultSet rs = null;

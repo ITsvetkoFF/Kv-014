@@ -2,13 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+        <property name="location" value="application.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
 
     <beans profile="dev">
-
-        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-            <property name="location" value="application.properties"/>
-            <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        </bean>
 
         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
             <property name="driverClassName" value="${test_db.driver}"/>
