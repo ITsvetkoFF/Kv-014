@@ -34,7 +34,10 @@ public class TestHsqldbConnection {
     @Test
     public void testConnection() throws SQLException {
         notNull(connection, "Connection is not established.");
+    }
 
+    @Test
+    public void testQuery() throws SQLException {
         final Statement selectStatement = connection.createStatement();
         final ResultSet rs = selectStatement.executeQuery("SELECT * FROM ZOO.CLASSES");
 
