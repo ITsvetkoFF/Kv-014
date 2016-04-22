@@ -26,8 +26,7 @@ ext {
 
 }
 
-
-subprojects {
+allprojects {
     apply plugin: 'java'
     sourceCompatibility = sourceComp
     version = sourceVersion
@@ -38,4 +37,20 @@ subprojects {
     dependencies {
         testCompile junit
     }
+}
+apply plugin: 'pmd'
+pmd {
+    ignoreFailures = true
+    reportsDir = file("$project.buildDir/pmd/")
+    ruleSetFiles = files('/pmd-ruleset.xml')
+}
+task pmd(type: Pmd) {
+    subprojects.each() {source += fileTree('/'+it.name+'/src/test/java') + fileTree('/'+it.name+'/src/main/java')}
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+check.doLast {
+    project.tasks.getByName("pmd").execute()
 }

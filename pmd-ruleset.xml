@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="pmd-idea">
+    <description>PMD Plugin preferences rule set</description>
+    <rule ref="rulesets/java/basic.xml"/>
+    <rule ref="rulesets/java/braces.xml"/>
+    <rule ref="rulesets/java/codesize.xml"/>
+    <rule ref="rulesets/java/controversial.xml"/>
+    <rule ref="rulesets/java/coupling.xml"/>
+    <rule ref="rulesets/java/finalizers.xml"/>
+    <rule ref="rulesets/java/imports.xml"/>
+    <rule ref="rulesets/java/javabeans.xml"/>
+    <rule ref="rulesets/java/junit.xml"/>
+    <rule ref="rulesets/java/logging-java.xml"/>
+    <rule ref="rulesets/java/naming.xml"/>
+    <rule ref="rulesets/java/optimizations.xml"/>
+    <rule ref="rulesets/java/strictexception.xml"/>
+    <rule ref="rulesets/java/unusedcode.xml"/>
+    <!--Custom rules-->
+    <rule ref="rulesets/java/naming.xml/ShortVariable">
+        <properties>
+            <property name="xpath">
+                <value>
+                    //VariableDeclaratorId[(string-length(@Image) &lt; 3) and (not (@Image='id'))]
+                    [not(ancestor::ForInit)]
+                    [not((ancestor::FormalParameter) and (ancestor::TryStatement))]
+                </value>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength">
+        <properties>
+            <property name="minimum" value="40"/>
+        </properties>
+    </rule>
+</ruleset>
