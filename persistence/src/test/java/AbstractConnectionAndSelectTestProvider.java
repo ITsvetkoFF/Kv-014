@@ -4,19 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public abstract class ConnectionAndSelectTestProvider {
+public abstract class AbstractConnectionAndSelectTestProvider {
 
     protected Connection getConnection(DataSource dataSource) {
 
-        if (dataSource == null)
+        if (dataSource == null) {
             return null;
+        }
 
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
         } catch (SQLException e) {
             System.out.println(e);
-            e.printStackTrace();
             closeConnection(connection);
         }
         return connection;
@@ -25,31 +25,30 @@ public abstract class ConnectionAndSelectTestProvider {
 
     protected boolean testSelect(Connection connection) {
 
-        if (connection == null)
+        if (connection == null) {
             return false;
+        }
 
         boolean result = false;
         Statement selectStatement = null;
-        ResultSet rs = null;
+        ResultSet resultSet = null;
         try {
             selectStatement = connection.createStatement();
-            rs = selectStatement.executeQuery("SELECT COUNT(1)FROM ZOO.CLASSES");
-            result = rs.next();
+            final String query = "SELECT COUNT(1)FROM ZOO.CLASSES";
+            resultSet = selectStatement.executeQuery(query);
+            result = resultSet.next();
         } catch (SQLException e) {
             System.out.println(e);
-            e.printStackTrace();
-
         } finally {
             try {
                 if (selectStatement != null) {
                     selectStatement.close();
                 }
-                if (rs != null) {
-                    rs.close();
+                if (resultSet != null) {
+                    resultSet.close();
                 }
             } catch (SQLException e1) {
                 System.out.println(e1);
-                e1.printStackTrace();
             }
         }
 
@@ -64,9 +63,9 @@ public abstract class ConnectionAndSelectTestProvider {
                 connection.close();
             } catch (SQLException e) {
                 System.out.println(e);
-                e.printStackTrace();
             }
         }
+
     }
 
 }

@@ -16,7 +16,7 @@ import static org.springframework.util.Assert.notNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:persistence-test-ctx.xml")
 @ActiveProfiles("dev")
-public class Spring4JUnitRunnerTest extends ConnectionAndSelectTestProvider {
+public class Spring4JUnitRunnerTestAbstract extends AbstractConnectionAndSelectTestProvider {
 
     @Autowired
     private DataSource dataSource;
@@ -34,13 +34,15 @@ public class Spring4JUnitRunnerTest extends ConnectionAndSelectTestProvider {
 
     @Test
     public void testConnection() {
+
         notNull(connection, "Connection is not established.");
+
     }
 
     @Test
     public void testQuery() {
 
-        boolean selectIsSuccess = super.testSelect(connection);
+        final boolean selectIsSuccess = super.testSelect(connection);
         isTrue(selectIsSuccess, "Result set is empty.");
 
     }
@@ -49,6 +51,7 @@ public class Spring4JUnitRunnerTest extends ConnectionAndSelectTestProvider {
     public void tearDown() {
 
         super.closeConnection(connection);
+
     }
 
 }
