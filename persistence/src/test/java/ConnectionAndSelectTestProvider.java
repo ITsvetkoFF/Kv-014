@@ -33,7 +33,7 @@ public abstract class ConnectionAndSelectTestProvider {
         ResultSet rs = null;
         try {
             selectStatement = connection.createStatement();
-            rs = selectStatement.executeQuery("SELECT * FROM ZOO.CLASSES");
+            rs = selectStatement.executeQuery("SELECT COUNT(1)FROM ZOO.CLASSES");
             result = rs.next();
         } catch (SQLException e) {
             System.out.println(e);
