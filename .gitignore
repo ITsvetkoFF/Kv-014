@@ -47,6 +47,8 @@ build/
 .gradle/
 gradle*
 
+logs/
+
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
