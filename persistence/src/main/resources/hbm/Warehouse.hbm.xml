@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="edu.softserve.zoo.model.Warehouse" table="warehouse">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="amount" type="integer" column="amount" not-null="true"/>
+        <property name="supply" column="id" not-null="true" insert="false" update="false">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">edu.softserve.zoo.model.Warehouse$Supply</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>

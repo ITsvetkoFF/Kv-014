@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="edu.softserve.zoo.model.Task" table="tasks">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="estimatedStart" type="java.time.LocalDateTime" column="started_estimated" not-null="true"/>
+        <property name="estimatedFinish" type="java.time.LocalDateTime" column="accomplished_estimated"
+                  not-null="true"/>
+        <property name="actualStart" type="java.time.LocalDateTime" column="started_actual"/>
+        <property name="actualFinish" type="java.time.LocalDateTime" column="accomplished_actual"/>
+        <property name="description" type="string" column="task_comment" length="100"/>
+        <many-to-one name="assignee" column="assignee_id" class="edu.softserve.zoo.model.Employee" not-null="true"
+                     cascade="save-update"/>
+        <many-to-one name="assigner" column="assigner_id" class="edu.softserve.zoo.model.Employee" not-null="true"
+                     cascade="save-update"/>
+        <many-to-one name="zone" column="zone_id" class="edu.softserve.zoo.model.ZooZone" not-null="true"
+                     cascade="save-update, delete"/>
+        <many-to-one name="taskType" column="task_type_id" class="edu.softserve.zoo.model.Task$TaskType" not-null="true"
+                     cascade="save-update"/>
+        <many-to-one name="status" column="status_id" class="edu.softserve.zoo.model.Task$TaskStatus" not-null="true"
+                     cascade="save-update"/>
+
+    </class>
+</hibernate-mapping>
