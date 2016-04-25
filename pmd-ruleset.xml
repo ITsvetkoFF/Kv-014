@@ -4,7 +4,9 @@
     <rule ref="rulesets/java/basic.xml"/>
     <rule ref="rulesets/java/braces.xml"/>
     <rule ref="rulesets/java/codesize.xml"/>
-    <rule ref="rulesets/java/controversial.xml"/>
+    <rule ref="rulesets/java/controversial.xml">
+        <exclude name="OnlyOneReturn"/>
+    </rule>
     <rule ref="rulesets/java/coupling.xml"/>
     <rule ref="rulesets/java/finalizers.xml"/>
     <rule ref="rulesets/java/imports.xml"/>
