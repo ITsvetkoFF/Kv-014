@@ -12,11 +12,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>Hibernate based implementation of the {@link PersistenceProvider}.</p>
  * <p>Implements CRUD operations with relational database</p>
  *
+ * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored. Should be properly mapped.
  */
 @Component
@@ -28,12 +31,16 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     /**
      * Saves the domain object into the relational database.
      * @param entity - an object that should be saved.
+     * @return saved entity with generated identifier.
      */
+
     @Override
-    public void save(T entity) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public T save(T entity) {
         try {
             Session session = getSession();
             session.save(entity);
+            return entity;
         } catch (HibernateException ex) {
             throw new PersistenceException(ex.getMessage(), ex.getCause());
             //TODO add logging properly (after issue #42)
@@ -43,12 +50,16 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     /**
      * Updates the tables connected with domain object in the relational database.
      * @param entity - the domain object that should be updated.
+     * @return updated entity.
      */
+
     @Override
-    public void update(T entity) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public T update(T entity) {
         try {
             Session session = getSession();
             session.update(entity);
+            return entity;
         } catch (HibernateException ex) {
             throw new PersistenceException(ex.getMessage(), ex.getCause());
             //TODO add logging properly (after issue #42)
@@ -60,6 +71,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      * @param entity domain object that should be deleted.
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void delete(T entity) {
         try {
             Session session = getSession();
@@ -78,6 +90,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      * @see Specification
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY, readOnly = true )
     public Collection<T> find(Specification<T> specification) {
         List<T> data = null;
         try {

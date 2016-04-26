@@ -7,6 +7,7 @@ import java.util.Collection;
 /**
  * Interface that defines the persistent storage interface.
  *
+ * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored.
  */
 public interface PersistenceProvider<T> {
@@ -14,16 +15,18 @@ public interface PersistenceProvider<T> {
     /**
      * Saves the given entity into the persistent storage.
      *
+     * @return persisted entity with generated identifier.
      * @param entity an object that should be saved.
      */
-    void save(T entity);
+    T save(T entity);
 
     /**
      * Updates a state of the given entity in the persistent storage.
      *
+     * @return entity with updated state.
      * @param entity domain object that should be updated.
      */
-    void update(T entity);
+    T update(T entity);
 
     /**
      * Deletes the given entity from the persistent storage.

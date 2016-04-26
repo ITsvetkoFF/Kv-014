@@ -11,6 +11,8 @@ import java.util.Collection;
 /**
  * <p>Abstract implementation of the <tt>Repository</tt>. Help to implement concrete repositories for every
  * domain object. Implements routine CRUD operations.</p>
+ *
+ * @author Bohdan Cherniakh
  * @param <T> type of the domain object.
  */
 public abstract class AbstractRepository<T extends BaseEntity> implements Repository<T> {
@@ -25,8 +27,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public void save(T entity) {
-        persistenceProvider.save(entity);
+    public T save(T entity) {
+        return persistenceProvider.save(entity);
     }
 
     /**
@@ -41,8 +43,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public void update(T entity) {
-        persistenceProvider.update(entity);
+    public T update(T entity) {
+        return persistenceProvider.update(entity);
     }
 
     /**

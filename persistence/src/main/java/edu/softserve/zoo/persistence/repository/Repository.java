@@ -11,6 +11,7 @@ import java.util.Collection;
  * <p>Repository implements basic CRUD operations for domain objects called entities.
  * The find operation is implemented using {@link Specification}</p>
  *
+ * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored.
  */
 public interface Repository<T extends BaseEntity> {
@@ -19,9 +20,10 @@ public interface Repository<T extends BaseEntity> {
      * Saves the entity into the repository.
      *
      * @param entity - an object that should be stored.
+     * @return saved entity with generated identifier.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      */
-    void save(T entity);
+    T save(T entity);
 
     /**
      * Deletes the entity from the repository
@@ -35,9 +37,10 @@ public interface Repository<T extends BaseEntity> {
      * Updates the entity state in the repository.
      *
      * @param entity - object which state should be updated.
+     * @return entity with updated state.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      */
-    void update(T entity);
+    T update(T entity);
 
     /**
      * Finds entities in the repository according to given Specification.

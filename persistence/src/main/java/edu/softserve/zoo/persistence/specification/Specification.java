@@ -3,8 +3,9 @@ package edu.softserve.zoo.persistence.specification;
 /**
  * Interface that defines the specification API.
  * Should provide the data for the {@link edu.softserve.zoo.persistence.repository.Repository#find(Specification)}
+ *
+ * @author Bohdan Cherniakh
  */
-//TODO - T should extend BaseEntity.
 public interface Specification<T> {
 
     /**
