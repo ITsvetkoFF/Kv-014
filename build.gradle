@@ -9,6 +9,12 @@ def apache_commons_collections_version = '4.1'
 def sourceComp = 1.8
 def sourceVersion = '0.0.1-SNAPSHOT'
 
+def slf4j_version = '1.7.21'
+def log4j2_version = '2.5'
+def slf4j_log4j2_binding_version = '2.5'
+def jcl_over_slf4j_version = '1.7.21'
+def jboss_logging_version = '3.3.0.Final'
+
 ext {
     hibernate_core = "org.hibernate:hibernate-core:$hibernate_version"
     hibernate_java8 = "org.hibernate:hibernate-java8:$hibernate_version"
@@ -20,6 +26,21 @@ ext {
     apache_commons_collections4 = "org.apache.commons:commons-collections4:$apache_commons_collections_version"
     junit = "junit:junit:$junit_version"
     hsqldb = "org.hsqldb:hsqldb:$hsqldb_version"
+
+    /* Logging bridge */
+    slf4j = "org.slf4j:slf4j-api:$slf4j_version"
+
+    /* Logging framework */
+    log4j2 = "org.apache.logging.log4j:log4j-core:$log4j2_version"
+
+    /* Bridge-implementation binding */
+    slf4j_log4j2_binding = "org.apache.logging.log4j:log4j-slf4j-impl:$slf4j_log4j2_binding_version"
+
+    /* Commons-logging redirection to SLF4J. Make sure commons-logging excluded from Spring */
+    jcl_over_slf4j = "org.slf4j:jcl-over-slf4j:$jcl_over_slf4j_version"
+
+    /* Updated version of Hibernate's logger dependency. Needed for proper SLF4J integration with Hibernate */
+    jboss_logging = "org.jboss.logging:jboss-logging:$jboss_logging_version"
 
 
 }
@@ -33,7 +54,12 @@ allprojects {
         jcenter()
     }
     dependencies {
+        compile slf4j, log4j2, slf4j_log4j2_binding, jcl_over_slf4j, jboss_logging
         testCompile junit
+    }
+    configurations {
+        /* For proper SLF4J integration with Spring */
+        compile.exclude group: "commons-logging"
     }
 }
 apply plugin: 'pmd'
