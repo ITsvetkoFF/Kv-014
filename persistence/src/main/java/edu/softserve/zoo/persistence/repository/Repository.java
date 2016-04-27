@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.repository;
 
+import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
-import edu.softserve.zoo.persistence.exception.PersistenceException;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
  * <p>Repository implements basic CRUD operations for domain objects called entities.
  * The find operation is implemented using {@link Specification}</p>
  *
- * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored.
+ * @author Bohdan Cherniakh
  */
 public interface Repository<T extends BaseEntity> {
 

@@ -9,8 +9,9 @@ package edu.softserve.zoo.persistence.specification;
 public interface Specification<T> {
 
     /**
-     * <p>Defines the API for the query which is used in {@link edu.softserve.zoo.persistence.repository.Repository} and
+     * <p>Defines the API for the query which is used by {@link edu.softserve.zoo.persistence.repository.Repository} and
      * {@link edu.softserve.zoo.persistence.provider.PersistenceProvider}</p>
+     *
      * @return the query definition.
      */
     Object query();
