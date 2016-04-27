@@ -11,6 +11,7 @@ public class Animal extends BaseEntity {
     private Integer temperatureMin;
     private Integer temperatureMax;
     private Integer animalsPerHouse;
+    private Integer foodConsumption;
 
     public Animal() {
     }
@@ -63,6 +64,14 @@ public class Animal extends BaseEntity {
         this.temperatureMax = temperatureMax;
     }
 
+    public Integer getFoodConsumption() {
+        return foodConsumption;
+    }
+
+    public void setFoodConsumption(Integer foodConsumption) {
+        this.foodConsumption = foodConsumption;
+    }
+
     public Integer getAnimalsPerHouse() {
         return animalsPerHouse;
     }
@@ -70,6 +79,7 @@ public class Animal extends BaseEntity {
     public void setAnimalsPerHouse(Integer animalsPerHouse) {
         this.animalsPerHouse = animalsPerHouse;
     }
+
 
     @Override
     public String toString() {
@@ -82,6 +92,7 @@ public class Animal extends BaseEntity {
                 ", temperatureMin=" + temperatureMin +
                 ", temperatureMax=" + temperatureMax +
                 ", animalsPerHouse=" + animalsPerHouse +
+                ", foodConsumption=" + foodConsumption +
                 '}';
     }
 
@@ -96,11 +107,12 @@ public class Animal extends BaseEntity {
                 Objects.equals(birthday, animal.birthday) &&
                 Objects.equals(temperatureMin, animal.temperatureMin) &&
                 Objects.equals(temperatureMax, animal.temperatureMax) &&
+                Objects.equals(foodConsumption, animal.foodConsumption) &&
                 Objects.equals(animalsPerHouse, animal.animalsPerHouse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, animalsPerHouse);
+        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, foodConsumption, animalsPerHouse);
     }
 }
