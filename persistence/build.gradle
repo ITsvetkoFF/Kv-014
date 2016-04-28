@@ -1,7 +1,7 @@
 dependencies {
     compile project(':core')
     compile spring_context
-    compile spring_jdbc
+    compile spring_orm
     compile hibernate_core
     compile hibernate_java8
     compile postgres_jdbc_driver

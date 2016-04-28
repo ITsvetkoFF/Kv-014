@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-        <property name="location" value="application.properties"/>
+    <import resource="classpath:persistence-common-ctx.xml"/>
+    <!--Inheriting common context - parent persistent context-->
+
+    <!-- Loading specific properties for current profile -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="application-test.properties"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
-    <beans profile="dev">
-
-        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-            <property name="driverClassName" value="${test_db.driver}"/>
-            <property name="url" value="${test_db.url}"/>
-            <property name="username" value="${test_db.username}"/>
-            <property name="password" value="${test_db.password}"/>
-        </bean>
-
-        <jdbc:initialize-database data-source="dataSource">
-            <jdbc:script location="db_resources/create_db.sql"/>
-            <jdbc:script location="db_resources/populate_db.sql"/>
-        </jdbc:initialize-database>
-
-    </beans>
+    <!-- Creates db schema and populates data -->
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="db_resources/create_db.sql"/>
+        <jdbc:script location="db_resources/populate_db.sql"/>
+    </jdbc:initialize-database>
 
 </beans>
