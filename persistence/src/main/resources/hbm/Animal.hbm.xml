@@ -12,6 +12,7 @@
         <property name="animalsPerHouse" type="integer" column="animals_per_house" not-null="true"/>
         <property name="temperatureMin" type="integer" column="temperature_min" not-null="true"/>
         <property name="temperatureMax" type="integer" column="temperature_max" not-null="true"/>
+        <property name="foodConsumption" type="integer" column="food_consumption" not-null="false"/>
         <many-to-one name="species" column="species_id" class="edu.softserve.zoo.model.Species"
                      cascade="delete, save-update" not-null="true"/>
         <many-to-one name="house" column="house_id" class="edu.softserve.zoo.model.House" cascade="delete, save-update"
