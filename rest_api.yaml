@@ -602,23 +602,6 @@ paths:
         400:
           description: Invalid ID supplied
   
-  /roles:
-    get:
-      tags:
-        - employee
-        - get
-      summary: ""
-      description: Return all employee roles
-      produces:
-        - application/json
-      responses:
-        200:
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Role"
-  
   /tasks:
     get:
       tags:
@@ -673,7 +656,7 @@ paths:
             $ref: '#/definitions/Task'
         405:
           description: Invalid input
-  
+
   /tasks/{id}:
     get:
       tags:
@@ -742,7 +725,7 @@ paths:
           description: Task deleted
         400:
           description: Invalid ID supplied
-  
+
   /warehouse:
     get:
       tags:
@@ -765,7 +748,7 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Warehouse"
-    
+
   /warehouse/{id}:
     put:
       tags:
@@ -791,12 +774,12 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Warehouse'
+            $ref: "#/definitions/Warehouse"
         400:
           description: Invalid ID supplied
         405:
           description: Invalid input
-          
+
 definitions:
   Animal:
     type: object
@@ -806,10 +789,12 @@ definitions:
         format: int64
       nickname:
         type: string
-      species:
-        $ref: '#/definitions/Species'
-      house:
-        $ref: '#/definitions/House'
+      speciesId:
+        type: integer
+        format: int64
+      houseId:
+        type: integer
+        format: int64
       birthday:
         type: string
       temperatureMin:
@@ -818,6 +803,15 @@ definitions:
         type: integer
       animalsPerHouse:
         type: integer
+      foodConsumption:
+        type: integer
+    required:
+      - speciesId
+      - houseId
+      - temperatureMin
+      - temperatureMax
+      - foodConsumption
+      - animalsPerHouse
 
   House:
     type: object
@@ -825,11 +819,14 @@ definitions:
       id:
         type: integer
         format: int64
-      zone:
-        $ref: '#/definitions/ZooZone'
+      zoneId:
+        type: integer
+        format: int64
       maxCapacity:
         type: integer
-        
+    required:
+      - zoneId
+
   ZooZone:
     type: object
     properties:
@@ -842,26 +839,24 @@ definitions:
         type: string
       houseCapacity:
         type: integer
-      geographicalZone:
-        $ref: '#/definitions/GeographicalZone'
-        
-  GeographicalZone:
-    type: object
-    properties:
-      id:
+      geographicalZoneId:
         type: integer
         format: int64
-      regionName:
-        type: string
-        
+    required:
+      - name
+      - description
+      - houseCapacity
+      - geographicalZoneId
+
   Species:
     type: object
     properties:
       id:
         type: integer
         format: int64
-      family:
-        $ref: '#/definitions/Family'
+      familyId:
+        type: integer
+        format: int64
       scientificName:
         type: string
       commonName:
@@ -869,27 +864,10 @@ definitions:
       geographicalZones:
         type: array
         items:
-          $ref: '#/definitions/GeographicalZone'
-        
-  Family:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-      animalClass:
-        $ref: '#/definitions/AnimalClass'
-
-  AnimalClass:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
+          type: integer
+    required:
+      - familyId
+      - scientificName
 
   Employee:
     type: object
@@ -906,29 +884,28 @@ definitions:
       email:
         type: string
       role:
-        type: array
-        items:
-          $ref: '#/definitions/Role'
-          
-  Role:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      type: 
         type: string
-      
+        enum:
+          - visitor
+          - employee
+          - manager
+          - admin
+    required:
+      - firstName
+      - lastName
+
   Task:
     type: object
     properties:
       id:
         type: integer
         format: int64
-      assignee:
-        $ref: '#/definitions/Employee'
-      assigner:
-        $ref: '#/definitions/Employee'
+      assigneeId:
+        type: integer
+        format: int64
+      assignerId:
+        type: integer
+        format: int64
       estimatedStart:
         type: string
       estimatedFinish:
@@ -939,13 +916,31 @@ definitions:
         type: string
       taskType:
         type: string
-      zone:
-        $ref: '#/definitions/ZooZone'
+        enum:
+          - feeding
+          - health inspection
+          - give medicine
+      zoneId:
+        type: integer
+        format: int64
       description:
         type: string
       status:
         type: string
-        
+        enum:
+          - accomplished
+          - failed
+          - rescheduled
+          - in progress
+    required:
+      - taskType
+      - assigneeId
+      - assignerId
+      - estimatedStart
+      - estimatedFinish
+      - zoneId
+      - status
+
   Warehouse:
     type: object
     properties:
@@ -956,3 +951,6 @@ definitions:
         type: string
       amount:
         type: integer
+    required:
+      - supply
+      - amount
