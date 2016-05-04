@@ -6,7 +6,7 @@ package edu.softserve.zoo.exceptions;
  * @author Julia Siroshtan
  */
 class StubCustomException extends ApplicationException {
-    public StubCustomException(String message, ExceptionReason reason, Throwable cause) {
+    protected StubCustomException(String message, ExceptionReason reason, Throwable cause) {
         super(message, reason, cause);
     }
 }

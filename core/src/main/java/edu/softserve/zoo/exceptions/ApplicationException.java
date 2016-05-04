@@ -1,5 +1,7 @@
 package edu.softserve.zoo.exceptions;
 
+import java.lang.reflect.Constructor;
+
 /**
  * This is a common superclass of all exceptions thrown by application.
  * This exception and its subclasses are unchecked exceptions.
@@ -22,7 +24,7 @@ public abstract class ApplicationException extends RuntimeException {
      * @param reason the reason this exception is thrown
      * @param cause the throwable that caused this exception to get thrown
      */
-    public ApplicationException(final String message, final ExceptionReason reason, final Throwable cause) {
+    protected ApplicationException(final String message, final ExceptionReason reason, final Throwable cause) {
         super(message, cause);
         this.reason = reason;
     }
@@ -131,8 +133,10 @@ public abstract class ApplicationException extends RuntimeException {
          */
         public ApplicationException build() {
             try {
-                return exceptionClass.getConstructor(String.class, ExceptionReason.class, Throwable.class)
-                        .newInstance(message, reason, cause);
+                Constructor<? extends ApplicationException> constructor =
+                        exceptionClass.getDeclaredConstructor(String.class, ExceptionReason.class, Throwable.class);
+                constructor.setAccessible(true);
+                return constructor.newInstance(message, reason, cause);
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException("Can't instantiate " + exceptionClass, e);
             }
