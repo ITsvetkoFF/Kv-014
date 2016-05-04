@@ -1,0 +1,956 @@
+# Zoo Application API specification
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: Zoo Application API
+
+paths:
+  /animals:
+    get:
+      tags:
+        - animal
+        - get
+      summary: ""
+      description: Return all animals
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Animal"
+    post:
+      tags:
+        - animal
+        - post
+      summary: ""
+      description: Add a new animal to the zoo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Animal object that needs to be added to the zoo
+          required: false
+          schema:
+            $ref: "#/definitions/Animal"
+      responses:
+        201:
+          description: Animal created
+          schema:
+            $ref: '#/definitions/Animal'
+        405:
+          description: Invalid input
+  
+  /animals/{id}:
+    get:
+      tags:
+        - animal
+        - get
+      description: Return an animal based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of an animal to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Animal'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - animal
+        - put
+      description: Update a single animal
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of an animal to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated animal object
+          required: false
+          schema:
+            $ref: "#/definitions/Animal"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Animal'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+    
+    delete:
+      tags:
+        - animal
+        - delete
+      description: Delete a single animal based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of an animal to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Animal deleted
+        400:
+          description: Invalid ID supplied
+  
+  /species:
+    get:
+      tags:
+        - dictionary
+        - get
+      summary: ""
+      description: Return all existing animal species
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Species"
+    post:
+      tags:
+        - dictionary
+        - post
+      summary: ""
+      description: Add new animal species
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Animal species that needs to be added to the zoo
+          required: false
+          schema:
+            $ref: "#/definitions/Species"
+      responses:
+        201:
+          description: Species created
+          schema:
+            $ref: '#/definitions/Species'
+        405:
+          description: Invalid input
+  
+  /species/{id}:
+    get:
+      tags:
+        - dictionary
+        - get
+      description: Return species based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of species to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Species'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - dictionary
+        - put
+      description: Update species
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of species to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated species
+          required: false
+          schema:
+            $ref: "#/definitions/Species"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Species'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+    
+    delete:
+      tags:
+        - dictionary
+        - delete
+      description: Delete single species based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of species to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Species deleted
+        400:
+          description: Invalid ID supplied
+  
+  /zones:
+    get:
+      tags:
+        - zone
+        - get
+      summary: ""
+      description: Return all zoo zones
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: geozone
+          description: Geographical zones to filter by
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ZooZone"
+    post:
+      tags:
+        - zone
+        - post
+      summary: ""
+      description: Add a new zoo zone
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Zone object that needs to be added to the zoo
+          required: false
+          schema:
+            $ref: "#/definitions/ZooZone"
+      responses:
+        201:
+          description: Zoo zone created
+          schema:
+            $ref: '#/definitions/ZooZone'
+        405:
+          description: Invalid input
+
+  /zones/{id}:
+    get:
+      tags:
+        - zone
+        - get
+      description: Return a zoo zone based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a zoo zone to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ZooZone'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - zone
+        - put
+      description: Update a zoo zone
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a zoo zone to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated zone object
+          required: false
+          schema:
+            $ref: "#/definitions/ZooZone"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ZooZone'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+          
+    delete:
+      tags:
+        - zone
+        - delete
+      description: Delete a single zoo zone based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of a zoo zone to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Zoo zone deleted
+        400:
+          description: Invalid ID supplied
+  
+  /houses:
+    get:
+      tags:
+        - house
+        - get
+      summary: ""
+      description: Return all animal houses
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/House"
+    post:
+      tags:
+        - house
+        - post
+      summary: ""
+      description: Add a new animal house
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: House object that needs to be added to the zoo
+          required: false
+          schema:
+            $ref: "#/definitions/House"
+      responses:
+        201:
+          description: House created
+          schema:
+            $ref: '#/definitions/House'
+        405:
+          description: Invalid input
+  
+  /houses/{id}:
+    get:
+      tags:
+        - house
+        - get
+      description: Return a house based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a house to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/House'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - house
+        - put
+      description: Update a house
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a house to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated house object
+          required: false
+          schema:
+            $ref: "#/definitions/House"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/House'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+    delete:
+      tags:
+        - house
+        - delete
+      description: Delete a single house based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of a house to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: House deleted
+        400:
+          description: Invalid ID supplied
+          
+  /houses/{id}/animals:
+    get:
+      tags:
+        - house
+        - animal
+        - get
+      description: Return all animals in specified house 
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a house
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Animal'
+        400:
+          description: Invalid ID supplied
+
+  /employees:
+    get:
+      tags:
+        - employee
+        - get
+      summary: ""
+      description: Return all employees
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: role
+          description: Employee roles to filter by
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Employee"
+    post:
+      tags:
+        - employee
+        - post
+      summary: ""
+      description: Add a new employee
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Zoo employee object that needs to be added
+          required: false
+          schema:
+            $ref: "#/definitions/Employee"
+      responses:
+        201:
+          description: Employee created
+          schema:
+            $ref: '#/definitions/Employee'
+        405:
+          description: Invalid input
+
+  /employees/{id}:
+    get:
+      tags:
+        - employee
+        - get
+      description: Return an employee based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of an employee to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - employee
+        - put
+      description: Update an employee
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of an employee to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated zoo employee
+          required: false
+          schema:
+            $ref: "#/definitions/Employee"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+    delete:
+      tags:
+        - employee
+        - delete
+      description: Delete a single employee based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of an employee to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Employee deleted
+        400:
+          description: Invalid ID supplied
+  
+  /tasks:
+    get:
+      tags:
+        - task
+        - get
+      summary: ""
+      description: Return all tasks
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: assigned
+          description: Is task assigned to any employee
+          required: false
+          type: boolean
+        - in: query
+          name: status
+          description: Task status
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Task"
+    post:
+      tags:
+        - task
+        - post
+      summary: ""
+      description: Add a new task
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Task object that needs to be added
+          required: false
+          schema:
+            $ref: "#/definitions/Task"
+      responses:
+        201:
+          description: Task created
+          schema:
+            $ref: '#/definitions/Task'
+        405:
+          description: Invalid input
+
+  /tasks/{id}:
+    get:
+      tags:
+        - task
+        - get
+      description: Return a task based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a task to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+        400:
+          description: Invalid ID supplied
+    put:
+      tags:
+        - task
+        - put
+      description: Update a task
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a task to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated task object
+          required: false
+          schema:
+            $ref: "#/definitions/Task"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+    delete:
+      tags:
+        - task
+        - delete
+      description: Delete a single task based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of a task to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Task deleted
+        400:
+          description: Invalid ID supplied
+
+  /warehouse:
+    get:
+      tags:
+        - supply
+        - get
+      summary: ""
+      description: Return all supplies available in warehouse
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: supply
+          description: Type of supply to filter by
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Warehouse"
+
+  /warehouse/{id}:
+    put:
+      tags:
+        - supply
+        - put
+      description: Update a supply record
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a supply record to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Updated supply record
+          required: false
+          schema:
+            $ref: "#/definitions/Warehouse"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Warehouse"
+        400:
+          description: Invalid ID supplied
+        405:
+          description: Invalid input
+
+definitions:
+  Animal:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nickname:
+        type: string
+      speciesId:
+        type: integer
+        format: int64
+      houseId:
+        type: integer
+        format: int64
+      birthday:
+        type: string
+      temperatureMin:
+        type: integer
+      temperatureMax:
+        type: integer
+      animalsPerHouse:
+        type: integer
+      foodConsumption:
+        type: integer
+    required:
+      - speciesId
+      - houseId
+      - temperatureMin
+      - temperatureMax
+      - foodConsumption
+      - animalsPerHouse
+
+  House:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      zoneId:
+        type: integer
+        format: int64
+      maxCapacity:
+        type: integer
+    required:
+      - zoneId
+
+  ZooZone:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      description:
+        type: string
+      houseCapacity:
+        type: integer
+      geographicalZoneId:
+        type: integer
+        format: int64
+    required:
+      - name
+      - description
+      - houseCapacity
+      - geographicalZoneId
+
+  Species:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      familyId:
+        type: integer
+        format: int64
+      scientificName:
+        type: string
+      commonName:
+        type: string
+      geographicalZones:
+        type: array
+        items:
+          type: integer
+    required:
+      - familyId
+      - scientificName
+
+  Employee:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      firstName:
+        type: string
+      lastName:
+        type: string
+      employmentDate:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+        enum:
+          - visitor
+          - employee
+          - manager
+          - admin
+    required:
+      - firstName
+      - lastName
+
+  Task:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      assigneeId:
+        type: integer
+        format: int64
+      assignerId:
+        type: integer
+        format: int64
+      estimatedStart:
+        type: string
+      estimatedFinish:
+        type: string
+      actualStart:
+        type: string
+      actualFinish:
+        type: string
+      taskType:
+        type: string
+        enum:
+          - feeding
+          - health inspection
+          - give medicine
+      zoneId:
+        type: integer
+        format: int64
+      description:
+        type: string
+      status:
+        type: string
+        enum:
+          - accomplished
+          - failed
+          - rescheduled
+          - in progress
+    required:
+      - taskType
+      - assigneeId
+      - assignerId
+      - estimatedStart
+      - estimatedFinish
+      - zoneId
+      - status
+
+  Warehouse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      supply:
+        type: string
+      amount:
+        type: integer
+    required:
+      - supply
+      - amount
