@@ -13,16 +13,11 @@
         <property name="actualStart" type="java.time.LocalDateTime" column="started_actual"/>
         <property name="actualFinish" type="java.time.LocalDateTime" column="accomplished_actual"/>
         <property name="description" type="string" column="task_comment" length="100"/>
-        <many-to-one name="assignee" column="assignee_id" class="edu.softserve.zoo.model.Employee" not-null="true"
-                     cascade="save-update"/>
-        <many-to-one name="assigner" column="assigner_id" class="edu.softserve.zoo.model.Employee" not-null="true"
-                     cascade="save-update"/>
-        <many-to-one name="zone" column="zone_id" class="edu.softserve.zoo.model.ZooZone" not-null="true"
-                     cascade="save-update, delete"/>
-        <many-to-one name="taskType" column="task_type_id" class="edu.softserve.zoo.model.Task$TaskType" not-null="true"
-                     cascade="save-update"/>
-        <many-to-one name="status" column="status_id" class="edu.softserve.zoo.model.Task$TaskStatus" not-null="true"
-                     cascade="save-update"/>
-
+        <many-to-one name="assignee" column="assignee_id" class="edu.softserve.zoo.model.Employee" not-null="true"/>
+        <many-to-one name="assigner" column="assigner_id" class="edu.softserve.zoo.model.Employee" not-null="true"/>
+        <many-to-one name="zone" column="zone_id" class="edu.softserve.zoo.model.ZooZone" not-null="true"/>
+        <many-to-one name="taskType" column="task_type_id" class="edu.softserve.zoo.model.Task$TaskType"
+                     not-null="true"/>
+        <many-to-one name="status" column="status_id" class="edu.softserve.zoo.model.Task$TaskStatus" not-null="true"/>
     </class>
 </hibernate-mapping>

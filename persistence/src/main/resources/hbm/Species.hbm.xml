@@ -9,8 +9,7 @@
         </id>
         <property name="commonName" type="string" column="common_name" length="50"/>
         <property name="scientificName" type="string" column="scientific_name" not-null="true" length="50"/>
-        <many-to-one name="family" column="family_id" class="edu.softserve.zoo.model.Family"
-                     cascade="save-update, delete" not-null="true"/>
+        <many-to-one name="family" column="family_id" class="edu.softserve.zoo.model.Family" not-null="true"/>
         <set name="geographicalZones" table="geo_zone_species_mapping">
             <key>
                 <column name="species_id"/>

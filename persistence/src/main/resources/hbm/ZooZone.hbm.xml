@@ -11,6 +11,6 @@
         <property name="description" type="string" column="description" not-null="true" length="100"/>
         <property name="houseCapacity" type="integer" column="house_capacity" not-null="true"/>
         <many-to-one name="geographicalZone" column="geo_zone_id" class="edu.softserve.zoo.model.GeographicalZone"
-                     cascade="save-update, delete" not-null="true"/>
+                     not-null="true"/>
     </class>
 </hibernate-mapping>
