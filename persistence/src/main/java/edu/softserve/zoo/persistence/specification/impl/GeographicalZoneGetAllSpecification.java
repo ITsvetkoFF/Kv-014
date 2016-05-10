@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.specification.impl;
 
 import edu.softserve.zoo.model.GeographicalZone;
-import edu.softserve.zoo.persistence.specification.HQLSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 
 public class GeographicalZoneGetAllSpecification implements HQLSpecification<GeographicalZone> {
 

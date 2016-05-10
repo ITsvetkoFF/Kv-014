@@ -5,7 +5,7 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.persistence.repository.GeographicalZoneRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.HQLSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 import edu.softserve.zoo.persistence.specification.impl.GeographicalZoneGetAllSpecification;
 import edu.softserve.zoo.service.GeographicalZoneService;
 import edu.softserve.zoo.service.exception.NotFoundException;
