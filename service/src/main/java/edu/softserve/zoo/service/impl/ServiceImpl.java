@@ -26,5 +26,7 @@ public abstract class ServiceImpl<T extends BaseEntity> implements Service<T> {
         return getRepository().update(entity);
     }
 
+    public abstract void deleteById(Integer id);
+
     abstract Repository<T> getRepository();
 }

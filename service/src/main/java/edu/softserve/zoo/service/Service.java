@@ -11,4 +11,6 @@ public interface Service<T extends BaseEntity> {
 
     T update(T entity);
 
+    void deleteById(Integer id);
+
 }
