@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.provider;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ public interface PersistenceProvider<T> {
      *
      * @param entity domain object that should be deleted.
      */
-    void delete(T entity);
+    boolean delete(T entity);
 
     /**
      * Finds the collection of domain objects in the persistent storage. The search criteria is defined by the
