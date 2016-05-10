@@ -8,7 +8,6 @@
             <generator class="increment"/>
         </id>
         <property name="name" type="string" column="name" not-null="true" length="50"/>
-        <many-to-one name="animalClass" column="class_id" class="edu.softserve.zoo.model.AnimalClass" not-null="true"
-                     cascade="save-update, delete"/>
+        <many-to-one name="animalClass" column="class_id" class="edu.softserve.zoo.model.AnimalClass" not-null="true"/>
     </class>
 </hibernate-mapping>
