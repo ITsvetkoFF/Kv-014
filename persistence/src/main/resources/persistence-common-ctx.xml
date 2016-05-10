@@ -15,7 +15,7 @@
 
     <!-- Configurations for Hibernate SessionFactory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="mappingLocations" value="hbm/*.hbm.xml"/>
+        <property name="mappingLocations" value="classpath:hbm/*.hbm.xml"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="hibernateProperties">
             <props>

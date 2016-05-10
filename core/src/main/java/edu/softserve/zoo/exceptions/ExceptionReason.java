@@ -6,4 +6,16 @@ package edu.softserve.zoo.exceptions;
  * @author Julia Siroshtan
  */
 public enum ExceptionReason {
+
+    NOT_FOUND(404);
+
+    private final int code;
+
+    ExceptionReason(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
 }
