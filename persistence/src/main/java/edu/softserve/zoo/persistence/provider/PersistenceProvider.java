@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.provider;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Collection;
  * @param <T> the type of the domain objects which are stored.
  * @author Bohdan Cherniakh
  */
-public interface PersistenceProvider<T> {
+public interface PersistenceProvider<T extends BaseEntity> {
 
     /**
      * Saves the given entity into the persistent storage.
@@ -24,6 +25,7 @@ public interface PersistenceProvider<T> {
      * Updates a state of the given entity in the persistent storage.
      *
      * @param entity domain object that should be updated.
+     * @return result of the delete operation.
      * @return entity with updated state.
      */
     T update(T entity);
@@ -33,7 +35,7 @@ public interface PersistenceProvider<T> {
      *
      * @param entity domain object that should be deleted.
      */
-    void delete(T entity);
+    boolean delete(T entity);
 
     /**
      * Finds the collection of domain objects in the persistent storage. The search criteria is defined by the

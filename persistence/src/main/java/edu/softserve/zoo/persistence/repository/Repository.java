@@ -29,9 +29,10 @@ public interface Repository<T extends BaseEntity> {
      * Deletes the entity from the repository
      *
      * @param entity - object that should be deleted.
+     * @return result of the delete operation.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      */
-    void delete(T entity);
+    boolean delete(T entity);
 
     /**
      * Updates the entity state in the repository.
