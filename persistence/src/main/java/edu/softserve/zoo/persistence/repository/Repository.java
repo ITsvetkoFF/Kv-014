@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.repository;
 
+import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
-import edu.softserve.zoo.persistence.exception.PersistenceException;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.Collection;
@@ -11,8 +11,8 @@ import java.util.Collection;
  * <p>Repository implements basic CRUD operations for domain objects called entities.
  * The find operation is implemented using {@link Specification}</p>
  *
- * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored.
+ * @author Bohdan Cherniakh
  */
 public interface Repository<T extends BaseEntity> {
 
@@ -45,8 +45,8 @@ public interface Repository<T extends BaseEntity> {
     /**
      * Finds entities in the repository according to given Specification.
      *
-     * @param specification defines restrictions for performed search.
-     * @return The collection of domain objects or null if there are no objects in the database that match the query.
+     * @param specification defines specification for performed search.
+     * @return The collection of domain objects or null if there are no objects in the database that match the specification.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      * @see Specification
      */
