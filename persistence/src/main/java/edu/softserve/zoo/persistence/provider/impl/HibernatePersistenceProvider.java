@@ -6,11 +6,13 @@ import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.CriterionSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
         supportedProcessingStrategies.put(CriterionSpecification.class, new CriterionProcessingStrategy());
         supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
         supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
+        supportedProcessingStrategies.put(DetachedCriteriaSpecification.class, new DetachedCriteriaProcessingStrategy());
     }
 
     /**
@@ -211,6 +214,15 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
         public List<T> process(Specification<T> specification) {
             HQLSpecification<T> hqlSpecification = (HQLSpecification<T>) specification;
             return getSession().createQuery(hqlSpecification.query()).list();
+        }
+    }
+
+    private class DetachedCriteriaProcessingStrategy implements SpecificationProcessingStrategy<T> {
+        @Override
+        public Collection<T> process(Specification<T> specification) {
+            DetachedCriteriaSpecification<T> detachedCriteriaSpecification
+                    = (DetachedCriteriaSpecification<T>) specification;
+            return detachedCriteriaSpecification.query().getExecutableCriteria(getSession()).list();
         }
     }
 }
