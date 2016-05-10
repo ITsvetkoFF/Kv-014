@@ -6,11 +6,17 @@
     <rule ref="rulesets/java/codesize.xml"/>
     <rule ref="rulesets/java/controversial.xml">
         <exclude name="OnlyOneReturn"/>
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
     </rule>
-    <rule ref="rulesets/java/coupling.xml"/>
+    <rule ref="rulesets/java/coupling.xml">
+        <exclude name="LawOfDemeter"/>
+    </rule>
     <rule ref="rulesets/java/finalizers.xml"/>
     <rule ref="rulesets/java/imports.xml"/>
-    <rule ref="rulesets/java/javabeans.xml"/>
+    <rule ref="rulesets/java/javabeans.xml">
+        <exclude name="BeanMembersShouldSerialize"/>
+    </rule>
     <rule ref="rulesets/java/junit.xml"/>
     <rule ref="rulesets/java/logging-java.xml"/>
     <rule ref="rulesets/java/naming.xml"/>
@@ -27,6 +33,11 @@
                     [not((ancestor::FormalParameter) and (ancestor::TryStatement))]
                 </value>
             </property>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/LongVariable">
+        <properties>
+            <property name="minimum" value="25"/>
         </properties>
     </rule>
     <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength">
