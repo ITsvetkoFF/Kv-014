@@ -5,7 +5,7 @@ import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.hibernate.CriteriaSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.CriterionSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 import org.hibernate.HibernateException;
@@ -17,11 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>Hibernate based implementation of the {@link PersistenceProvider}.</p>
@@ -42,7 +40,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     private SessionFactory sessionFactory;
 
     public HibernatePersistenceProvider() {
-        supportedProcessingStrategies.put(CriteriaSpecification.class, new CriteriaProcessingStrategy());
+        supportedProcessingStrategies.put(CriterionSpecification.class, new CriterionProcessingStrategy());
         supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
         supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
     }
@@ -62,6 +60,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "save", ex.getMessage());
+            //TODO - Add Reason when they are done
             throw ApplicationException.getBuilderFor(PersistenceException.class)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
@@ -82,6 +81,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "update", ex.getMessage());
+            //TODO - Add Reason when they are done
             throw ApplicationException.getBuilderFor(PersistenceException.class)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
@@ -100,6 +100,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             session.delete(entity);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
+            //TODO - Add Reason when they are done
             throw ApplicationException.getBuilderFor(PersistenceException.class)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
@@ -113,51 +114,87 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      *                      using appropriate {@link SpecificationProcessingStrategy}.
      * @return The collection of domain objects or empty collection
      * if there are no objects in the database that match the specification.
+     * @throws PersistenceException if {@code specification} is incorrect or query errors
+     * @throws NullPointerException if {@code specification} is {@code null}
      * @see Specification
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
     public Collection<T> find(Specification<T> specification) {
+        Objects.requireNonNull(specification, "Specification can not be undefined");
+
         Collection<T> data = null;
         try {
-            data = getProcessingStrategy(specification).process(specification);
+            data = processSpecification(specification);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "find", ex.getMessage());
+            //TODO - Add Reason when they are done
             throw ApplicationException.getBuilderFor(PersistenceException.class).
                     causedBy(ex).withMessage("Can not perform find by current specification").build();
         }
         return data;
     }
 
+    private Collection<T> processSpecification(Specification<T> specification) {
+        SpecificationProcessingStrategy<T> processingStrategy = getProcessingStrategy(specification);
+        return processingStrategy.process(specification);
+    }
+
     private SpecificationProcessingStrategy<T> getProcessingStrategy(Specification<T> specification) {
         Class<?> specificationType = getSpecificationType(specification);
-        SpecificationProcessingStrategy processingStrategy = supportedProcessingStrategies.get(specificationType);
-        if (processingStrategy == null) {
-            LOGGER.debug("Unable to get an appropriate processing strategy for received specification!");
-            throw ApplicationException.getBuilderFor(PersistenceException.class)
-                    .withMessage("Unsupported specification").build();
-        }
-        return processingStrategy;
+        return supportedProcessingStrategies.get(specificationType);
     }
 
     private Class<?> getSpecificationType(Specification<T> specification) {
-        final Class<?>[] interfaces = specification.getClass().getInterfaces();
-        Class<?> specificationType = null;
-        if (interfaces.length > 0) {
-            specificationType = interfaces[0];
+
+        Set<Class<?>> supportedSpecificationTypes = getSupportedSpecificationTypes(specification);
+
+        //Should this check be in a separate method?
+        //Supported specification type: there can be only one. Here we are...
+        if (supportedSpecificationTypes.isEmpty()) {
+            StringBuilder errorMessageBuilder = new StringBuilder("Unsupported specification: ");
+            errorMessageBuilder.append(specification.getClass().getSimpleName());
+            errorMessageBuilder.append(". Specification does not implement supported specification type.");
+
+            LOGGER.debug("Unable to get an appropriate processing strategy! " + errorMessageBuilder.toString());
+            //TODO - Add Reason when they are done
+            throw ApplicationException.getBuilderFor(PersistenceException.class)
+                    .withMessage(errorMessageBuilder.toString()).build();
+        } else if (supportedSpecificationTypes.size() > 1) {
+            StringBuilder errorMessageBuilder = new StringBuilder("Incorrect specification: ");
+            errorMessageBuilder.append(specification.getClass().getSimpleName());
+            errorMessageBuilder.append(". Specification implements more than one supported specification types.");
+
+            LOGGER.debug("Unable to get an appropriate processing strategy! " + errorMessageBuilder.toString());
+            //TODO - Add Reason when they are done
+            throw ApplicationException.getBuilderFor(PersistenceException.class)
+                    .withMessage(errorMessageBuilder.toString()).build();
         }
-        return specificationType;
+
+        return supportedSpecificationTypes.stream().findFirst().get();
+    }
+
+    private Set<Class<?>> getSupportedSpecificationTypes(Specification<T> specification) {
+        Set<Class<?>> specificationInterfaces = getSpecificationInterfaces(specification);
+        specificationInterfaces.retainAll(supportedProcessingStrategies.keySet());
+        return specificationInterfaces;
+    }
+
+    private Set<Class<?>> getSpecificationInterfaces(Specification<T> specification) {
+        //Getting interfaces of a class with superclass interfaces.
+        // Or this should be implemented separately of Spring Framework?
+        return ClassUtils.getAllInterfacesAsSet(specification);
     }
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 
-    private class CriteriaProcessingStrategy implements SpecificationProcessingStrategy<T> {
+    private class CriterionProcessingStrategy implements SpecificationProcessingStrategy<T> {
         @Override
         public List<T> process(Specification<T> specification) {
-            CriteriaSpecification<T> criteriaSpecification = (CriteriaSpecification<T>) specification;
-            return getSession().createCriteria(criteriaSpecification.getType()).add(criteriaSpecification.query()).list();
+            CriterionSpecification<T> criterionSpecification = (CriterionSpecification<T>) specification;
+            return getSession().createCriteria(criterionSpecification.getType()).add(criterionSpecification.query()).list();
         }
     }
 

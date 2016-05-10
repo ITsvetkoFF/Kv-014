@@ -6,7 +6,7 @@ import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 /**
  * @author Bohdan Cherniakh
  */
-public class GetAllEmployeesHQLStub implements HQLSpecification<Employee> {
+public class StubGetAllEmployeesHQL implements HQLSpecification<Employee> {
     private static final String HQL_QUERY = "from Employee";
 
     @Override

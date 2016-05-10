@@ -6,21 +6,23 @@ import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 /**
  * @author Bohdan Cherniakh
  */
-public class GetEmployeeByNameSQLStub implements SQLSpecification<Employee> {
-    private static final Class<Employee> EMPLOYEE_CLASS = Employee.class;
+public class StubGetEmployeesByFirstNameSQL implements SQLSpecification<Employee> {
+    private static final Class<Employee> ENTITY_TYPE = Employee.class;
+    private static final String SQL_QUERY = "SELECT * FROM ZOO.EMPLOYEES WHERE FIRST_NAME='%s'";
+
     private final String firstName;
 
-    public GetEmployeeByNameSQLStub(String firstName) {
+    public StubGetEmployeesByFirstNameSQL(String firstName) {
         this.firstName = firstName;
     }
 
     @Override
     public Class<Employee> getType() {
-        return EMPLOYEE_CLASS;
+        return ENTITY_TYPE;
     }
 
     @Override
     public String query() {
-        return "SELECT * FROM ZOO.EMPLOYEES WHERE FIRST_NAME LIKE '" + firstName + "'";
+        return String.format(SQL_QUERY, firstName);
     }
 }

@@ -11,7 +11,7 @@ import org.hibernate.criterion.Criterion;
  * @see org.hibernate.Criteria
  * @see Criterion
  */
-public interface CriteriaSpecification<T> extends Specification<T> {
+public interface CriterionSpecification<T> extends Specification<T> {
 
     /**
      * Returns the type of a domain object.

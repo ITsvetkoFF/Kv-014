@@ -6,16 +6,17 @@ import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 /**
  * @author Bohdan Cherniakh
  */
-public class GetAllEmployeesSQLStub implements SQLSpecification<Employee> {
-    private static final Class<Employee> EMPLOYEE_TYPE = Employee.class;
+public class StubGetAllEmployeesSQL implements SQLSpecification<Employee> {
+    private static final Class<Employee> ENTITY_TYPE = Employee.class;
+    private static final String SQL_QUERY = "SELECT * FROM zoo.employees";
 
     @Override
     public Class<Employee> getType() {
-        return EMPLOYEE_TYPE;
+        return ENTITY_TYPE;
     }
 
     @Override
     public String query() {
-        return "SELECT * FROM employees";
+        return SQL_QUERY;
     }
 }
