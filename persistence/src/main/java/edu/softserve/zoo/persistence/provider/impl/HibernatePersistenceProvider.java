@@ -2,6 +2,7 @@ package edu.softserve.zoo.persistence.provider.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
@@ -30,7 +31,7 @@ import java.util.*;
  * @author Bohdan Cherniakh
  */
 @Component
-public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
+public class HibernatePersistenceProvider<T extends BaseEntity> implements PersistenceProvider<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernatePersistenceProvider.class);
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
@@ -97,10 +98,17 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public void delete(T entity) {
+    public boolean delete(T entity) {
         try {
             Session session = getSession();
-            session.delete(entity);
+            BaseEntity baseEntity = session.get(entity.getClass(),entity.getId());
+            if (baseEntity == null){
+                return false;
+            }else {
+                session.delete(baseEntity);
+                return true;
+            }
+
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
             //TODO - Add Reason when they are done

@@ -4,10 +4,8 @@ dependencies {
     compile spring_orm
     compile hibernate_core
     compile hibernate_java8
-    compile postgres_jdbc_driver
-    compile apache_commons_lang
+    testCompile postgres_jdbc_driver
     testCompile spring_test
-    testCompile hsqldb
-    testCompile mockito
+    compile hsqldb
 
 }
