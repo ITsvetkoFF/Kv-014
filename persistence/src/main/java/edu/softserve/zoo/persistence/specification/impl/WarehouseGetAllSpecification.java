@@ -4,7 +4,7 @@ import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 
 /**
- * @author Abrasha on 11-May-16.
+ * @author Andrii Abramov on 11-May-16.
  */
 public class WarehouseGetAllSpecification implements HQLSpecification<Warehouse> {
 

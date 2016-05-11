@@ -5,7 +5,7 @@ import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 import org.springframework.util.StringUtils;
 
 /**
- * @author Abrasha on 11-May-16.
+ * @author Andrii Abramov on 11-May-16.
  */
 public class WarehouseGetBySupplySpecification implements HQLSpecification<Warehouse> {
 
@@ -20,6 +20,7 @@ public class WarehouseGetBySupplySpecification implements HQLSpecification<Wareh
 
     @Override
     public String query() {
-        return String.format("from %s w where w.%s = %s", WAREHOUSE_TYPE, SUPPLY_PROPERTY_TYPE, FOR_SUPPLY);
+        String hql = String.format("from %s w where w.%s = '%s'", WAREHOUSE_TYPE, SUPPLY_PROPERTY_TYPE, FOR_SUPPLY.ordinal());
+        return hql;
     }
 }

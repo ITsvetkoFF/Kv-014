@@ -7,7 +7,8 @@ package edu.softserve.zoo.exceptions;
  */
 public enum ExceptionReason {
 
-    NOT_FOUND(404);
+    NOT_FOUND(404),
+    BAD_REQUEST(400);
 
     private final int code;
 

@@ -4,12 +4,12 @@ import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
 
 /**
- * @author Abrasha on 11-May-16.
+ * @author Andrii Abramov on 11-May-16.
  */
 public class WarehouseGetByIdSpecification implements HQLSpecification<Warehouse> {
 
     private static final String WAREHOUSE_TYPE = Warehouse.class.getSimpleName();
-    private Integer idToRemove;
+    private int idToRemove;
 
     public WarehouseGetByIdSpecification(Integer idToRemove) {
         this.idToRemove = idToRemove;
@@ -18,6 +18,6 @@ public class WarehouseGetByIdSpecification implements HQLSpecification<Warehouse
 
     @Override
     public String query() {
-        return String.format("delete from %s w where w.id = %s", WAREHOUSE_TYPE, idToRemove);
+        return String.format("from %s w where w.id = %d", WAREHOUSE_TYPE, idToRemove);
     }
 }
