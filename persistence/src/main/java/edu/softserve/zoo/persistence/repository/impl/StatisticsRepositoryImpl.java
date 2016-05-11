@@ -30,7 +30,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         return (Float) persistenceProvider.find(new SQLScalarSpecification() {
             @Override
             public String query() {
-                return "SELECT 1 - num/CAST(animals AS FLOAT) as result FROM (SELECT count(*) AS num FROM ZOO.TASKS WHERE TASK_TYPE_ID = 0 AND STATUS_ID IN (1,3)), (SELECT count(*) AS animals FROM ZOO.ANIMALS) WHERE animals > 0";
+                return "SELECT 1 - num/CAST(animals AS FLOAT) as result FROM (SELECT count(*) AS num FROM ZOO.TASKS WHERE TASK_TYPE_ID = 0 AND STATUS_ID IN (1,3)) as Tn, (SELECT count(*) AS animals FROM ZOO.ANIMALS) as a WHERE animals > 0";
             }
 
             @Override
@@ -77,9 +77,9 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
             @Override
             public String query() {
                 return "SELECT * FROM" +
-                        " (SELECT count(*) AS animals FROM ZOO.ANIMALS)," +
-                        " (SELECT count(*) AS houses FROM ZOO.HOUSES)," +
-                        " (SELECT count(*) AS employees FROM ZOO.EMPLOYEES)";
+                        " (SELECT count(*) AS animals FROM ZOO.ANIMALS) as a," +
+                        " (SELECT count(*) AS houses FROM ZOO.HOUSES) as h," +
+                        " (SELECT count(*) AS employees FROM ZOO.EMPLOYEES) as e";
             }
 
             @Override
