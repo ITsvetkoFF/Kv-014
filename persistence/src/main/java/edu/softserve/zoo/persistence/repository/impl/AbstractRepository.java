@@ -35,8 +35,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public void delete(T entity) {
-        persistenceProvider.delete(entity);
+    public boolean delete(T entity) {
+        return persistenceProvider.delete(entity);
     }
 
     /**

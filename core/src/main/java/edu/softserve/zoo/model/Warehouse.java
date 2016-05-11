@@ -3,6 +3,10 @@ package edu.softserve.zoo.model;
 import java.util.Objects;
 
 public class Warehouse extends BaseEntity {
+    /* TODO make it with Strings
+        Because if we want to add new types of supplies, we have to recompile project.
+        User adds new type of supply -> it is added to database, but not to enum Warehouse.Supply
+     */
     private Supply supply;
     private Integer amount;
 

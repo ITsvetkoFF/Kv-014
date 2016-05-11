@@ -214,7 +214,7 @@ public class Task extends BaseEntity {
         }
 
         public enum Status {
-            ACCOMPLISHED, FAILED, RESCEDULED, IN_PROGRESS
+            ACCOMPLISHED, FAILED, RESCHEDULED, IN_PROGRESS
         }
     }
 }
