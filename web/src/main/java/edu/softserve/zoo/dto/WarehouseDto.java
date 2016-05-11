@@ -1,23 +1,27 @@
-package edu.softserve.zoo.model;
+package edu.softserve.zoo.dto;
+
+import edu.softserve.zoo.model.Warehouse;
 
 import java.util.Objects;
 
-public class Warehouse extends BaseEntity {
-    /* TODO make it with Strings
-        Because if we want to add new types of supplies, we have to recompile project.
-        User adds new type of supply -> it is added to database, but not to enum Warehouse.Supply
-     */
-    private Supply supply;
+/**
+ * DTO (Data transfer Object) for {@link Warehouse} class.
+ *
+ * @author Andrii Abramov on 11-May-16.
+ */
+public class WarehouseDto extends BaseDto {
+
+    private Warehouse.Supply supply;
     private Integer amount;
 
-    public Warehouse() {
+    public WarehouseDto() {
     }
 
-    public Supply getSupply() {
+    public Warehouse.Supply getSupply() {
         return supply;
     }
 
-    public void setSupply(Supply supply) {
+    public void setSupply(Warehouse.Supply supply) {
         this.supply = supply;
     }
 
@@ -42,7 +46,7 @@ public class Warehouse extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Warehouse warehouse = (Warehouse) o;
+        WarehouseDto warehouse = (WarehouseDto) o;
         return supply == warehouse.supply &&
                 Objects.equals(amount, warehouse.amount);
     }
@@ -52,7 +56,4 @@ public class Warehouse extends BaseEntity {
         return Objects.hash(supply, amount);
     }
 
-    public enum Supply {
-        MEDICINE, FOOD
-    }
 }
