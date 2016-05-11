@@ -785,17 +785,14 @@ paths:
       tags:
         - statistics
         - get
-      description: Return set of integer counts of all animals, houses and employees in this order
+      description: Return Statistics object with fields of integer counts of all animals, houses and employees in this order
       produces:
         - application/json
       responses:
         200:
           description: OK
           schema:
-            type: array
-            items:
-              type: integer
-              format: int64
+            $ref: "#/definitions/Statistics"
   /statistics/fed_animals/:
     get:
       tags:
@@ -922,6 +919,18 @@ definitions:
       taskStatus:
         type: string
       count:
+        type: integer
+        format: int64
+  Statistics:
+    type: object
+    properties:
+      animalsCount:
+        type: integer
+        format: int64
+      housesCount:
+        type: integer
+        format: int64
+      employeesCount:
         type: integer
         format: int64
   ZooZone:
