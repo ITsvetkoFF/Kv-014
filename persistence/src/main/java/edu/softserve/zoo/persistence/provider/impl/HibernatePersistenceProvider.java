@@ -6,13 +6,12 @@ import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.hibernate.CriterionSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.*;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,7 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
         supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
         supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
         supportedProcessingStrategies.put(DetachedCriteriaSpecification.class, new DetachedCriteriaProcessingStrategy());
+        supportedProcessingStrategies.put(SQLScalarSpecification.class, new SQLScalarProcessingStrategy());
     }
 
     /**
@@ -230,6 +230,16 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
             DetachedCriteriaSpecification<T> detachedCriteriaSpecification
                     = (DetachedCriteriaSpecification<T>) specification;
             return detachedCriteriaSpecification.query().getExecutableCriteria(getSession()).list();
+        }
+    }
+    private class SQLScalarProcessingStrategy implements SpecificationProcessingStrategy<T> {
+        @Override
+        public List<T> process(Specification<T> specification) {
+            SQLScalarSpecification<T> sqlScalarSpecification = (SQLScalarSpecification<T>) specification;
+            SQLQuery query = getSession().createSQLQuery(sqlScalarSpecification.query());
+            for (Map.Entry<String, Type> entry : sqlScalarSpecification.scalarValues())
+                query = query.addScalar(entry.getKey(), entry.getValue());
+            return query.list();
         }
     }
 }
