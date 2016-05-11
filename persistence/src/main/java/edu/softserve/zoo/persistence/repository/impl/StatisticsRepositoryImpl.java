@@ -6,7 +6,6 @@ import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.repository.StatisticsRepository;
 import edu.softserve.zoo.persistence.specification.hibernate.SQLScalarSpecification;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.hibernate.type.FloatType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.Type;
@@ -72,7 +71,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         return list.stream().map(arr -> new ImmutablePair<>(TaskType.Type.values()[(Integer) arr[0]], (Integer) arr[1])).collect(Collectors.toList());
     }
     @Override
-    public ImmutableTriple<Integer, Integer, Integer> getZooStatistics() {
+    public Set<Integer> getZooStatistics() {
         final Object[] res = (Object[]) persistenceProvider.find(new SQLScalarSpecification() {
             @Override
             public String query() {
@@ -89,6 +88,10 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                         new ImmutablePair<>("employees", IntegerType.INSTANCE));
             }
         }).stream().findFirst().get();
-        return new ImmutableTriple<>((Integer) res[0], (Integer) res[1], (Integer) res[2]);
+        return new HashSet<Integer>(){{
+            add((Integer) res[0]);
+            add((Integer) res[1]);
+            add((Integer) res[2]);
+        }};
     }
 }

@@ -780,6 +780,88 @@ paths:
         405:
           description: Invalid input
 
+  /statistics/:
+    get:
+      tags:
+        - statistics
+        - get
+      description: Return set of integer counts of all animals, houses and employees in this order
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+  /statistics/fed_animals/:
+    get:
+      tags:
+        - statistics
+        - fed animals
+        - get
+      description: Return  percentage of fed animals to all
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+            format: float
+  /statistics/employee_task_statuses/{id}:
+    get:
+      tags:
+        - statistics
+        - task status
+        - get
+      description: Return a list of Pair of task status and its count for single ID of employee
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a employee
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TaskStatusStatistics'
+        400:
+          description: Invalid ID supplied
+  /statistics/employee_task_types/{id}:
+    get:
+      tags:
+        - statistics
+        - task type
+        - get
+      description: Return a list of Pair of task type and its count for single ID of employee
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of a employee
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TaskTypeStatistics'
+        400:
+          description: Invalid ID supplied
+
 definitions:
   Animal:
     type: object
@@ -826,7 +908,22 @@ definitions:
         type: integer
     required:
       - zoneId
-
+  TaskTypeStatistics:
+    type: object
+    properties:
+      taskType:
+        type: string
+      count:
+        type: integer
+        format: int64
+  TaskStatusStatistics:
+    type: object
+    properties:
+      taskStatus:
+        type: string
+      count:
+        type: integer
+        format: int64
   ZooZone:
     type: object
     properties:
