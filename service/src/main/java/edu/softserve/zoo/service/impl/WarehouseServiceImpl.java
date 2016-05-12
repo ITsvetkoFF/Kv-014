@@ -42,7 +42,7 @@ public class WarehouseServiceImpl extends ServiceImpl<Warehouse> implements Ware
     @Override
     @Transactional
     public void deleteById(Integer id) {
-        // TODO try catch
+
         final Collection<Warehouse> toRemove = warehouseRepository.find(
                 new WarehouseGetByIdSpecification(id)
         );
