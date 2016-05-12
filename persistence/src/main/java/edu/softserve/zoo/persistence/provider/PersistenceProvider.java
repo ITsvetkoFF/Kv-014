@@ -2,7 +2,7 @@ package edu.softserve.zoo.persistence.provider;
 
 import edu.softserve.zoo.persistence.specification.Specification;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface that defines the persistent storage interface.
@@ -40,8 +40,8 @@ public interface PersistenceProvider<T> {
      * Specification object.
      *
      * @param specification the specification object that describes the query that should be performed.
-     * @return The collection of domain objects or null if there are no objects in the database that match the query.
+     * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
      * @see Specification
      */
-    Collection<T> find(Specification<T> specification);
+    List<T> find(Specification<T> specification);
 }
