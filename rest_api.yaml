@@ -483,6 +483,23 @@ paths:
         400:
           description: Invalid ID supplied
 
+  /roles:
+    get:
+      tags:
+        - employee
+        - get
+      summary: ""
+      description: Return all employee roles
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Role"
+
   /employees:
     get:
       tags:
@@ -601,7 +618,7 @@ paths:
           description: Employee deleted
         400:
           description: Invalid ID supplied
-  
+
   /tasks:
     get:
       tags:
@@ -1046,6 +1063,17 @@ definitions:
       - estimatedFinish
       - zoneId
       - status
+
+  Role:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      type:
+        type: string
+    required:
+    - type
 
   Warehouse:
     type: object

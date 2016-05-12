@@ -12,7 +12,8 @@
         <property name="employmentDate" type="java.time.LocalDate" column="hired_date"/>
         <property name="email" type="string" column="email" length="50" unique="true"/>
         <property name="password" type="string" column="password" length="50"/>
-        <set name="role" table="employee_role_mapping">
+        <set name="role" table="employee_role_mapping"
+             inverse="false" lazy="false" cascade="all">
             <key>
                 <column name="employee_id" not-null="true"/>
             </key>
