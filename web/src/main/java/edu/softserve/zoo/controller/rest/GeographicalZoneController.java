@@ -25,7 +25,7 @@ import static edu.softserve.zoo.controller.rest.AbstractRestController.API_V1;
 @RequestMapping(API_V1 + GEO_ZONE)
 public class GeographicalZoneController extends AbstractRestController<GeographicalZoneDto, GeographicalZone> {
 
-    static final String GEO_ZONE = "/geo_zone";
+    protected static final String GEO_ZONE = "/geo_zone";
 
     @Autowired
     private GeographicalZoneService geographicalZoneService;

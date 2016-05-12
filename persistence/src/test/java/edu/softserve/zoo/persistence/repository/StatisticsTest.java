@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
  * Created by Taras Zubrei on 03.05.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:persistence-test-ctx.xml")
+@ContextConfiguration("classpath*:spring/persistence-test-ctx.xml")
 public class StatisticsTest {
     @Autowired
     StatisticsRepository repo;

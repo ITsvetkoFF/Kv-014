@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  * @author Bohdan Cherniakh
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:persistence-test-ctx.xml")
+@ContextConfiguration("classpath*:spring/persistence-test-ctx.xml")
 public class HQLSpecificationTest extends AbstractSpecificationTypeTest {
 
     @Autowired

@@ -49,11 +49,11 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
 
     protected abstract Service<E> getService();
 
-    D convertToDto(E entity) {
+    protected D convertToDto(E entity) {
         return modelMapper.map(entity, dtoType);
     }
 
-    E convertToEntity(D dto) {
+    protected E convertToEntity(D dto) {
         return modelMapper.map(dto, entityType);
     }
 }

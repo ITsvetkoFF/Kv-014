@@ -2,17 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <import resource="classpath:persistence-common-ctx.xml"/>
     <!--Inheriting common context - parent persistent context-->
+    <import resource="classpath*:spring/persistence-common-ctx.xml"/>
 
     <!-- Loading specific properties for current profile -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="application-test.properties"/>
+        <property name="location" value="classpath:application.properties"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
@@ -21,5 +19,4 @@
         <jdbc:script location="classpath:db_resources/create_db.sql"/>
         <jdbc:script location="classpath:db_resources/populate_db.sql"/>
     </jdbc:initialize-database>
-
 </beans>

@@ -1,54 +1,23 @@
 package edu.softserve.zoo.service;
 
 import edu.softserve.zoo.model.BaseEntity;
-import edu.softserve.zoo.persistence.repository.Repository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.mockito.Mockito.*;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:service-test.xml")
+public abstract class CrudServiceImplTest<E extends BaseEntity> {
 
-@RunWith(MockitoJUnitRunner.class)
-public abstract class CrudServiceImplTest<T extends BaseEntity> {
+    protected abstract Service<E> getService();
 
-    private T expected;
-    private T actual;
-
-    public abstract T getExpected();
-
-    public abstract T getActual();
-
-    public abstract Repository<T> getRepository();
-
-    public abstract Service<T> getService();
-
-    @Before
-    public void setUp() throws Exception {
-        expected = getExpected();
-        actual = getActual();
-    }
+    protected abstract E testEntity();
 
     @Test
     public void testSave() throws Exception {
-        when(getRepository().save(actual)).thenReturn(actual);
-
-        Assert.assertEquals(expected, getService().save(actual));
+        E saved = getService().save(testEntity());
+        Assert.assertEquals(Integer.valueOf(15), saved.getId());
     }
-
-    @Test
-    public void testUpdate() throws Exception {
-        when(getRepository().update(actual)).thenReturn(actual);
-
-        Assert.assertEquals(expected, getService().update(actual));
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        getService().delete(actual);
-        verify(getRepository()).delete(actual);
-    }
-
-
 }

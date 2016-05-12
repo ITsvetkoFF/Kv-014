@@ -13,7 +13,7 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:persistence-test-ctx.xml")
+@ContextConfiguration("classpath*:spring/persistence-test-ctx.xml")
 public class Spring4JUnitRunnerTestAbstract extends AbstractConnectionAndSelectTestProvider {
 
     @Autowired

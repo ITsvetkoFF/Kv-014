@@ -16,7 +16,7 @@ import java.util.Collection;
  * @author Bohdan Cherniakh
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:persistence-test-ctx.xml")
+@ContextConfiguration("classpath*:spring/persistence-test-ctx.xml")
 public class DetachedCriteriaSpecificationTest extends AbstractSpecificationTypeTest {
 
     @Autowired
