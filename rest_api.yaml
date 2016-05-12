@@ -618,6 +618,11 @@ paths:
           required: false
           type: boolean
         - in: query
+          name: assignee
+          description: Is task assigned to any employee
+          required: false
+          type: boolean
+        - in: query
           name: status
           description: Task status
           required: false
