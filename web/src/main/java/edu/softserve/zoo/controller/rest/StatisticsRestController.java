@@ -1,7 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.model.Statistics;
-import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.service.StatisticsService;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.stream.Collectors;
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.API_V1;
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.STAT;
 
@@ -37,12 +37,12 @@ public class StatisticsRestController {
     }
 
     @RequestMapping(path = "/employee_task_statuses/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<Task.TaskStatus.Status,Integer>> getEmployeeTasksStatuses(@PathVariable Integer id) {
-        return service.getEmployeeTasksStatuses(id);
+    public List<ImmutablePair<String, Integer>> getEmployeeTasksStatuses(@PathVariable Integer id) {
+        return service.getEmployeeTasksStatuses(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/employee_task_types/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<Task.TaskType.Type, Integer>> getEmployeeTasksTypes(@PathVariable Integer id) {
-        return service.getEmployeeTasksTypes(id);
+    public List<ImmutablePair<String, Integer>> getEmployeeTasksTypes(@PathVariable Integer id) {
+        return service.getEmployeeTasksTypes(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
     }
 }

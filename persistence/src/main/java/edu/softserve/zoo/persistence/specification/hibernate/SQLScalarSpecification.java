@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Taras Zubrei on 06.05.2016.
  */
-public interface SQLScalarSpecification<T> extends Specification<T> {
+public interface SQLScalarSpecification extends Specification {
     @Override
     String query();
     List<ImmutablePair<String, Type>> scalarValues();

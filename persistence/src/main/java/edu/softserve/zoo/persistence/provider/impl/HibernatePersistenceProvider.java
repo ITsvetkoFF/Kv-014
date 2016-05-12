@@ -234,8 +234,8 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
     }
     private class SQLScalarProcessingStrategy implements SpecificationProcessingStrategy<T> {
         @Override
-        public List<T> process(Specification<T> specification) {
-            SQLScalarSpecification<T> sqlScalarSpecification = (SQLScalarSpecification<T>) specification;
+        public List process(Specification specification) {
+            SQLScalarSpecification sqlScalarSpecification = (SQLScalarSpecification) specification;
             SQLQuery query = getSession().createSQLQuery(sqlScalarSpecification.query());
             for (Map.Entry<String, Type> entry : sqlScalarSpecification.scalarValues())
                 query = query.addScalar(entry.getKey(), entry.getValue());
