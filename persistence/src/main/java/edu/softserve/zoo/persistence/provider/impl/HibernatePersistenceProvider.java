@@ -2,17 +2,16 @@ package edu.softserve.zoo.persistence.provider.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.hibernate.CriterionSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.*;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ import java.util.*;
  * @author Bohdan Cherniakh
  */
 @Component
-public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
+public class HibernatePersistenceProvider<T extends BaseEntity> implements PersistenceProvider<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernatePersistenceProvider.class);
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
@@ -46,6 +45,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
         supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
         supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
         supportedProcessingStrategies.put(DetachedCriteriaSpecification.class, new DetachedCriteriaProcessingStrategy());
+        supportedProcessingStrategies.put(SQLScalarSpecification.class, new SQLScalarProcessingStrategy());
     }
 
     /**
@@ -97,10 +97,17 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public void delete(T entity) {
+    public boolean delete(T entity) {
         try {
             Session session = getSession();
-            session.delete(entity);
+            BaseEntity baseEntity = session.get(entity.getClass(),entity.getId());
+            if (baseEntity == null){
+                return false;
+            }else {
+                session.delete(baseEntity);
+                return true;
+            }
+
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
             //TODO - Add Reason when they are done
@@ -223,6 +230,16 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             DetachedCriteriaSpecification<T> detachedCriteriaSpecification
                     = (DetachedCriteriaSpecification<T>) specification;
             return detachedCriteriaSpecification.query().getExecutableCriteria(getSession()).list();
+        }
+    }
+    private class SQLScalarProcessingStrategy implements SpecificationProcessingStrategy<T> {
+        @Override
+        public List<T> process(Specification<T> specification) {
+            SQLScalarSpecification<T> sqlScalarSpecification = (SQLScalarSpecification<T>) specification;
+            SQLQuery query = getSession().createSQLQuery(sqlScalarSpecification.query());
+            for (Map.Entry<String, Type> entry : sqlScalarSpecification.scalarValues())
+                query = query.addScalar(entry.getKey(), entry.getValue());
+            return query.list();
         }
     }
 }
