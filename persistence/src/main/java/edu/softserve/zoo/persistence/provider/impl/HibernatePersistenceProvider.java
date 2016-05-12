@@ -2,7 +2,6 @@ package edu.softserve.zoo.persistence.provider.impl;
 
 import edu.softserve.zoo.persistence.exception.PersistenceException;
 
-import java.util.Collection;
 import java.util.List;
 
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
@@ -86,12 +85,12 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      * Finds the collection of domain objects in the relational database. The search criteria is defined by the
      * Specification object.
      * @param specification the specification object that describes the query that should be performed.
-     * @return The collection of domain objects or null if there are no objects in the database that match the query.
+     * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
      * @see Specification
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true )
-    public Collection<T> find(Specification<T> specification) {
+    public List<T> find(Specification<T> specification) {
         List<T> data = null;
         try {
             Session session = getSession();

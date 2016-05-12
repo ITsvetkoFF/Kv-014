@@ -6,7 +6,7 @@ import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>Abstract implementation of the <tt>Repository</tt>. Help to implement concrete repositories for every
@@ -51,7 +51,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public Collection<T> find(Specification<T> specification) {
+    public List<T> find(Specification<T> specification) {
         return persistenceProvider.find(specification);
     }
 }
