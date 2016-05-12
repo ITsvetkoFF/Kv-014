@@ -1,4 +1,5 @@
 dependencies {
     compile project(':persistence')
+    testCompile spring_test
     testCompile mockito
 }

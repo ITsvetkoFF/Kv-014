@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
+
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.API_V1;
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.STAT;
 
@@ -37,7 +39,7 @@ public class StatisticsRestController {
     }
 
     @RequestMapping(path = "/employee_task_statuses/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<Task.TaskStatus.Status,Integer>> getEmployeeTasksStatuses(@PathVariable Integer id) {
+    public List<ImmutablePair<Task.TaskStatus.Status, Integer>> getEmployeeTasksStatuses(@PathVariable Integer id) {
         return service.getEmployeeTasksStatuses(id);
     }
 
