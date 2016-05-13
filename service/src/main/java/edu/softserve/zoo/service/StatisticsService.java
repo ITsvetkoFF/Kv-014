@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface StatisticsService {
     Float getFedAnimalsPercentage();
-    List<ImmutablePair<Task.TaskStatus.Status, Integer>> getEmployeeTasksStatuses(Integer id);
-    List<ImmutablePair<Task.TaskType.Type, Integer>> getEmployeeTasksTypes(Integer id);
+    List<ImmutablePair<Task.TaskStatus.Status, Long>> getEmployeeTasksStatuses(Long id);
+    List<ImmutablePair<Task.TaskType.Type, Long>> getEmployeeTasksTypes(Long id);
     Statistics getZooStatistics();
 }

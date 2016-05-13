@@ -26,14 +26,14 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<ImmutablePair<Task.TaskStatus.Status, Integer>> getEmployeeTasksStatuses(Integer id) {
+    public List<ImmutablePair<Task.TaskStatus.Status, Long>> getEmployeeTasksStatuses(Long id) {
         Employee employee = new Employee();
         employee.setId(id);
         return repo.getEmployeeTasksStatuses(employee);
     }
 
     @Override
-    public List<ImmutablePair<Task.TaskType.Type, Integer>> getEmployeeTasksTypes(Integer id) {
+    public List<ImmutablePair<Task.TaskType.Type, Long>> getEmployeeTasksTypes(Long id) {
         Employee employee = new Employee();
         employee.setId(id);
         return repo.getEmployeeTasksTypes(employee);

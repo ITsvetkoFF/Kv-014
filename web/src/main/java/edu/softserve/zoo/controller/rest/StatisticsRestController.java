@@ -37,12 +37,12 @@ public class StatisticsRestController {
     }
 
     @RequestMapping(path = "/employee_task_statuses/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<String, Integer>> getEmployeeTasksStatuses(@PathVariable Integer id) {
+    public List<ImmutablePair<String, Long>> getEmployeeTasksStatuses(@PathVariable Long id) {
         return service.getEmployeeTasksStatuses(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/employee_task_types/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<String, Integer>> getEmployeeTasksTypes(@PathVariable Integer id) {
+    public List<ImmutablePair<String, Long>> getEmployeeTasksTypes(@PathVariable Long id) {
         return service.getEmployeeTasksTypes(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
     }
 }
