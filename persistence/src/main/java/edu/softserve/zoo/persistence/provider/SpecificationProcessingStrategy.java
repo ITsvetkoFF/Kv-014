@@ -2,7 +2,7 @@ package edu.softserve.zoo.persistence.provider;
 
 import edu.softserve.zoo.persistence.specification.Specification;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface defines the {@link Specification} processing strategy.
@@ -17,5 +17,5 @@ public interface SpecificationProcessingStrategy<T> {
      * @param specification {@link Specification} for processing.
      * @return collection of domain objects.
      */
-    Collection<T> process(Specification<T> specification);
+    List<T> process(Specification<T> specification);
 }

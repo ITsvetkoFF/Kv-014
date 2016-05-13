@@ -2,7 +2,7 @@ package edu.softserve.zoo.persistence.provider;
 
 import edu.softserve.zoo.persistence.specification.Specification;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface that defines the persistent storage interface.
