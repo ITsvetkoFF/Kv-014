@@ -16,8 +16,15 @@
         <many-to-one name="assignee" column="assignee_id" class="edu.softserve.zoo.model.Employee" not-null="true"/>
         <many-to-one name="assigner" column="assigner_id" class="edu.softserve.zoo.model.Employee" not-null="true"/>
         <many-to-one name="zone" column="zone_id" class="edu.softserve.zoo.model.ZooZone" not-null="true"/>
-        <many-to-one name="taskType" column="task_type_id" class="edu.softserve.zoo.model.Task$TaskType"
-                     not-null="true"/>
-        <many-to-one name="status" column="status_id" class="edu.softserve.zoo.model.Task$TaskStatus" not-null="true"/>
+        <property name="taskType" column="task_type" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">edu.softserve.zoo.model.Task$TaskType</param>
+            </type>
+        </property>
+        <property name="status" column="status" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">edu.softserve.zoo.model.Task$TaskStatus</param>
+            </type>
+        </property>
     </class>
 </hibernate-mapping>
