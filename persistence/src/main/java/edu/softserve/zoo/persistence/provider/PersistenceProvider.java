@@ -7,24 +7,24 @@ import java.util.List;
 /**
  * Interface that defines the persistent storage interface.
  *
- * @author Bohdan Cherniakh
  * @param <T> the type of the domain objects which are stored.
+ * @author Bohdan Cherniakh
  */
 public interface PersistenceProvider<T> {
 
     /**
      * Saves the given entity into the persistent storage.
      *
-     * @return persisted entity with generated identifier.
      * @param entity an object that should be saved.
+     * @return persisted entity with generated identifier.
      */
     T save(T entity);
 
     /**
      * Updates a state of the given entity in the persistent storage.
      *
-     * @return entity with updated state.
      * @param entity domain object that should be updated.
+     * @return entity with updated state.
      */
     T update(T entity);
 
@@ -39,7 +39,7 @@ public interface PersistenceProvider<T> {
      * Finds the collection of domain objects in the persistent storage. The search criteria is defined by the
      * Specification object.
      *
-     * @param specification the specification object that describes the query that should be performed.
+     * @param specification the {@link Specification} object that describes the query that should be performed.
      * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
      * @see Specification
      */
