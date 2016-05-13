@@ -1,0 +1,8 @@
+apply plugin: 'war'
+dependencies {
+    compile project(':service')
+    compile spring_mvc
+    compile jackson
+    compile jackson_datatype_hibernate
+    compile model_mapper
+}

@@ -2,4 +2,6 @@ rootProject.name = 'SoftServeITA_Zoo'
 
 include 'core'
 include 'persistence'
+include 'service'
+include 'web'
 
