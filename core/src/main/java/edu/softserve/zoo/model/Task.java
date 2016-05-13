@@ -138,83 +138,11 @@ public class Task extends BaseEntity {
     }
 
 
-    public static class TaskType extends BaseEntity {
-        private Type type;
-
-        public TaskType() {
-        }
-
-        public Type getType() {
-            return type;
-        }
-
-        public void setType(Type type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return "TaskType{" +
-                    "id=" + getId() +
-                    ", type=" + type +
-                    '}';
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            TaskType taskType = (TaskType) o;
-            return type == taskType.type;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(type);
-        }
-
-        public enum Type {
-            FEEDING, HEALTH_INSPECTION, GIVE_MEDICINE
-        }
+    public enum TaskType {
+        FEEDING, HEALTH_INSPECTION, GIVE_MEDICINE
     }
 
-    public static class TaskStatus extends BaseEntity {
-        private Status status;
-
-        public TaskStatus() {
-        }
-
-        public Status getStatus() {
-            return status;
-        }
-
-        public void setStatus(Status status) {
-            this.status = status;
-        }
-
-        @Override
-        public String toString() {
-            return "TaskStatus{" +
-                    "id=" + getId() +
-                    ", status=" + status +
-                    '}';
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            TaskStatus that = (TaskStatus) o;
-            return status == that.status;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(status);
-        }
-
-        public enum Status {
-            ACCOMPLISHED, FAILED, RESCEDULED, IN_PROGRESS
-        }
+    public enum TaskStatus {
+        ACCOMPLISHED, FAILED, RESCHEDULED, IN_PROGRESS
     }
 }
