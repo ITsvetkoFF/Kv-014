@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Hibernate based implementation of the {@link PersistenceProvider}.</p>
@@ -34,6 +37,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernatePersistenceProvider.class);
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
+    private static final String DELETE_QUERY = "delete from %s e where e.id = %d";
 
     private final Map<Class<?>, SpecificationProcessingStrategy<T>> supportedProcessingStrategies = new HashMap<>();
 
@@ -93,14 +97,14 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     /**
      * Deletes the given entity from the persistent storage.
      *
-     * @param entity domain object that should be deleted.
+     * @param id id of domain object that should be deleted.
+     * @param type of domain object that should be deleted.
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public void delete(T entity) {
+    public boolean delete(Long id, Class type) {
         try {
-            Session session = getSession();
-            session.delete(entity);
+            return getSession().createQuery(String.format(DELETE_QUERY, type.getSimpleName(), id)).executeUpdate() == 1;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
             //TODO - Add Reason when they are done
