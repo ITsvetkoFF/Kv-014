@@ -31,9 +31,10 @@ public interface PersistenceProvider<T> {
     /**
      * Deletes the given entity from the persistent storage.
      *
-     * @param entity domain object that should be deleted.
+     * @param id of domain object that should be deleted.
+     * @param type of domain object that should be deleted.
      */
-    void delete(T entity);
+    boolean delete(Long id, Class<T> type);
 
     /**
      * Finds the collection of domain objects in the persistent storage. The search criteria is defined by the
