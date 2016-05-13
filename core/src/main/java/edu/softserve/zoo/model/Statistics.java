@@ -4,37 +4,37 @@ package edu.softserve.zoo.model;
  * Created by Taras on 11.05.2016.
  */
 public class Statistics {
-    private Integer animalsCount;
-    private Integer housesCount;
-    private Integer employeesCount;
+    private Long animalsCount;
+    private Long housesCount;
+    private Long employeesCount;
 
-    public Statistics(Integer animalsCount, Integer housesCount, Integer employeesCount) {
+    public Statistics(Long animalsCount, Long housesCount, Long employeesCount) {
         this.animalsCount = animalsCount;
         this.housesCount = housesCount;
         this.employeesCount = employeesCount;
     }
 
-    public Integer getAnimalsCount() {
+    public Long getAnimalsCount() {
         return animalsCount;
     }
 
-    public void setAnimalsCount(Integer animalsCount) {
+    public void setAnimalsCount(Long animalsCount) {
         this.animalsCount = animalsCount;
     }
 
-    public Integer getHousesCount() {
+    public Long getHousesCount() {
         return housesCount;
     }
 
-    public void setHousesCount(Integer housesCount) {
+    public void setHousesCount(Long housesCount) {
         this.housesCount = housesCount;
     }
 
-    public Integer getEmployeesCount() {
+    public Long getEmployeesCount() {
         return employeesCount;
     }
 
-    public void setEmployeesCount(Integer employeesCount) {
+    public void setEmployeesCount(Long employeesCount) {
         this.employeesCount = employeesCount;
     }
 

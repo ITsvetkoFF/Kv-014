@@ -1,17 +1,18 @@
 package edu.softserve.zoo.persistence.specification.impl.statistics;
 
-import edu.softserve.zoo.persistence.specification.hibernate.SQLScalarSpecification;
+import edu.softserve.zoo.persistence.specification.impl.SQLScalarSpecificationAdapter;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
 import org.hibernate.type.Type;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Taras on 12.05.2016.
+ * Specification for getting overall zoo statistics
+ * @author Taras Zubrei
  */
-public class StatisticsGetZooStatistics implements SQLScalarSpecification {
+public class StatisticsGetZooStatistics  extends SQLScalarSpecificationAdapter {
     @Override
     public String query() {
         return "SELECT * FROM" +
@@ -22,8 +23,8 @@ public class StatisticsGetZooStatistics implements SQLScalarSpecification {
 
     @Override
     public List<ImmutablePair<String, Type>> scalarValues() {
-        return Arrays.asList(new ImmutablePair<>("animals", IntegerType.INSTANCE),
-                new ImmutablePair<>("houses", IntegerType.INSTANCE),
-                new ImmutablePair<>("employees", IntegerType.INSTANCE));
+        return Arrays.asList(new ImmutablePair<>("animals", LongType.INSTANCE),
+                new ImmutablePair<>("houses", LongType.INSTANCE),
+                new ImmutablePair<>("employees", LongType.INSTANCE));
     }
 }

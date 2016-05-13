@@ -1,18 +1,20 @@
 package edu.softserve.zoo.persistence.specification.impl.statistics;
 
 import edu.softserve.zoo.model.Employee;
-import edu.softserve.zoo.persistence.specification.hibernate.SQLScalarSpecification;
+import edu.softserve.zoo.persistence.specification.impl.SQLScalarSpecificationAdapter;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
 import org.hibernate.type.Type;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Taras on 12.05.2016.
+ * Specification for querying all employee's tasks grouped by status
+ * @author Taras Zubrei
  */
-public class StatisticsGetEmployeeTasksStatuses implements SQLScalarSpecification {
+public class StatisticsGetEmployeeTasksStatuses extends SQLScalarSpecificationAdapter {
     private Employee employee;
 
     public StatisticsGetEmployeeTasksStatuses(Employee employee) {
@@ -27,6 +29,6 @@ public class StatisticsGetEmployeeTasksStatuses implements SQLScalarSpecificatio
     @Override
     public List<ImmutablePair<String, Type>> scalarValues() {
         return Arrays.asList(new ImmutablePair<>("status", IntegerType.INSTANCE),
-                new ImmutablePair<>("num", IntegerType.INSTANCE));
+                new ImmutablePair<>("num", LongType.INSTANCE));
     }
 }

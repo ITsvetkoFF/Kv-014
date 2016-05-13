@@ -7,11 +7,11 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import java.util.List;
 
 /**
- * Created by Taras Zubrei on 04.05.2016.
+ * @author Taras Zubrei
  */
 public interface StatisticsRepository {
     Float getFedAnimalsPercentage();
-    List<ImmutablePair<Task.TaskStatus.Status, Integer>> getEmployeeTasksStatuses(Employee employee);
-    List<ImmutablePair<Task.TaskType.Type, Integer>> getEmployeeTasksTypes(Employee employee);
+    List<ImmutablePair<Task.TaskStatus.Status, Long>> getEmployeeTasksStatuses(Employee employee);
+    List<ImmutablePair<Task.TaskType.Type, Long>> getEmployeeTasksTypes(Employee employee);
     Statistics getZooStatistics();
 }

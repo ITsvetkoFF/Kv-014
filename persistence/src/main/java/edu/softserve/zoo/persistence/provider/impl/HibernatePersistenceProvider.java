@@ -45,7 +45,6 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
         supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
         supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
         supportedProcessingStrategies.put(DetachedCriteriaSpecification.class, new DetachedCriteriaProcessingStrategy());
-        supportedProcessingStrategies.put(SQLScalarSpecification.class, new SQLScalarProcessingStrategy());
     }
 
     /**
@@ -212,7 +211,18 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
         @Override
         public List<T> process(Specification<T> specification) {
             SQLSpecification<T> sqlSpecification = (SQLSpecification<T>) specification;
-            return getSession().createSQLQuery(sqlSpecification.query()).addEntity(sqlSpecification.getType()).list();
+            if (sqlSpecification.getType() != null)
+                return getSession().createSQLQuery(sqlSpecification.query()).addEntity(sqlSpecification.getType()).list();
+            else if (!sqlSpecification.scalarValues().isEmpty()) {
+                SQLQuery query = getSession().createSQLQuery(sqlSpecification.query());
+                for (Map.Entry<String, Type> entry : sqlSpecification.scalarValues())
+                    query = query.addScalar(entry.getKey(), entry.getValue());
+                return query.list();
+            } else
+                throw ApplicationException
+                        .getBuilderFor(PersistenceException.class)
+                        .withMessage("Invalid SQL specification")
+                        .build();
         }
     }
 
@@ -230,16 +240,6 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
             DetachedCriteriaSpecification<T> detachedCriteriaSpecification
                     = (DetachedCriteriaSpecification<T>) specification;
             return detachedCriteriaSpecification.query().getExecutableCriteria(getSession()).list();
-        }
-    }
-    private class SQLScalarProcessingStrategy implements SpecificationProcessingStrategy<T> {
-        @Override
-        public List process(Specification specification) {
-            SQLScalarSpecification sqlScalarSpecification = (SQLScalarSpecification) specification;
-            SQLQuery query = getSession().createSQLQuery(sqlScalarSpecification.query());
-            for (Map.Entry<String, Type> entry : sqlScalarSpecification.scalarValues())
-                query = query.addScalar(entry.getKey(), entry.getValue());
-            return query.list();
         }
     }
 }

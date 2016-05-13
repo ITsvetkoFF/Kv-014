@@ -1,6 +1,10 @@
 package edu.softserve.zoo.persistence.specification.hibernate;
 
 import edu.softserve.zoo.persistence.specification.Specification;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.hibernate.type.Type;
+
+import java.util.List;
 
 /**
  * Plain SQL based specification. Produces SQL query for processing.
@@ -23,4 +27,5 @@ public interface SQLSpecification<T> extends Specification<T> {
      */
     @Override
     String query();
+    List<ImmutablePair<String, Type>> scalarValues();
 }
