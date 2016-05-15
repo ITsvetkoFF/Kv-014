@@ -5,9 +5,6 @@ import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
-import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -20,10 +17,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>Hibernate based implementation of the {@link PersistenceProvider}.</p>
@@ -39,17 +36,13 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
     private static final String DELETE_QUERY = "delete from %s e where e.id = %d";
 
-    private final Map<Class<?>, SpecificationProcessingStrategy<T>> supportedProcessingStrategies = new HashMap<>();
+    @Autowired
+    private Map<String, SpecificationProcessingStrategy<T>> supportedProcessingStrategies;
 
     @Autowired
     private SessionFactory sessionFactory;
 
     public HibernatePersistenceProvider() {
-        //TODO Implement MAP managing by Spring Framework
-
-        supportedProcessingStrategies.put(SQLSpecification.class, new SQLProcessingStrategy());
-        supportedProcessingStrategies.put(HQLSpecification.class, new HQLProcessingStrategy());
-        supportedProcessingStrategies.put(DetachedCriteriaSpecification.class, new DetachedCriteriaProcessingStrategy());
     }
 
     /**
@@ -150,8 +143,8 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     }
 
     private SpecificationProcessingStrategy<T> getProcessingStrategy(Specification<T> specification) {
-        Class<?> specificationType = getSpecificationType(specification);
-        return supportedProcessingStrategies.get(specificationType);
+        String specificationName = getSpecificationType(specification).getSimpleName();
+        return supportedProcessingStrategies.get(specificationName);
     }
 
     private Class<?> getSpecificationType(Specification<T> specification) {
@@ -168,8 +161,9 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
 
     private Set<Class<?>> getSupportedSpecificationTypes(Specification<T> specification) {
         Set<Class<?>> specificationInterfaces = getSpecificationInterfaces(specification);
-        specificationInterfaces.retainAll(supportedProcessingStrategies.keySet());
-        return specificationInterfaces;
+        return specificationInterfaces.stream()
+                .filter(aClass -> supportedProcessingStrategies.keySet().contains(aClass.getSimpleName()))
+                .collect(Collectors.toSet());
     }
 
     private Set<Class<?>> getSpecificationInterfaces(Specification<T> specification) {
@@ -178,31 +172,5 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
-    }
-
-
-    private class SQLProcessingStrategy implements SpecificationProcessingStrategy<T> {
-        @Override
-        public List<T> process(Specification<T> specification) {
-            SQLSpecification<T> sqlSpecification = (SQLSpecification<T>) specification;
-            return getSession().createSQLQuery(sqlSpecification.query()).addEntity(sqlSpecification.getType()).list();
-        }
-    }
-
-    private class HQLProcessingStrategy implements SpecificationProcessingStrategy<T> {
-        @Override
-        public List<T> process(Specification<T> specification) {
-            HQLSpecification<T> hqlSpecification = (HQLSpecification<T>) specification;
-            return getSession().createQuery(hqlSpecification.query()).list();
-        }
-    }
-
-    private class DetachedCriteriaProcessingStrategy implements SpecificationProcessingStrategy<T> {
-        @Override
-        public List<T> process(Specification<T> specification) {
-            DetachedCriteriaSpecification<T> detachedCriteriaSpecification
-                    = (DetachedCriteriaSpecification<T>) specification;
-            return detachedCriteriaSpecification.query().getExecutableCriteria(getSession()).list();
-        }
     }
 }
