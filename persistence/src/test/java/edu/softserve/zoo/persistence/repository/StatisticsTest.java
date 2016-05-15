@@ -25,7 +25,7 @@ public class StatisticsTest {
     @Transactional(readOnly = true)
     public void shouldPass() {
         final  Employee employee = mock(Employee.class);
-        when(employee.getId()).thenReturn(2);
+        when(employee.getId()).thenReturn(2L);
         assertEquals("Each employee has to have tasks", 2, repo.getEmployeeTasksStatuses(employee).size());
         assertEquals("Each employee has to have tasks", 1, repo.getEmployeeTasksTypes(employee).size());
         assertEquals("Statistics cannot be null", new Statistics(12L, 12L, 3L), repo.getZooStatistics());

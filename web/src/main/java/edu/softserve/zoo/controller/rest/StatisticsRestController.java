@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.API_V1;
 import static edu.softserve.zoo.controller.rest.StatisticsRestController.STAT;
 
@@ -37,12 +41,24 @@ public class StatisticsRestController {
     }
 
     @RequestMapping(path = "/employee_task_statuses/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<String, Long>> getEmployeeTasksStatuses(@PathVariable Long id) {
-        return service.getEmployeeTasksStatuses(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
+    public List<Map<String, Object>> getEmployeeTasksStatuses(@PathVariable Long id) {
+        return service.getEmployeeTasksStatuses(id).stream()
+                .map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight()))
+                .map(pair -> new LinkedHashMap<String, Object>(){{
+                    put("taskStatus", pair.getLeft());
+                    put("count", pair.getRight());
+                }})
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/employee_task_types/{id}", method = RequestMethod.GET, produces = "application/json")
-    public List<ImmutablePair<String, Long>> getEmployeeTasksTypes(@PathVariable Long id) {
-        return service.getEmployeeTasksTypes(id).stream().map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight())).collect(Collectors.toList());
+    public List<Map<String, Object>> getEmployeeTasksTypes(@PathVariable Long id) {
+        return service.getEmployeeTasksTypes(id).stream()
+                .map(pair -> new ImmutablePair<>(pair.getLeft().name().toLowerCase(), pair.getRight()))
+                .map(pair -> new LinkedHashMap<String, Object>(){{
+                    put("taskType", pair.getLeft());
+                    put("count", pair.getRight());
+                }})
+                .collect(Collectors.toList());
     }
 }

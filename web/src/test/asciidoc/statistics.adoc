@@ -1,0 +1,119 @@
+= Zoo statistics REST API
+Taras Zubrei;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+RESTful API for zoo statistics
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+Statistics controller tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+Statistics controller tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `400 Bad Request`
+| The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing, invalid ID supplied).
+|===
+
+[[resources]]
+= Resources
+
+
+[[resources-statistics]]
+== Statistics
+The Statistics resource is used to get all zoo statistics
+
+
+[[resource-statistics-general]]
+=== General statistics
+A `GET` returns Statistics object with fields of integer counts of all animals, houses and employees.
+
+==== Response fields
+
+include::{snippets}/getStatistics/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/getStatistics/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getStatistics/http-response.adoc[]
+
+[[resource-statistics-fed_animals]]
+=== Fed animals percentage
+A `GET` returns percentage of fed animals to all.
+
+==== Example request
+
+include::{snippets}/getFedAnimals/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getFedAnimals/http-response.adoc[]
+
+[[resource-statistics-task_types]]
+=== Task types statistics
+A `GET` returns a list of Map of task type and its count for single ID of employee.
+
+==== Path parameters
+
+include::{snippets}/getTaskTypes/path-parameters.adoc[]
+
+==== Response fields
+
+include::{snippets}/getTaskTypes/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/getTaskTypes/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getTaskTypes/http-response.adoc[]
+
+[[resource-statistics-task_statuses]]
+=== Task statuses statistics
+A `GET` returns a list of Map of task status and its count for single ID of employee
+
+==== Path parameters
+
+include::{snippets}/getTaskStatuses/path-parameters.adoc[]
+
+==== Response fields
+
+include::{snippets}/getTaskStatuses/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/getTaskStatuses/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getTaskStatuses/http-response.adoc[]
