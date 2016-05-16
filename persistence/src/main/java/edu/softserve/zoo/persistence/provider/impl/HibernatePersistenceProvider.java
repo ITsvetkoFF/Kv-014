@@ -1,14 +1,15 @@
 package edu.softserve.zoo.persistence.provider.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.persistence.exception.NotFoundException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.specification.impl.GetByIdSpecification;
 import edu.softserve.zoo.util.Validator;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,26 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     private SessionFactory sessionFactory;
 
     public HibernatePersistenceProvider() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T findOne(Long id, Class<T> type) {
+        try{
+        Session session = getSession();
+        Criteria criteria = new GetByIdSpecification<>(type, id).query().getExecutableCriteria(session);
+        T entity = (T) criteria.uniqueResult();
+        Validator.notNull(entity, ApplicationException.getBuilderFor(NotFoundException.class)
+                .forReason(ExceptionReason.NOT_FOUND).build());
+        return entity;
+        } catch (HibernateException ex) {
+            LOGGER.debug(ERROR_LOG_TEMPLATE, "findOne", ex.getMessage());
+            //TODO - Add Reason when they are done
+            throw ApplicationException.getBuilderFor(PersistenceException.class)
+                    .causedBy(ex).withMessage(ex.getMessage()).build();
+        }
     }
 
     /**

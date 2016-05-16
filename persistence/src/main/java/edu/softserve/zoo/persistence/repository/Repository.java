@@ -16,6 +16,17 @@ import java.util.List;
  */
 public interface Repository<T extends BaseEntity> {
 
+
+    /**
+     * Retrieves entity by id from persistent storage.
+     *
+     * @param id identifier of required entity
+     * @param type type of required entity
+     * @return entity with specified identifier.
+     * @throws edu.softserve.zoo.persistence.exception.NotFoundException if entity not found with given id
+     */
+    T findOne(Long id, Class<T> type);
+
     /**
      * Saves the entity into the repository.
      *

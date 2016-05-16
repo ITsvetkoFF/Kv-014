@@ -27,6 +27,14 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
+    public T findOne(Long id, Class<T> type) {
+        return persistenceProvider.findOne(id, type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public T save(T entity) {
         return persistenceProvider.save(entity);
     }

@@ -13,6 +13,16 @@ import java.util.List;
 public interface PersistenceProvider<T> {
 
     /**
+     * Retrieves entity by id from persistent storage.
+     *
+     * @param id identifier of required entity
+     * @param type type of required entity
+     * @return entity with specified identifier.
+     * @throws edu.softserve.zoo.persistence.exception.NotFoundException if entity not found with given id
+     */
+    T findOne(Long id, Class<T> type);
+
+    /**
      * Saves the given entity into the persistent storage.
      *
      * @param entity an object that should be saved.
