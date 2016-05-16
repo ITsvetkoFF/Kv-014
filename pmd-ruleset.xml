@@ -6,8 +6,11 @@
     <rule ref="rulesets/java/codesize.xml"/>
     <rule ref="rulesets/java/controversial.xml">
         <exclude name="OnlyOneReturn"/>
+        <exclude name="AtLeastOneConstructor"/>
     </rule>
-    <rule ref="rulesets/java/coupling.xml"/>
+    <rule ref="rulesets/java/coupling.xml">
+        <exclude name="LawOfDemeter"/>
+    </rule>
     <rule ref="rulesets/java/finalizers.xml"/>
     <rule ref="rulesets/java/imports.xml"/>
     <rule ref="rulesets/java/javabeans.xml"/>
