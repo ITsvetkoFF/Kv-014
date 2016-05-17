@@ -5,23 +5,23 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.persistence.exception.NotFoundException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
-import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
+import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
+import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.impl.GetByIdSpecification;
 import edu.softserve.zoo.util.Validator;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ClassUtils;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Hibernate based implementation of the {@link PersistenceProvider}.</p>
@@ -38,10 +38,10 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     private static final String DELETE_QUERY = "delete from %s e where e.id = %d";
 
     @Autowired
-    private Map<String, SpecificationProcessingStrategy<T>> supportedProcessingStrategies;
+    private SessionFactory sessionFactory;
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private ProcessingStrategyProvider<T> processingStrategyProvider;
 
     public HibernatePersistenceProvider() {
     }
@@ -51,13 +51,13 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      */
     @Override
     public T findOne(Long id, Class<T> type) {
-        try{
-        Session session = getSession();
-        Criteria criteria = new GetByIdSpecification<>(type, id).query().getExecutableCriteria(session);
-        T entity = (T) criteria.uniqueResult();
-        Validator.notNull(entity, ApplicationException.getBuilderFor(NotFoundException.class)
-                .forReason(ExceptionReason.NOT_FOUND).build());
-        return entity;
+        try {
+            Session session = getSession();
+            Criteria criteria = new GetByIdSpecification<>(type, id).query().getExecutableCriteria(session);
+            T entity = (T) criteria.uniqueResult();
+            Validator.notNull(entity, ApplicationException.getBuilderFor(NotFoundException.class)
+                    .forReason(ExceptionReason.NOT_FOUND).build());
+            return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "findOne", ex.getMessage());
             //TODO - Add Reason when they are done
@@ -111,7 +111,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     /**
      * Deletes the given entity from the persistent storage.
      *
-     * @param id id of domain object that should be deleted.
+     * @param id   id of domain object that should be deleted.
      * @param type of domain object that should be deleted.
      */
     @Override
@@ -159,36 +159,8 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     }
 
     private List<T> processSpecification(Specification<T> specification) {
-        SpecificationProcessingStrategy<T> processingStrategy = getProcessingStrategy(specification);
+        SpecificationProcessingStrategy<T> processingStrategy = processingStrategyProvider.getStrategy(specification);
         return processingStrategy.process(specification);
-    }
-
-    private SpecificationProcessingStrategy<T> getProcessingStrategy(Specification<T> specification) {
-        String specificationName = getSpecificationType(specification).getSimpleName();
-        return supportedProcessingStrategies.get(specificationName);
-    }
-
-    private Class<?> getSpecificationType(Specification<T> specification) {
-
-        Set<Class<?>> supportedSpecificationTypes = getSupportedSpecificationTypes(specification);
-
-        Validator.isTrue(supportedSpecificationTypes.size() == 1,
-                ApplicationException.getBuilderFor(PersistenceException.class)
-                        .withMessage("Unsupported specification: " + specification.getClass().getSimpleName())
-                        .build());
-
-        return supportedSpecificationTypes.stream().findFirst().get();
-    }
-
-    private Set<Class<?>> getSupportedSpecificationTypes(Specification<T> specification) {
-        Set<Class<?>> specificationInterfaces = getSpecificationInterfaces(specification);
-        return specificationInterfaces.stream()
-                .filter(aClass -> supportedProcessingStrategies.keySet().contains(aClass.getSimpleName()))
-                .collect(Collectors.toSet());
-    }
-
-    private Set<Class<?>> getSpecificationInterfaces(Specification<T> specification) {
-        return ClassUtils.getAllInterfacesAsSet(specification);
     }
 
     private Session getSession() {

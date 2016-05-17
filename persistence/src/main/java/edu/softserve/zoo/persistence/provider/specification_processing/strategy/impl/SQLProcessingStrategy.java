@@ -1,6 +1,6 @@
-package edu.softserve.zoo.persistence.provider.impl;
+package edu.softserve.zoo.persistence.provider.specification_processing.strategy.impl;
 
-import edu.softserve.zoo.persistence.provider.SpecificationProcessingStrategy;
+import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.SQLSpecification;
 import org.hibernate.SessionFactory;
