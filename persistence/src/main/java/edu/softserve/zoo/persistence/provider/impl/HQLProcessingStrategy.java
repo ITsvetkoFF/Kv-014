@@ -13,7 +13,7 @@ import java.util.List;
 public class HQLProcessingStrategy<T> implements SpecificationProcessingStrategy<T> {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public HQLProcessingStrategy() {
     }
