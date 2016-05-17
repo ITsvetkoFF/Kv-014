@@ -1,5 +1,6 @@
-package edu.softserve.zoo.persistence.provider;
+package edu.softserve.zoo.persistence.provider.specification_processing.strategy;
 
+import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;
