@@ -54,7 +54,7 @@ public final class DtoValidationTest {
     /**
      * Stores pairs DTO against its DO.
      */
-    private static Map<? extends Class<?>, ? extends Class<?>> dtoToEntity;
+    private static Map<Class<?>, Class<?>> dtoToEntity;
 
     /**
      * Initializes the mapping between DTOs and their DOs.
@@ -86,6 +86,7 @@ public final class DtoValidationTest {
      * @throws IOException
      */
     private static Stream<? extends Class<?>> extractDtos(String basePackage) throws URISyntaxException, IOException {
+
         final Path baseDtoPath = Paths.get(ClassLoader.getSystemResource(basePackage.replace('.', '/')).toURI());
 
         final String dtoPattern = "[\\w]+Dto\\.class";
