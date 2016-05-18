@@ -6,15 +6,20 @@ import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.service.Service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author Vadym Holub
  */
+@Produces(MediaType.APPLICATION_JSON_VALUE)
+@Consumes(MediaType.APPLICATION_JSON_VALUE)
 public abstract class AbstractRestController<D extends BaseDto, E extends BaseEntity> {
 
     @Autowired
@@ -66,7 +71,7 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
     }
 
     protected List<D> convertToDto(List<E> entities) {
-       return entities.stream().map(this::convertToDto).collect(Collectors.toList());
+        return entities.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     protected E convertToEntity(D dto) {
