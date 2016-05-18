@@ -3,7 +3,7 @@ package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.dto.GeographicalZoneDto;
 import edu.softserve.zoo.model.GeographicalZone;
-import edu.softserve.zoo.service.AbstractService;
+import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.GeographicalZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class GeographicalZoneController extends AbstractRestController<Geographi
     }
 
     @Override
-    protected AbstractService<GeographicalZone> getService() {
+    protected Service<GeographicalZone> getService() {
         return geographicalZoneService;
     }
 
