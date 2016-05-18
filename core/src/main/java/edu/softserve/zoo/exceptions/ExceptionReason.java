@@ -1,21 +1,15 @@
 package edu.softserve.zoo.exceptions;
 
 /**
- * This class defines possible reasons that cause application exceptions to be thrown.
+ * This interface serves to define client-oriented explanation for {@link ApplicationException}
  *
- * @author Julia Siroshtan
+ * @author Vadym Holub
  */
-public enum ExceptionReason {
+public interface ExceptionReason {
 
-    NOT_FOUND(404);
+    /**
+     * @return message for client's purposes
+     * */
+    String getMessage();
 
-    private final int code;
-
-    ExceptionReason(int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return code;
-    }
 }

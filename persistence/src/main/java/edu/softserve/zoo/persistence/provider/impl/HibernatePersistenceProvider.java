@@ -1,9 +1,8 @@
 package edu.softserve.zoo.persistence.provider.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
-import edu.softserve.zoo.persistence.exception.NotFoundException;
+import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
@@ -54,14 +53,10 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
         try {
             Session session = getSession();
             Criteria criteria = new GetByIdSpecification<>(type, id).query().getExecutableCriteria(session);
-            T entity = (T) criteria.uniqueResult();
-            Validator.notNull(entity, ApplicationException.getBuilderFor(NotFoundException.class)
-                    .forReason(ExceptionReason.NOT_FOUND).build());
-            return entity;
+            return (T) criteria.uniqueResult();
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "findOne", ex.getMessage());
-            //TODO - Add Reason when they are done
-            throw ApplicationException.getBuilderFor(PersistenceException.class)
+            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -81,8 +76,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "save", ex.getMessage());
-            //TODO - Add Reason when they are done
-            throw ApplicationException.getBuilderFor(PersistenceException.class)
+            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -102,8 +96,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "update", ex.getMessage());
-            //TODO - Add Reason when they are done
-            throw ApplicationException.getBuilderFor(PersistenceException.class)
+            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -121,8 +114,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             return getSession().createQuery(String.format(DELETE_QUERY, type.getSimpleName(), id)).executeUpdate() == 1;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
-            //TODO - Add Reason when they are done
-            throw ApplicationException.getBuilderFor(PersistenceException.class)
+            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -143,6 +135,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
     public List<T> find(Specification<T> specification) {
         Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceException.class)
+                .forReason(PersistenceReason.SPECIFICATION_IS_NULL)
                 .withMessage("Specification can not be null")
                 .build());
 
@@ -151,9 +144,8 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
             data = processSpecification(specification);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "find", ex.getMessage());
-            //TODO - Add Reason when they are done
-            throw ApplicationException.getBuilderFor(PersistenceException.class).
-                    causedBy(ex).withMessage("Can not perform find by current specification").build();
+            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+                    .causedBy(ex).withMessage("Can not perform find by current specification").build();
         }
         return data;
     }

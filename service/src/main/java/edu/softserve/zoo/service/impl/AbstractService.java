@@ -1,9 +1,13 @@
 package edu.softserve.zoo.service.impl;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.impl.GetAllSpecification;
 import edu.softserve.zoo.service.Service;
+import edu.softserve.zoo.service.exception.ServiceReason;
+import edu.softserve.zoo.util.Validator;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,7 +21,10 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
     @Transactional
     @Override
     public T findOne(Long id, Class<T> type) {
-        return getRepository().findOne(id, type);
+        T result = getRepository().findOne(id, type);
+        Validator.notNull(result, ApplicationException.getBuilderFor(NotFoundException.class)
+                .forReason(ServiceReason.NOT_FOUND).build());
+        return result;
     }
 
     @Transactional
@@ -41,7 +48,7 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
     @Transactional
     @Override
     public void delete(Long id, Class<T> type) {
-        getRepository().delete(id,type);
+        getRepository().delete(id, type);
     }
 
     abstract Repository<T> getRepository();

@@ -1,8 +1,4 @@
-package edu.softserve.zoo.persistence.exception;
-
-
-import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.ExceptionReason;
+package edu.softserve.zoo.exceptions;
 
 public class NotFoundException extends ApplicationException {
     /**
