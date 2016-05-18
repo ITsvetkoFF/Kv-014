@@ -1,11 +1,14 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.Error;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.service.Service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +30,16 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
         this.dtoType = dtoType;
     }
 
-    @ExceptionHandler(ApplicationException.class)
-    public ResponseEntity handleApplicationException(ApplicationException exception) {
-        return ResponseEntity.status(exception.getReason().getCode()).build();
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler
+    public Error handleApplicationException(ApplicationException exception) {
+        return new Error(exception);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public Error handleNotFoundExceptionException(NotFoundException exception) {
+        return new Error(exception);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
@@ -66,7 +76,7 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
     }
 
     protected List<D> convertToDto(List<E> entities) {
-       return entities.stream().map(this::convertToDto).collect(Collectors.toList());
+        return entities.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     protected E convertToEntity(D dto) {
