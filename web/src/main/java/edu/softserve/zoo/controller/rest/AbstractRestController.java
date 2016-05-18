@@ -3,7 +3,7 @@ package edu.softserve.zoo.controller.rest;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.BaseEntity;
-import edu.softserve.zoo.service.AbstractService;
+import edu.softserve.zoo.service.Service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +59,7 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
         return ResponseEntity.ok().build();
     }
 
-    protected abstract AbstractService<E> getService();
+    protected abstract Service<E> getService();
 
     protected D convertToDto(E entity) {
         return modelMapper.map(entity, dtoType);

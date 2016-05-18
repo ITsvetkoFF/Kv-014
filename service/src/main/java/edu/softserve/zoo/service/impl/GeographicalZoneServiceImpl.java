@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class GeographicalZoneServiceImpl extends AbstractServiceImpl<GeographicalZone> implements GeographicalZoneService {
+public class GeographicalZoneServiceImpl extends AbstractService<GeographicalZone> implements GeographicalZoneService {
 
     @Autowired
     private GeographicalZoneRepository geographicalZoneRepository;

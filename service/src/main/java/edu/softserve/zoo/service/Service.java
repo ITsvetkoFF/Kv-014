@@ -3,7 +3,7 @@ import edu.softserve.zoo.model.BaseEntity;
 
 import java.util.List;
 
-public interface AbstractService<T extends BaseEntity> {
+public interface Service<T extends BaseEntity> {
 
     T findOne(Long id, Class<T> type);
 

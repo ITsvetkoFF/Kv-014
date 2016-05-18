@@ -3,7 +3,7 @@ package edu.softserve.zoo.service.impl;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.impl.GetAllSpecification;
-import edu.softserve.zoo.service.AbstractService;
+import edu.softserve.zoo.service.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Vadym Holub
  */
 
-public abstract class AbstractServiceImpl<T extends BaseEntity> implements AbstractService<T> {
+public abstract class AbstractService<T extends BaseEntity> implements Service<T> {
 
     @Transactional
     @Override
