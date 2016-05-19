@@ -1,0 +1,73 @@
+package edu.softserve.zoo.dto;
+
+import java.util.Objects;
+import java.util.Set;
+
+public class SpeciesDto extends BaseDto {
+    private FamilyDto family;
+    private String scientificName;
+    private String commonName;
+    private Set<GeographicalZoneDto> geographicalZones;
+
+    public SpeciesDto() {
+    }
+
+    public Set<GeographicalZoneDto> getGeographicalZones() {
+        return geographicalZones;
+    }
+
+    public void setGeographicalZones(Set<GeographicalZoneDto> geographicalZones) {
+        this.geographicalZones = geographicalZones;
+    }
+
+    public FamilyDto getFamily() {
+        return family;
+    }
+
+    public void setFamily(FamilyDto family) {
+        this.family = family;
+    }
+
+    public String getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(String longName) {
+        this.scientificName = longName;
+    }
+
+    public String getCommonName() {
+        return commonName;
+    }
+
+    public void setCommonName(String commonName) {
+        this.commonName = commonName;
+    }
+
+    @Override
+    public String toString() {
+        return "SpeciesDto{" +
+                "id=" + getId() +
+                ", family=" + family +
+                ", scientificName='" + scientificName + '\'' +
+                ", commonName='" + commonName + '\'' +
+                ", geographicalZones=" + geographicalZones +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpeciesDto speciesDto = (SpeciesDto) o;
+        return Objects.equals(family, speciesDto.family) &&
+                Objects.equals(scientificName, speciesDto.scientificName) &&
+                Objects.equals(commonName, speciesDto.commonName) &&
+                Objects.equals(geographicalZones, speciesDto.geographicalZones);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(family, scientificName, commonName, geographicalZones);
+    }
+}

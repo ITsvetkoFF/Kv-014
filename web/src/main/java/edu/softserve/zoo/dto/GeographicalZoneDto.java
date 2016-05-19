@@ -22,6 +22,13 @@ public class GeographicalZoneDto extends BaseDto {
     }
 
     @Override
+    public String toString() {
+        return "GeographicalZoneDto{" +
+                "regionName='" + regionName + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(regionName);
     }
