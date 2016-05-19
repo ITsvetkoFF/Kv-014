@@ -9,7 +9,6 @@ public class EmployeeDto extends BaseDto {
     private String lastName;
     private LocalDate employmentDate;
     private String email;
-    private String password;
     private Set<RoleDto> roles;
 
     public EmployeeDto() {
@@ -45,14 +44,6 @@ public class EmployeeDto extends BaseDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Set<RoleDto> getRoles() {
