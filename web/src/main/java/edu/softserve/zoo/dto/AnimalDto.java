@@ -1,23 +1,20 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.model.House;
-import edu.softserve.zoo.model.Species;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * @author Serhii Alekseichenko
- */
 public class AnimalDto extends BaseDto {
     private String nickname;
-    private Species species;
-    private House house;
+    private SpeciesDto species;
+    private HouseDto house;
     private LocalDate birthday;
     private Integer temperatureMin;
     private Integer temperatureMax;
     private Integer animalsPerHouse;
     private Integer foodConsumption;
+
+    public AnimalDto() {
+    }
 
     public String getNickname() {
         return nickname;
@@ -27,19 +24,19 @@ public class AnimalDto extends BaseDto {
         this.nickname = nickname;
     }
 
-    public Species getSpecies() {
+    public SpeciesDto getSpecies() {
         return species;
     }
 
-    public void setSpecies(Species species) {
+    public void setSpecies(SpeciesDto species) {
         this.species = species;
     }
 
-    public House getHouse() {
+    public HouseDto getHouse() {
         return house;
     }
 
-    public void setHouse(House house) {
+    public void setHouse(HouseDto house) {
         this.house = house;
     }
 
@@ -67,14 +64,6 @@ public class AnimalDto extends BaseDto {
         this.temperatureMax = temperatureMax;
     }
 
-    public Integer getAnimalsPerHouse() {
-        return animalsPerHouse;
-    }
-
-    public void setAnimalsPerHouse(Integer animalsPerHouse) {
-        this.animalsPerHouse = animalsPerHouse;
-    }
-
     public Integer getFoodConsumption() {
         return foodConsumption;
     }
@@ -83,23 +72,47 @@ public class AnimalDto extends BaseDto {
         this.foodConsumption = foodConsumption;
     }
 
+    public Integer getAnimalsPerHouse() {
+        return animalsPerHouse;
+    }
+
+    public void setAnimalsPerHouse(Integer animalsPerHouse) {
+        this.animalsPerHouse = animalsPerHouse;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "id=" + getId() +
+                ", nickname='" + nickname + '\'' +
+                ", species=" + species +
+                ", house=" + house +
+                ", birthday=" + birthday +
+                ", temperatureMin=" + temperatureMin +
+                ", temperatureMax=" + temperatureMax +
+                ", animalsPerHouse=" + animalsPerHouse +
+                ", foodConsumption=" + foodConsumption +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnimalDto animalDto = (AnimalDto) o;
-        return Objects.equals(nickname, animalDto.nickname) &&
-                Objects.equals(species, animalDto.species) &&
-                Objects.equals(house, animalDto.house) &&
-                Objects.equals(birthday, animalDto.birthday) &&
-                Objects.equals(temperatureMin, animalDto.temperatureMin) &&
-                Objects.equals(temperatureMax, animalDto.temperatureMax) &&
-                Objects.equals(animalsPerHouse, animalDto.animalsPerHouse) &&
-                Objects.equals(foodConsumption, animalDto.foodConsumption);
+        AnimalDto animal = (AnimalDto) o;
+        return Objects.equals(nickname, animal.nickname) &&
+                Objects.equals(species, animal.species) &&
+                Objects.equals(house, animal.house) &&
+                Objects.equals(birthday, animal.birthday) &&
+                Objects.equals(temperatureMin, animal.temperatureMin) &&
+                Objects.equals(temperatureMax, animal.temperatureMax) &&
+                Objects.equals(foodConsumption, animal.foodConsumption) &&
+                Objects.equals(animalsPerHouse, animal.animalsPerHouse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, animalsPerHouse, foodConsumption);
+        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, foodConsumption, animalsPerHouse);
     }
 }

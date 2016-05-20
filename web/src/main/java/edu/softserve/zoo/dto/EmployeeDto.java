@@ -1,18 +1,17 @@
-package edu.softserve.zoo.model;
+package edu.softserve.zoo.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
-public class Employee extends BaseEntity {
+public class EmployeeDto extends BaseDto {
     private String firstName;
     private String lastName;
     private LocalDate employmentDate;
     private String email;
-    private String password;
-    private Set<Role> roles;
+    private Set<RoleDto> roles;
 
-    public Employee() {
+    public EmployeeDto() {
     }
 
     public String getFirstName() {
@@ -47,25 +46,17 @@ public class Employee extends BaseEntity {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
+    public Set<RoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<RoleDto> roles) {
         this.roles = roles;
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "EmployeeDto{" +
                 "id=" + getId() +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -79,11 +70,11 @@ public class Employee extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(firstName, employee.firstName) &&
-                Objects.equals(lastName, employee.lastName) &&
-                Objects.equals(employmentDate, employee.employmentDate) &&
-                Objects.equals(email, employee.email);
+        EmployeeDto employeeDto = (EmployeeDto) o;
+        return Objects.equals(firstName, employeeDto.firstName) &&
+                Objects.equals(lastName, employeeDto.lastName) &&
+                Objects.equals(employmentDate, employeeDto.employmentDate) &&
+                Objects.equals(email, employeeDto.email);
     }
 
     @Override

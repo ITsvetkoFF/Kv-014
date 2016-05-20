@@ -9,15 +9,7 @@
 
     <import resource="service-ctx.xml"/>
 
-    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <bean class="edu.softserve.zoo.HibernateAwareObjectMapper"/>
-                </property>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
 
     <bean id="contentNegotiationManager"
           class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
