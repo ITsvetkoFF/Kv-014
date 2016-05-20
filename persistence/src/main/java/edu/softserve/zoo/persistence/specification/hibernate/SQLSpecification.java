@@ -1,6 +1,10 @@
 package edu.softserve.zoo.persistence.specification.hibernate;
 
 import edu.softserve.zoo.persistence.specification.Specification;
+import org.hibernate.cfg.NotYetImplementedException;
+import org.hibernate.type.Type;
+
+import java.util.Map;
 
 /**
  * Plain SQL based specification. Produces SQL query for processing.
@@ -14,7 +18,18 @@ public interface SQLSpecification<T> extends Specification<T> {
      *
      * @return the type of a domain object to query.
      */
-    Class<T> getType();
+    default Class<T> getType() {
+        throw new NotYetImplementedException();
+    }
+
+    /**
+     * Returns the map of scalar values.
+     *
+     * @return the map of scalar values.
+     */
+    default Map<String, Type> getScalar() {
+        throw new NotYetImplementedException();
+    }
 
     /**
      * Returns valid SQL query as a string.

@@ -19,4 +19,5 @@
     <context:component-scan base-package="edu.softserve.zoo.controller.rest"/>
 
     <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 </beans>

@@ -7,7 +7,8 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
  */
 public enum PersistenceReason implements ExceptionReason {
     HIBERNATE_QUERY_FAILED("Internal server error"),
-    SPECIFICATION_IS_NULL("Internal server error");
+    SPECIFICATION_IS_NULL("Internal server error"),
+    NOT_FOUND("Not found");
 
     private final String message;
 
