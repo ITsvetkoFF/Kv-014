@@ -1,18 +1,21 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Role;
+
 import java.util.Objects;
+
 // TODO - verify if we need RoleDto at all.
 public class RoleDto extends BaseDto {
-    private Type type;
+    private Role.Type type;
 
     public RoleDto() {
     }
 
-    public Type getType() {
+    public Role.Type getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(Role.Type type) {
         this.type = type;
     }
 
@@ -35,9 +38,5 @@ public class RoleDto extends BaseDto {
     @Override
     public int hashCode() {
         return Objects.hash(type);
-    }
-
-    public enum Type {
-        VISITOR, EMPLOYEE, MANAGER, ADMIN
     }
 }

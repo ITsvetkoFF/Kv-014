@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class FamilyDto extends BaseDto {
     private String name;
-    private AnimalClassDto animalClassDto;
+    private AnimalClassDto animalClass;
 
     public FamilyDto() {
     }
@@ -17,12 +17,12 @@ public class FamilyDto extends BaseDto {
         this.name = name;
     }
 
-    public AnimalClassDto getAnimalClassDto() {
-        return animalClassDto;
+    public AnimalClassDto getAnimalClass() {
+        return animalClass;
     }
 
-    public void setAnimalClassDto(AnimalClassDto animalClassDto) {
-        this.animalClassDto = animalClassDto;
+    public void setAnimalClass(AnimalClassDto animalClass) {
+        this.animalClass = animalClass;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class FamilyDto extends BaseDto {
         return "FamilyDto{" +
                 "id=" + getId() +
                 ", name='" + name + '\'' +
-                ", animalClassDto=" + animalClassDto +
+                ", animalClass=" + animalClass +
                 '}';
     }
 
@@ -40,11 +40,11 @@ public class FamilyDto extends BaseDto {
         if (o == null || getClass() != o.getClass()) return false;
         FamilyDto familyDto = (FamilyDto) o;
         return Objects.equals(name, familyDto.name) &&
-                Objects.equals(animalClassDto, familyDto.animalClassDto);
+                Objects.equals(animalClass, familyDto.animalClass);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, animalClassDto);
+        return Objects.hash(name, animalClass);
     }
 }
