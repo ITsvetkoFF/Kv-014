@@ -1,5 +1,7 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Task;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,10 +12,10 @@ public class TaskDto extends BaseDto {
     private LocalDateTime estimatedFinish;
     private LocalDateTime actualStart;
     private LocalDateTime actualFinish;
-    private TaskType taskType;
+    private Task.TaskType taskType;
     private ZooZoneDto zone;
     private String description;
-    private TaskStatus status;
+    private Task.TaskStatus status;
 
     public TaskDto() {
     }
@@ -66,11 +68,11 @@ public class TaskDto extends BaseDto {
         this.actualFinish = actualFinish;
     }
 
-    public TaskType getTaskType() {
+    public Task.TaskType getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(TaskType taskType) {
+    public void setTaskType(Task.TaskType taskType) {
         this.taskType = taskType;
     }
 
@@ -90,11 +92,11 @@ public class TaskDto extends BaseDto {
         this.description = description;
     }
 
-    public TaskStatus getStatus() {
+    public Task.TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(Task.TaskStatus status) {
         this.status = status;
     }
 
@@ -135,14 +137,5 @@ public class TaskDto extends BaseDto {
     @Override
     public int hashCode() {
         return Objects.hash(assignee, assigner, estimatedStart, estimatedFinish, actualStart, actualFinish, taskType, zone, description, status);
-    }
-
-
-    public enum TaskType {
-        FEEDING, HEALTH_INSPECTION, GIVE_MEDICINE
-    }
-
-    public enum TaskStatus {
-        ACCOMPLISHED, FAILED, RESCHEDULED, IN_PROGRESS
     }
 }
