@@ -1,19 +1,21 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Warehouse;
+
 import java.util.Objects;
 
 public class WarehouseDto extends BaseDto {
-    private Supply supply;
+    private Warehouse.Supply supply;
     private Integer amount;
 
     public WarehouseDto() {
     }
 
-    public Supply getSupply() {
+    public Warehouse.Supply getSupply() {
         return supply;
     }
 
-    public void setSupply(Supply supply) {
+    public void setSupply(Warehouse.Supply supply) {
         this.supply = supply;
     }
 
@@ -46,9 +48,5 @@ public class WarehouseDto extends BaseDto {
     @Override
     public int hashCode() {
         return Objects.hash(supply, amount);
-    }
-
-    public enum Supply {
-        MEDICINE, FOOD
     }
 }
