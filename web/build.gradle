@@ -2,7 +2,10 @@ apply plugin: 'war'
 dependencies {
     compile project(':service')
     compile spring_mvc
+    testCompile spring_test
     compile jackson
     compile jackson_datatype_hibernate
     compile model_mapper
+    compile apache_commons_lang
+    compile apache_commons_collections4
 }
