@@ -4,5 +4,5 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="classpath:spring/service-common-ctx.xml"/>
-    <import resource="classpath:spring/persistence-ctx.xml"/>
+    <import resource="classpath:spring/persistence-test-ctx.xml"/>
 </beans>

@@ -5,4 +5,7 @@ dependencies {
     compile jackson
     compile jackson_datatype_hibernate
     compile model_mapper
+    compile apache_commons_lang
+    compile apache_commons_collections4
+    testCompile spring_test
 }
