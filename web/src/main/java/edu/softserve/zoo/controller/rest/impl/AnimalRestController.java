@@ -22,13 +22,13 @@ import static edu.softserve.zoo.controller.rest.Routes.ANIMALS;
  */
 @RestController
 @RequestMapping(ANIMALS)
-public class AnimalRestControllerImpl extends AbstractRestController<AnimalDto, Animal> {
+public class AnimalRestController extends AbstractRestController<AnimalDto, Animal> {
 
     @Autowired
     private AnimalService animalService;
 
 
-    protected AnimalRestControllerImpl() {
+    protected AnimalRestController() {
         super(Animal.class, AnimalDto.class);
     }
 
