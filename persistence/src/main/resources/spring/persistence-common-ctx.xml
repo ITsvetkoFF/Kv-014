@@ -13,6 +13,14 @@
     <!-- Activating Annotation PostProcessors -->
     <tx:annotation-driven/>
 
+    <!-- Configurations for database connection. Depends on spring.active.profile -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
     <!-- Configurations for Hibernate SessionFactory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="mappingLocations" value="classpath:hbm/*.hbm.xml"/>
@@ -25,14 +33,6 @@
                 <prop key="hibernate.default_schema">${db.default_schema}</prop>
             </props>
         </property>
-    </bean>
-
-    <!-- Configurations for database connection. Depends on spring.active.profile -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driver}"/>
-        <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
     </bean>
 
     <!-- Configurations for  Hibernate TransactionManager -->

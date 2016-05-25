@@ -1,10 +1,12 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.annotation.Dto;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Dto(Task.class)
 public class TaskDto extends BaseDto {
     private EmployeeDto assignee;
     private EmployeeDto assigner;

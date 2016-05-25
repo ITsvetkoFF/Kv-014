@@ -4,4 +4,7 @@ dependencies {
     compile spring_mvc
     compile jackson
     compile model_mapper
+    compile apache_commons_lang
+    compile apache_commons_collections4
+    testCompile spring_test
 }
