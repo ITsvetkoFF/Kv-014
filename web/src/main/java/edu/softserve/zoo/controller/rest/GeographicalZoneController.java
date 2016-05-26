@@ -7,9 +7,12 @@ import edu.softserve.zoo.service.GeographicalZoneService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static edu.softserve.zoo.controller.rest.Routes.GEO_ZONE;
+import java.util.List;
+
+import static edu.softserve.zoo.controller.rest.Routes.GEO_ZONES;
 
 /**
  * Rest Controller to manage requests, which deal with GeographicalZone
@@ -17,7 +20,7 @@ import static edu.softserve.zoo.controller.rest.Routes.GEO_ZONE;
  * @author Vadym Holub
  */
 @RestController
-@RequestMapping(GEO_ZONE)
+@RequestMapping(GEO_ZONES)
 public class GeographicalZoneController extends AbstractRestController<GeographicalZoneDto, GeographicalZone> {
 
     @Autowired
@@ -32,4 +35,9 @@ public class GeographicalZoneController extends AbstractRestController<Geographi
         return geographicalZoneService;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    @Override
+    public List<GeographicalZoneDto> getAll() {
+        return super.getAll();
+    }
 }
