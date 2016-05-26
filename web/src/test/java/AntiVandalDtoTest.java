@@ -48,7 +48,7 @@ public class AntiVandalDtoTest {
     private DtoMapper dtoMapper;
 
     @Test
-    public void testIt() {
+    public void dtoValidationTest() {
 
         final String countMismatch = "Number of field in %s dto should not exceed the number %s entity does.%n";
         final String curClass = "Working around: `%s` class:";
@@ -89,50 +89,6 @@ public class AntiVandalDtoTest {
 
         });
 
-
-    }
-
-    // TODO should I write this dummy test #testDtosMapping, testEntitiesMapping
-    @Test
-    public void testDtosMapping() {
-
-        final Map<Class<? extends BaseDto>, Class<? extends BaseEntity>> testCases = new HashMap<>();
-        testCases.put(AnimalDto.class, Animal.class);
-        testCases.put(AnimalClassDto.class, AnimalClass.class);
-        testCases.put(EmployeeDto.class, Employee.class);
-        testCases.put(FamilyDto.class, Family.class);
-        testCases.put(GeographicalZoneDto.class, GeographicalZone.class);
-        testCases.put(HouseDto.class, House.class);
-        testCases.put(RoleDto.class, Role.class);
-        testCases.put(SpeciesDto.class, Species.class);
-        testCases.put(TaskDto.class, Task.class);
-        testCases.put(WarehouseDto.class, Warehouse.class);
-        testCases.put(ZooZoneDto.class, ZooZone.class);
-
-        testCases.forEach((expected, entity) -> {
-            assertEquals(expected, dtoMapper.getDtoClass(entity));
-        });
-    }
-
-    @Test
-    public void testEntitiesMapping() {
-
-        final Map<Class<? extends BaseEntity>, Class<? extends BaseDto>> testCases = new HashMap<>();
-        testCases.put(Animal.class, AnimalDto.class);
-        testCases.put(AnimalClass.class, AnimalClassDto.class);
-        testCases.put(Employee.class, EmployeeDto.class);
-        testCases.put(Family.class, FamilyDto.class);
-        testCases.put(GeographicalZone.class, GeographicalZoneDto.class);
-        testCases.put(House.class, HouseDto.class);
-        testCases.put(Role.class, RoleDto.class);
-        testCases.put(Species.class, SpeciesDto.class);
-        testCases.put(Task.class, TaskDto.class);
-        testCases.put(Warehouse.class, WarehouseDto.class);
-        testCases.put(ZooZone.class, ZooZoneDto.class);
-
-        testCases.forEach((expected, entity) -> {
-            assertEquals(expected, dtoMapper.getEntityClass(entity));
-        });
     }
 
     private void handleTypeMismatch(Field dtoField, Field entityField) {
