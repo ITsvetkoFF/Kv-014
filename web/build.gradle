@@ -4,4 +4,6 @@ dependencies {
     compile spring_mvc
     compile jackson
     compile model_mapper
+    compile apache_commons_collections4
+    compile apache_commons_commons_beanutils
 }
