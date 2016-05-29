@@ -4,7 +4,6 @@ import edu.softserve.zoo.model.Role;
 
 import java.util.Objects;
 
-// TODO - verify if we need RoleDto at all.
 public class RoleDto extends BaseDto {
     private Role.Type type;
 

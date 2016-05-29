@@ -9,7 +9,7 @@ public class EmployeeDto extends BaseDto {
     private String lastName;
     private LocalDate employmentDate;
     private String email;
-    private Set<RoleDto> roles;
+    private Set<Object> roles;
 
     public EmployeeDto() {
     }
@@ -46,11 +46,11 @@ public class EmployeeDto extends BaseDto {
         this.email = email;
     }
 
-    public Set<RoleDto> getRoles() {
+    public Set<Object> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleDto> roles) {
+    public void setRoles(Set<Object> roles) {
         this.roles = roles;
     }
 

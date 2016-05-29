@@ -38,6 +38,11 @@ public class Role extends BaseEntity {
     }
 
     public enum Type {
-        VISITOR, EMPLOYEE, MANAGER, ADMIN
+        VISITOR, EMPLOYEE, MANAGER, ADMIN;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
     }
 }

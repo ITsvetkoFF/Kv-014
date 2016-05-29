@@ -5,4 +5,5 @@ public interface Routes {
     String GEO_ZONE = API_V1 + "/geo_zones";
     String ANIMALS = API_V1 + "/animals";
     String WAREHOUSES = API_V1 + "/warehouses";
+    String EMPLOYEES = API_V1 + "/employees";
 }
