@@ -1,33 +1,31 @@
 package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.Error;
+import edu.softserve.zoo.converter.ModelConverter;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.service.Service;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Vadym Holub
  */
-public abstract class AbstractRestController<D extends BaseDto, E extends BaseEntity> {
+public abstract class AbstractRestController<Dto extends BaseDto, Entity extends BaseEntity> {
 
     @Autowired
-    private ModelMapper modelMapper;
-    private Class<E> entityType;
-    private Class<D> dtoType;
+    protected ModelConverter converter;
 
-    protected AbstractRestController(Class<E> entityType, Class<D> dtoType) {
+    private Class<Entity> entityType;
+
+    protected AbstractRestController(Class<Entity> entityType) {
         this.entityType = entityType;
-        this.dtoType = dtoType;
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -43,24 +41,24 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public D getById(@PathVariable Long id) {
-        return convertToDto(getService().findOne(id, entityType));
+    public Dto getById(@PathVariable Long id) {
+        return converter.convertToDto(getService().findOne(id, entityType));
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<D> getAll() {
-        return convertToDto(getService().findAll(entityType));
+    public List<Dto> getAll() {
+        return converter.convertToDto(getService().findAll(entityType));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public D create(@RequestBody D dto) {
-        return convertToDto(getService().save(convertToEntity(dto)));
+    public Dto create(@RequestBody Dto dto) {
+        return converter.convertToDto(getService().save(converter.convertToEntity(dto)));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
-    public D update(@RequestBody D dto, @PathVariable Long id) {
+    public Dto update(@RequestBody Dto dto, @PathVariable Long id) {
         dto.setId(id);
-        return convertToDto(getService().update(convertToEntity(dto)));
+        return converter.convertToDto(getService().update(converter.convertToEntity(dto)));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
@@ -69,18 +67,6 @@ public abstract class AbstractRestController<D extends BaseDto, E extends BaseEn
         return ResponseEntity.ok().build();
     }
 
-    protected abstract Service<E> getService();
-
-    protected D convertToDto(E entity) {
-        return modelMapper.map(entity, dtoType);
-    }
-
-    protected List<D> convertToDto(List<E> entities) {
-        return entities.stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-
-    protected E convertToEntity(D dto) {
-        return modelMapper.map(dto, entityType);
-    }
+    protected abstract Service<Entity> getService();
 
 }

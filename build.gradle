@@ -6,6 +6,7 @@ def hsqldb_version = '2.3.3'
 def junit_version = '4.12'
 def apache_commons_lang_version = '3.4'
 def apache_commons_collections_version = '4.1'
+def apache_commons_commons_beanutils_version = '1.9.2'
 def model_mapper_version = '0.7.5'
 
 def jackson_version = '2.6.5'
@@ -31,6 +32,7 @@ ext {
     postgres_jdbc_driver = "org.postgresql:postgresql:$postgres_version"
     apache_commons_lang = "org.apache.commons:commons-lang3:$apache_commons_lang_version"
     apache_commons_collections4 = "org.apache.commons:commons-collections4:$apache_commons_collections_version"
+    apache_commons_commons_beanutils = "commons-beanutils:commons-beanutils:$apache_commons_commons_beanutils_version"
     jackson = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     model_mapper = "org.modelmapper:modelmapper:$model_mapper_version"
     junit = "junit:junit:$junit_version"

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="classpath:spring/web-common-ctx.xml"/>
-    <import resource="classpath:spring/service-ctx.xml"/>
+    <import resource="service-ctx.xml"/>
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:message-converters>
@@ -18,12 +20,13 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <context:component-scan base-package="edu.softserve.zoo.controller.rest"/>
 
     <bean id="contentNegotiationManager"
           class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="defaultContentType" value="application/json"/>
     </bean>
+
+    <context:component-scan base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter"/>
 
     <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
 </beans>

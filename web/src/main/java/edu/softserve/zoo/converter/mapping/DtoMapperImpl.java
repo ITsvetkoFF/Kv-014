@@ -1,4 +1,4 @@
-package edu.softserve.zoo;
+package edu.softserve.zoo.converter.mapping;
 
 import edu.softserve.zoo.annotation.Dto;
 import edu.softserve.zoo.annotation.IrrespectiveDto;
@@ -24,9 +24,9 @@ import static java.lang.String.format;
 /**
  * Class that manages relationships between Entities and their DTO.
  */
-public class DtoMapper {
+public class DtoMapperImpl implements DtoMapper {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DtoMapper.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DtoMapperImpl.class);
 
     private final BidiMap<Class<? extends BaseEntity>, Class<? extends BaseDto>> mappings = new DualHashBidiMap<>();
 
@@ -40,6 +40,7 @@ public class DtoMapper {
      * @param forClass dtoClass
      * @return Entity class for which was DTO created.
      */
+    @Override
     public Class<? extends BaseEntity> getEntityClass(Class<?> forClass) {
         return mappings.getKey(forClass);
     }
@@ -48,6 +49,7 @@ public class DtoMapper {
      * @param forClass entityClass
      * @return DTO class for which specified Entity class was associated.
      */
+    @Override
     public Class<? extends BaseDto> getDtoClass(Class<?> forClass) {
         return mappings.get(forClass);
     }

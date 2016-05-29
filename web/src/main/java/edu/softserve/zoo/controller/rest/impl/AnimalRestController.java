@@ -27,9 +27,8 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     @Autowired
     private AnimalService animalService;
 
-
     protected AnimalRestController() {
-        super(Animal.class, AnimalDto.class);
+        super(Animal.class);
     }
 
     @Override
@@ -40,12 +39,12 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     @RequestMapping(path = "/house/{id}", method = RequestMethod.GET)
     public List<AnimalDto> getAllByHouseId(@PathVariable Long id) {
         List<Animal> allByHouseId = animalService.getAllByHouseId(id);
-        return convertToDto(allByHouseId);
+        return converter.convertToDto(allByHouseId);
     }
 
     @RequestMapping(path = "/species/{id}", method = RequestMethod.GET)
     public List<AnimalDto> getAllBySpeciesId(@PathVariable Long id) {
         List<Animal> allBySpeciesId = animalService.getAllBySpeciesId(id);
-        return convertToDto(allBySpeciesId);
+        return converter.convertToDto(allBySpeciesId);
     }
 }

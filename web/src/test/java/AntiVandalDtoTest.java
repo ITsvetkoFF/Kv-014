@@ -1,6 +1,5 @@
-import edu.softserve.zoo.DtoMapper;
-import edu.softserve.zoo.dto.*;
-import edu.softserve.zoo.model.*;
+import edu.softserve.zoo.converter.mapping.DtoMapperImpl;
+import edu.softserve.zoo.model.BaseEntity;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,8 +42,12 @@ public class AntiVandalDtoTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AntiVandalDtoTest.class);
 
+    /**
+     * In this case we inject exactly the realization,
+     * because we need to access {@link DtoMapperImpl#getMappings()} method.
+     */
     @Autowired
-    private DtoMapper dtoMapper;
+    private DtoMapperImpl dtoMapper;
 
     @Test
     public void dtoValidationTest() {
