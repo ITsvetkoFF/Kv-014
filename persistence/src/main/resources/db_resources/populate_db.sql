@@ -41920,22 +41920,22 @@ INSERT INTO ZOO.ZOO_ZONES (ID, GEO_ZONE_ID, NAME, DESCRIPTION, HOUSE_CAPACITY) V
 (5, 13, 'North America 2', 'North America geozone imitation', 200);
 
 -- FILL-IN HOUSES TABLE -------------------------
-TRUNCATE TABLE ZOO.HOUSES ;
-INSERT INTO ZOO.HOUSES (ID, ZOO_ZONE_ID, MAX_CAPACITY) VALUES
-(1, 1, 10),
-(2, 1, 20),
-(3, 1, 30),
-(4, 1, 40),
+TRUNCATE TABLE ZOO.HOUSES;
+INSERT INTO ZOO.HOUSES (ID, NAME, ZOO_ZONE_ID, MAX_CAPACITY) VALUES
+  (1, 'Africa house 1', 1, 10),
+  (2, 'Africa house 2', 1, 20),
+  (3, 'Africa house 3', 1, 30),
+  (4, 'Africa house 4', 1, 40),
 
-(5, 3, 10),
-(6, 3, 20),
-(7, 3, 30),
-(8, 3, 40),
+  (5, 'Australia house 1', 3, 10),
+  (6, 'Australia house 2', 3, 20),
+  (7, 'Australia house 3', 3, 30),
+  (8, 'Australia house 4', 3, 40),
 
-(9, 4, 10),
-(10, 4, 20),
-(11, 4, 30),
-(12, 4, 40);
+  (9, 'North America house 1', 4, 10),
+  (10, 'North America house 2', 4, 20),
+  (11, 'North America house 3', 4, 30),
+  (12, 'North America house 4', 4, 40);
 
 -- FILL-IN ANIMALS TABLE -------------------------
 TRUNCATE TABLE ZOO.ANIMALS ;

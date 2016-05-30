@@ -3,10 +3,19 @@ package edu.softserve.zoo.model;
 import java.util.Objects;
 
 public class House extends BaseEntity {
+    private String name;
     private ZooZone zone;
     private Integer maxCapacity;
 
     public House() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ZooZone getZone() {
@@ -29,6 +38,7 @@ public class House extends BaseEntity {
     public String toString() {
         return "House{" +
                 "id=" + getId() +
+                ", name=" + name +
                 ", zone=" + zone +
                 ", maxCapacity=" + maxCapacity +
                 '}';
@@ -39,12 +49,13 @@ public class House extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         House house = (House) o;
-        return Objects.equals(zone, house.zone) &&
+        return Objects.equals(name, house.name) &&
+                Objects.equals(zone, house.zone) &&
                 Objects.equals(maxCapacity, house.maxCapacity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zone, maxCapacity);
+        return Objects.hash(name, zone, maxCapacity);
     }
 }
