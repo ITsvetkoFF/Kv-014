@@ -11,7 +11,8 @@
     <import resource="classpath:spring/web-common-ctx.xml"/>
 
     <mvc:cors>
-        <mvc:mapping path="/api/**"/>
+        <mvc:mapping path="/api/**"
+                     allowed-methods="GET, POST, PUT, PATCH, DELETE"/>
     </mvc:cors>
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
