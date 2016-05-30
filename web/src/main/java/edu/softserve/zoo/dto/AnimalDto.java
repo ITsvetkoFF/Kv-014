@@ -87,7 +87,7 @@ public class AnimalDto extends BaseDto {
 
     @Override
     public String toString() {
-        return "Animal{" +
+        return "AnimalDto{" +
                 "id=" + getId() +
                 ", nickname='" + nickname + '\'' +
                 ", species=" + species +
