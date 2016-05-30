@@ -8,9 +8,7 @@ def apache_commons_lang_version = '3.4'
 def apache_commons_collections_version = '4.1'
 def apache_commons_commons_beanutils_version = '1.9.2'
 def model_mapper_version = '0.7.5'
-
 def jackson_version = '2.6.5'
-def jackson_datatype_hibernate_version = '2.6.5'
 
 def sourceVersion = '0.0.1-SNAPSHOT'
 
