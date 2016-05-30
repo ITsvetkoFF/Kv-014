@@ -7,7 +7,12 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="service-ctx.xml"/>
+    <import resource="classpath:spring/service-ctx.xml"/>
+    <import resource="classpath:spring/web-common-ctx.xml"/>
+
+    <mvc:cors>
+        <mvc:mapping path="/api/**"/>
+    </mvc:cors>
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:message-converters>
@@ -26,5 +31,6 @@
         <property name="defaultContentType" value="application/json"/>
     </bean>
 
-    <context:component-scan base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter, edu.softserve.zoo.advice"/>
+    <context:component-scan
+            base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter, edu.softserve.zoo.advice"/>
 </beans>
