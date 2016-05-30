@@ -1,12 +1,11 @@
 package edu.softserve.zoo.converter;
 
-import edu.softserve.zoo.dto.*;
+import edu.softserve.zoo.converter.mapping.DtoMapper;
+import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.WebException;
-import edu.softserve.zoo.model.*;
+import edu.softserve.zoo.model.BaseEntity;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +34,8 @@ public class ModelConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelConverter.class);
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
 
-    private static BidiMap<Class<?>, Class<?>> mapping;
-
-    static {
-        mapping = new DualHashBidiMap<>();
-        mapping.put(Animal.class, AnimalDto.class);
-        mapping.put(AnimalClass.class, AnimalClassDto.class);
-        mapping.put(House.class, HouseDto.class);
-        mapping.put(Species.class, SpeciesDto.class);
-        mapping.put(GeographicalZone.class, GeographicalZoneDto.class);
-        mapping.put(ZooZone.class, ZooZoneDto.class);
-        mapping.put(Family.class, FamilyDto.class);
-        mapping.put(Employee.class, EmployeeDto.class);
-        mapping.put(Role.class, RoleDto.class);
-        mapping.put(Task.class, TaskDto.class);
-        mapping.put(Warehouse.class, WarehouseDto.class);
-    }
+    @Autowired
+    private DtoMapper mapper;
 
     @Autowired
     private List<MappingStrategy> strategies;
@@ -77,7 +62,7 @@ public class ModelConverter {
     <Entity extends BaseEntity, Dto extends BaseDto> Dto getDto(Entity entity) {
         Class<Entity> entityClass = getEntityClass(entity);
         try {
-            return (Dto) (mapping.get(entityClass)).newInstance();
+            return (Dto) (mapper.getDtoClass(entityClass)).newInstance();
         } catch (NullPointerException | ReflectiveOperationException e) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "get Dto", e.getMessage());
             throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_DTO_FAILED).causedBy(e).build();
@@ -93,7 +78,7 @@ public class ModelConverter {
      */
     private <Entity extends BaseEntity, Dto extends BaseDto> Entity getEntity(Dto dto) {
         try {
-            return (Entity) mapping.getKey(dto.getClass()).newInstance();
+            return (Entity) mapper.getEntityClass(dto.getClass()).newInstance();
         } catch (NullPointerException | ReflectiveOperationException e) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "get Entity", e.getMessage());
             throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_ENTITY_FAILED).causedBy(e).build();
