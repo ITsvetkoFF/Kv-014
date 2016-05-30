@@ -3,7 +3,8 @@ dependencies {
     compile project(':service')
     compile spring_mvc
     compile jackson
-    compile model_mapper
+    compile apache_commons_lang
     compile apache_commons_collections4
     compile apache_commons_commons_beanutils
+    testCompile spring_test
 }

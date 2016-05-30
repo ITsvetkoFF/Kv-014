@@ -1,8 +1,12 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Animal;
+import edu.softserve.zoo.annotation.Dto;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Dto(Animal.class)
 public class AnimalDto extends BaseDto {
     private String nickname;
     private SpeciesDto species;
@@ -83,7 +87,7 @@ public class AnimalDto extends BaseDto {
 
     @Override
     public String toString() {
-        return "Animal{" +
+        return "AnimalDto{" +
                 "id=" + getId() +
                 ", nickname='" + nickname + '\'' +
                 ", species=" + species +

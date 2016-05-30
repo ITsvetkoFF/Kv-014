@@ -1,15 +1,12 @@
-package edu.softserve.zoo.controller.rest.impl;
+package edu.softserve.zoo.controller.rest;
 
-import edu.softserve.zoo.controller.rest.AbstractRestController;
 import edu.softserve.zoo.dto.AnimalDto;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.service.AnimalService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,36 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     @Override
     protected Service<Animal> getService() {
         return animalService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @Override
+    public List<AnimalDto> getAll() {
+        return super.getAll();
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @Override
+    public AnimalDto getById(@PathVariable Long id) {
+        return super.getById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @Override
+    public AnimalDto create(@RequestBody AnimalDto dto) {
+        return super.create(dto);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
+    @Override
+    public AnimalDto update(@RequestBody AnimalDto dto, @PathVariable Long id) {
+        return super.update(dto, id);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @Override
+    public ResponseEntity delete(@PathVariable Long id) {
+        return super.delete(id);
     }
 
     @RequestMapping(path = "/house/{id}", method = RequestMethod.GET)

@@ -7,6 +7,7 @@
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
+        <property name="name" type="string" column="name" not-null="true" unique="true"/>
         <property name="maxCapacity" type="integer" column="max_capacity" not-null="true"/>
         <many-to-one name="zone" column="zoo_zone_id" class="edu.softserve.zoo.model.ZooZone" not-null="true"/>
     </class>

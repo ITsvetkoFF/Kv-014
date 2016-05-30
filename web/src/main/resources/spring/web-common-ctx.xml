@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="classpath:spring/service-common-ctx.xml"/>
-    <import resource="classpath:spring/persistence-ctx.xml"/>
+    <bean id="dtoMapper" class="edu.softserve.zoo.converter.mapping.DtoMapperImpl">
+        <property name="dtoPackage" value="edu.softserve.zoo.dto"/>
+    </bean>
 </beans>

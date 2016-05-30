@@ -27,6 +27,4 @@
     </bean>
 
     <context:component-scan base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter, edu.softserve.zoo.advice"/>
-
-    <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
 </beans>

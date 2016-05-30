@@ -7,8 +7,8 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <import resource="classpath:spring/persistence-common-ctx.xml"/>
     <!--Inheriting common context - parent persistent context-->
+    <import resource="classpath:spring/persistence-common-ctx.xml"/>
 
     <!-- Loading specific properties for current profile -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -105,6 +105,7 @@ COMMENT ON COLUMN ZOO.GEO_ZONE_SPECIES_MAPPING.SPECIES_ID IS 'ID OF SPECIES (FRO
 -- HOUSES (CONTAINERS IN ZOO ZONES WHERE ANIMALS ARE PLACED)--------------------------------------------------
 CREATE TABLE IF NOT EXISTS ZOO.HOUSES (
   ID           BIGINT PRIMARY KEY NOT NULL,
+  NAME           VARCHAR(50)         NOT NULL UNIQUE,
   ZOO_ZONE_ID  BIGINT                 NOT NULL,
   MAX_CAPACITY INTEGER                 NOT NULL DEFAULT 1,
   CONSTRAINT FK_ZOO_ZONE_ID FOREIGN KEY (ZOO_ZONE_ID)
@@ -113,6 +114,7 @@ CREATE TABLE IF NOT EXISTS ZOO.HOUSES (
 );
 COMMENT ON TABLE ZOO.HOUSES IS 'CONTAINERS IN ZOO ZONES WHERE ANUMALS ARE PLACED';
 COMMENT ON COLUMN ZOO.HOUSES.ID IS 'Id of a ZOO zone that a house is positioned in';
+COMMENT ON COLUMN ZOO.HOUSES.NAME IS 'House name';
 COMMENT ON COLUMN ZOO.HOUSES.MAX_CAPACITY IS 'Maximum number of animals that a house can contain';
 --END OF HOUSES -----------------------------------------------------------------------------------------------
 -- +++++++++++++++END OF HOUSE OBJECTS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
