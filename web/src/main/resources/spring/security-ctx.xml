@@ -1,0 +1,37 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+    <http create-session="stateless" entry-point-ref="entryPointUnauthorizedHandler">
+        <csrf disabled="true"/>
+        <custom-filter before="FORM_LOGIN_FILTER" ref="authTokenFilter"/>
+
+        <!-- Put the most specific matches at the top of less specific ones -->
+        <intercept-url pattern="/api/v1/employees*" method="GET" access="hasAnyRole('ROLE_MANAGER,ROLE_ADMIN')"/>
+        <intercept-url pattern="/api/v1/employees*" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/api/v1/login" access="permitAll"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+    </http>
+
+    <global-method-security secured-annotations="enabled"/>
+
+    <beans:bean id="authTokenFilter" class="edu.softserve.zoo.web.security.AuthTokenFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <password-encoder ref="bcryptEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean name="bcryptEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <beans:property name="location" value="classpath:security.properties"/>
+    </beans:bean>
+</beans:beans>

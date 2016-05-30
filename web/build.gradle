@@ -11,6 +11,10 @@ dependencies {
     compile apache_commons_commons_beanutils
     compile servlet_api
     compile hibernate_validator
+    compile spring_security_config
+    compile spring_security_web
+    compile jjwt
+
     testCompile spring_test
     testCompile spring_rest_docs
     testCompile hsqldb

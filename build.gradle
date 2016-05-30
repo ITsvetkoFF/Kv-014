@@ -1,5 +1,6 @@
 // dependency versions
 def spring_version = '4.2.5.RELEASE'
+def spring_security_version = '4.1.0.RELEASE'
 def hibernate_version = '5.1.0.Final'
 def hibernate_validator_version = '5.2.4.Final'
 def javax_persistence_version = '1.0.0.Final'
@@ -12,6 +13,7 @@ def apache_commons_commons_beanutils_version = '1.9.2'
 def spring_rest_docs_version = '1.0.1.RELEASE'
 def servlet_api_version = '3.1.0'
 def jackson_version = '2.6.5'
+def jjwt_version = '0.6.0'
 def guava_version = '19.0'
 def javax_el_version = '2.2'
 def sourceVersion = '0.0.1-SNAPSHOT'
@@ -36,6 +38,9 @@ ext {
     spring_mvc = "org.springframework:spring-webmvc:$spring_version"
     spring_test = "org.springframework:spring-test:$spring_version"
     spring_rest_docs = "org.springframework.restdocs:spring-restdocs-mockmvc:$spring_rest_docs_version"
+    spring_security_core = "org.springframework.security:spring-security-core:$spring_security_version"
+    spring_security_config = "org.springframework.security:spring-security-config:$spring_security_version"
+    spring_security_web = "org.springframework.security:spring-security-web:$spring_security_version"
     postgres_jdbc_driver = "org.postgresql:postgresql:$postgres_version"
     apache_commons_lang = "org.apache.commons:commons-lang3:$apache_commons_lang_version"
     apache_commons_collections4 = "org.apache.commons:commons-collections4:$apache_commons_collections_version"
