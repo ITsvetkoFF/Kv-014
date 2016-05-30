@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * This class provides a skeletal implementation of common basic operations for REST controllers
+ *
  * @author Vadym Holub
  */
 public abstract class AbstractRestController<Dto extends BaseDto, Entity extends BaseEntity> {
@@ -40,28 +42,23 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
         return new Error(exception);
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public Dto getById(@PathVariable Long id) {
         return converter.convertToDto(getService().findOne(id, entityType));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
     public List<Dto> getAll() {
         return converter.convertToDto(getService().findAll(entityType));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
     public Dto create(@RequestBody Dto dto) {
         return converter.convertToDto(getService().save(converter.convertToEntity(dto)));
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
     public Dto update(@RequestBody Dto dto, @PathVariable Long id) {
         dto.setId(id);
         return converter.convertToDto(getService().update(converter.convertToEntity(dto)));
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable Long id) {
         getService().delete(id, entityType);
         return ResponseEntity.ok().build();
