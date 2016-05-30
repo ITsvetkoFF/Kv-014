@@ -1,7 +1,11 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Family;
+import edu.softserve.zoo.annotation.Dto;
+
 import java.util.Objects;
 
+@Dto(Family.class)
 public class FamilyDto extends BaseDto {
     private String name;
     private AnimalClassDto animalClass;

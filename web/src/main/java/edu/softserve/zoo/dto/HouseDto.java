@@ -1,7 +1,11 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.annotation.Dto;
+
 import java.util.Objects;
 
+@Dto(House.class)
 public class HouseDto extends BaseDto {
     private ZooZoneDto zone;
     private Integer maxCapacity;

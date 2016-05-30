@@ -1,9 +1,13 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.model.Employee;
+import edu.softserve.zoo.annotation.Dto;
+
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
+@Dto(Employee.class)
 public class EmployeeDto extends BaseDto {
     private String firstName;
     private String lastName;

@@ -1,9 +1,11 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.model.Warehouse;
+import edu.softserve.zoo.annotation.Dto;
 
 import java.util.Objects;
 
+@Dto(Warehouse.class)
 public class WarehouseDto extends BaseDto {
     private Warehouse.Supply supply;
     private Integer amount;

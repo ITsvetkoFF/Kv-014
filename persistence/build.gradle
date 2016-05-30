@@ -7,5 +7,4 @@ dependencies {
     compile postgres_jdbc_driver
     testCompile spring_test
     testCompile hsqldb
-
 }
