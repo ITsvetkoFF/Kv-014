@@ -7,4 +7,5 @@ public interface Routes {
     String SPECIES = API_V1 + "/species";
     String HOUSES = API_V1 + "/houses";
     String WAREHOUSES = API_V1 + "/warehouses";
+    String EMPLOYEES = API_V1 + "/employees";
 }

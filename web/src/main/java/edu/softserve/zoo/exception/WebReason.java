@@ -8,7 +8,8 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
 public enum WebReason implements ExceptionReason {
     MAPPING_STRATEGY_NOT_FOUND("Service unavailable"),
     MAPPING_TO_DTO_FAILED("Service unavailable"),
-    MAPPING_TO_ENTITY_FAILED("Service unavailable");
+    MAPPING_TO_ENTITY_FAILED("Service unavailable"),
+    ENUM_MAPPING_FAILED("Service unavailable");
 
     private final String message;
 

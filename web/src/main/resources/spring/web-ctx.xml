@@ -26,5 +26,5 @@
         <property name="defaultContentType" value="application/json"/>
     </bean>
 
-    <context:component-scan base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter"/>
+    <context:component-scan base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter, edu.softserve.zoo.advice"/>
 </beans>
