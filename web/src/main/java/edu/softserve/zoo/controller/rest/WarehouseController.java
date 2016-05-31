@@ -47,7 +47,4 @@ public class WarehouseController extends AbstractRestController<WarehouseDto, Wa
         return super.update(dto, id);
     }
 
-
-
-
 }
