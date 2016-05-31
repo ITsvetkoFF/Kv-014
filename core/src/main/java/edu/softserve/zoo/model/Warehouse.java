@@ -3,8 +3,10 @@ package edu.softserve.zoo.model;
 import java.util.Objects;
 
 public class Warehouse extends BaseEntity {
+
     private Supply supply;
     private Integer amount;
+    private Integer maxCapacity;
 
     public Warehouse() {
     }
@@ -25,12 +27,21 @@ public class Warehouse extends BaseEntity {
         this.amount = amount;
     }
 
+    public Integer getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(Integer maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
     @Override
     public String toString() {
         return "Warehouse{" +
                 "id=" + getId() +
                 ", supply=" + supply +
                 ", amount=" + amount +
+                ", maxCapacity=" + maxCapacity +
                 '}';
     }
 
@@ -40,15 +51,17 @@ public class Warehouse extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         Warehouse warehouse = (Warehouse) o;
         return supply == warehouse.supply &&
-                Objects.equals(amount, warehouse.amount);
+                Objects.equals(amount, warehouse.amount) &&
+                Objects.equals(maxCapacity, warehouse.maxCapacity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(supply, amount);
+        return Objects.hash(supply, amount, maxCapacity);
     }
 
     public enum Supply {
         MEDICINE, FOOD
     }
+
 }

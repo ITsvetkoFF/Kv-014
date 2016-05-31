@@ -116,22 +116,25 @@ COMMENT ON TABLE ZOO.HOUSES IS 'CONTAINERS IN ZOO ZONES WHERE ANUMALS ARE PLACED
 COMMENT ON COLUMN ZOO.HOUSES.ID IS 'Id of a ZOO zone that a house is positioned in';
 COMMENT ON COLUMN ZOO.HOUSES.NAME IS 'House name';
 COMMENT ON COLUMN ZOO.HOUSES.MAX_CAPACITY IS 'Maximum number of animals that a house can contain';
---END OF HOUSES -----------------------------------------------------------------------------------------------
+-- END OF HOUSES -----------------------------------------------------------------------------------------------
 -- +++++++++++++++END OF HOUSE OBJECTS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
--- +++++++++++++++WAREHOUSE OBJECTS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-- +++++++++++++++WAREHOUSES OBJECTS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- WAREHOUSES (CONTAINS SUPPLIES: MEDICINE, FOOD)--------------------------------------------------
-CREATE TABLE IF NOT EXISTS ZOO.WAREHOUSE (
-  ID          BIGINT PRIMARY KEY NOT NULL,
-  SUPPLY_NAME VARCHAR(50)         NOT NULL,
-  AMOUNT      INTEGER                 NOT NULL CHECK (AMOUNT >= 0) DEFAULT 0
+CREATE TABLE IF NOT EXISTS ZOO.WAREHOUSES (
+  ID          	BIGINT PRIMARY KEY 	NOT NULL,
+  SUPPLY_NAME 	VARCHAR(50)        	NOT NULL,
+  AMOUNT      	INTEGER            	NOT NULL CHECK (AMOUNT >= 0) DEFAULT 0,
+  MAX_CAPACITY 	INTEGER			   	    NOT NULL CHECK (MAX_CAPACITY >= 0) DEFAULT 0
 );
-COMMENT ON TABLE ZOO.WAREHOUSE IS 'SUPPLIES CONTAINER: MEDICINE, FOOD';
-COMMENT ON COLUMN ZOO.WAREHOUSE.ID IS 'SUPPLY ID';
-COMMENT ON COLUMN ZOO.WAREHOUSE.SUPPLY_NAME IS 'SUPPLY NAME(MEDICINE, FOOD)';
---END OF WAREHOUSE -----------------------------------------------------------------------------------------------
--- +++++++++++++++END OF WAREHOUSE OBJECTS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+COMMENT ON TABLE ZOO.WAREHOUSES IS 'SUPPLIES CONTAINER: MEDICINE, FOOD';
+COMMENT ON COLUMN ZOO.WAREHOUSES.ID IS 'SUPPLY ID';
+COMMENT ON COLUMN ZOO.WAREHOUSES.SUPPLY_NAME IS 'SUPPLY NAME(MEDICINE, FOOD)';
+COMMENT ON COLUMN ZOO.WAREHOUSES.AMOUNT IS 'ACTUAL SUPPLY AMOUNT';
+COMMENT ON COLUMN ZOO.WAREHOUSES.MAX_CAPACITY IS 'MAXIMUM SUPPLY AMOUNT';
+-- END OF WAREHOUSES -----------------------------------------------------------------------------------------------
+-- +++++++++++++++END OF WAREHOUSES OBJECTS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 -- +++++++++++++++ANIMALS OBJECTS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
