@@ -13,10 +13,9 @@
         <intercept-url pattern="/api/v1/employees*" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="/api/v1/login" access="permitAll"/>
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/api/v1/user" access="isAuthenticated()"/>
+        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
     </http>
-
-    <global-method-security secured-annotations="enabled"/>
 
     <beans:bean id="authTokenFilter" class="edu.softserve.zoo.web.security.AuthTokenFilter">
         <beans:property name="authenticationManager" ref="authenticationManager"/>

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
+ * Represents an {@link edu.softserve.zoo.model.Employee} for security mechanisms.
  * @author Ilya Doroshenko
  */
 public class AuthUserDetails implements UserDetails {

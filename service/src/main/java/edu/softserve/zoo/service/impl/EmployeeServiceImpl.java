@@ -1,13 +1,5 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.Employee;
-import edu.softserve.zoo.persistence.repository.EmployeeRepository;
-import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Employee;

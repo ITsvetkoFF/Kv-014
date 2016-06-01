@@ -1,5 +1,7 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.converter.ModelConverter;
+import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,20 @@ public class UserController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    protected ModelConverter converter;
+
     /**
      * Handles the request for info about currently authenticated user
      * @return current user
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Employee getUser() {
+    public EmployeeDto getUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
 
         Employee employee = employeeService.getEmployeeByEmail(email);
 
-        /*todo: employeeDTO*/
-        return employee;
+        return converter.convertToDto(employee);
     }
 }

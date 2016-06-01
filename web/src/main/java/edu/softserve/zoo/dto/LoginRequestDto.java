@@ -1,10 +1,13 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.IrrespectiveDto;
+
 /**
  * Represents information passed by a user during login attempt.
  *
  * @author Ilya Doroshenko
  */
+@IrrespectiveDto
 public class LoginRequestDto {
     private String username;
     private String password;

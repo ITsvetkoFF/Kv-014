@@ -1,10 +1,13 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.IrrespectiveDto;
+
 /**
  * Represents remember-me token returned to user after successful login attempt.
  *
  * @author Ilya Doroshenko
  */
+@IrrespectiveDto
 public class LoginResponseDto {
 
     private String token;

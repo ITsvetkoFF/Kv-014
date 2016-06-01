@@ -47,7 +47,17 @@ public class Role extends BaseEntity {
     }
 
     public enum Type {
-        VISITOR, EMPLOYEE, MANAGER, ADMIN;
+        VISITOR("ROLE_VISITOR"), EMPLOYEE("ROLE_EMPLOYEE"), MANAGER("ROLE_MANAGER"), ADMIN("ROLE_ADMIN");
+
+        private String securityAlias;
+
+        private Type(String securityAlias) {
+            this.securityAlias = securityAlias;
+        }
+
+        public String getSecurityAlias() {
+            return securityAlias;
+        }
 
         @Override
         public String toString() {
