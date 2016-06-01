@@ -8,6 +8,7 @@ import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,6 +35,10 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     @Override
     public T findOne(Specification<T> specification) {
         return persistenceProvider.findOne(specification);
+    }
+    @Override
+    public Long count(Class<T> type) {
+        return (Long) persistenceProvider.find(new CountSpecification<>(type)).get(0);
     }
 
     /**

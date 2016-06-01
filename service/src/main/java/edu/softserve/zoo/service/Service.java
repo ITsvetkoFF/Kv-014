@@ -15,6 +15,8 @@ public interface Service<T extends BaseEntity> {
      */
     T findOne(Long id);
 
+    Long count();
+
     List<T> findAll();
 
     T save(T entity);

@@ -13,6 +13,7 @@ public interface Routes {
     String ANIMAL_CLASSES = API_V1 + "/animal-classes";
     String FAMILIES = API_V1 + "/families";
     String TASKS = API_V1 + "/tasks";
+    String STAT = API_V1 + "/statistics";
 
     String USER = API_V1 + "/user";
     String LOGIN = API_V1 + "/login";

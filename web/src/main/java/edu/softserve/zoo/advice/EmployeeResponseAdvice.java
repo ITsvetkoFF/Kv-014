@@ -41,6 +41,8 @@ public class EmployeeResponseAdvice implements ResponseBodyAdvice<Object> {
             employees = Stream.of(body);
         }
         employees.forEach(o -> {
+            if (!(o instanceof EmployeeDto)) // bad but working way to avoid direct cast to AnimalDto
+                return;
             EmployeeDto dto = (EmployeeDto) o;
             Set<String> roles = dto.getRoles().stream().map(role -> ((RoleDto) role).getType().toString())
                     .collect(Collectors.toSet());
