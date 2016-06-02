@@ -1,5 +1,6 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsDescription;
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -7,6 +8,7 @@ import java.util.Objects;
 
 @Dto(GeographicalZone.class)
 public class GeographicalZoneDto extends BaseDto {
+    @DocsDescription("The region name")
     private String regionName;
 
     public String getRegionName() {

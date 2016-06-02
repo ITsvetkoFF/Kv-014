@@ -1,5 +1,7 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsDescription;
+import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.annotation.Dto;
 import edu.softserve.zoo.model.Warehouse;
 
@@ -7,9 +9,12 @@ import java.util.Objects;
 
 @Dto(Warehouse.class)
 public class WarehouseDto extends BaseDto {
+    @DocsDescription("Supply type")
 
     private Warehouse.Supply supply;
+    @DocsDescription("The amount")
     private Integer amount;
+    @DocsDescription("The max capacity")
     private Integer maxCapacity;
 
     public WarehouseDto() {

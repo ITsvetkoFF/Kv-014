@@ -1,3 +1,6 @@
+plugins {
+    id "org.asciidoctor.convert" version "1.5.2"
+}
 apply plugin: 'war'
 dependencies {
     compile project(':service')
@@ -7,4 +10,32 @@ dependencies {
     compile apache_commons_collections4
     compile apache_commons_commons_beanutils
     testCompile spring_test
+    testCompile spring_rest_docs
+    testCompile hsqldb
+}
+
+jar {
+    baseName = 'person-service'
+    version = '0.0.1-SNAPSHOT'
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+
+test {
+    outputs.dir snippetsDir
+}
+
+
+asciidoctor {
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+    outputDir "build/asciidoc"
+    dependsOn test
+    sourceDir 'src/test/asciidoc'
 }

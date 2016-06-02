@@ -5,6 +5,7 @@
        profile="test">
 
     <import resource="classpath:spring/web-common-ctx.xml"/>
-    <!-- We should include this one when we will need interaction with service layer -->
-    <!--<import resource="classpath:spring/service-test-ctx.xml"/>-->
+    <import resource="classpath:spring/service-test-ctx.xml"/>
+    <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean id="parameterNameDiscoverer" class="org.springframework.core.DefaultParameterNameDiscoverer"/>
 </beans>

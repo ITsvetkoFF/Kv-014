@@ -1,0 +1,75 @@
+= Zoo geo zones REST API
+Taras Zubrei;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+RESTful API for zoo geo zones
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+Geo zones controller tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PATCH`
+| Used to update an existing resource, including partial updates
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+Geo zones controller tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `404 Not Found`
+| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+|===
+
+[[resources]]
+= Resources
+
+
+[[resources-geozones]]
+== Geographical Zone
+The GeographicalZone resource is used to create, modify and list geo zones.
+
+
+[[resource-zones-get]]
+=== Get all zones
+A `GET` request lists all of the geo zones.
+
+==== Response fields
+
+include::{snippets}/get/api/v1/geo_zones/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/get/api/v1/geo_zones/curl-request.adoc[]
+
+==== Example response
+include::{snippets}/get/api/v1/geo_zones/http-response.adoc[]

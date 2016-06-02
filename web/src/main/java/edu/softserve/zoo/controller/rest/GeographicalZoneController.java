@@ -1,6 +1,7 @@
 package edu.softserve.zoo.controller.rest;
 
 
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.GeographicalZoneDto;
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.service.GeographicalZoneService;
@@ -31,6 +32,7 @@ public class GeographicalZoneController extends AbstractRestController<Geographi
         return geographicalZoneService;
     }
 
+    @DocsTest
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<GeographicalZoneDto> getAll() {

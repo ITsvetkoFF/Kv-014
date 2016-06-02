@@ -1,20 +1,30 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsDescription;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.annotation.Dto;
 
+import javax.annotation.processing.SupportedAnnotationTypes;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Dto(Animal.class)
 public class AnimalDto extends BaseDto {
+    @DocsDescription("The nickname")
     private String nickname;
+    @DocsDescription("All species")
     private SpeciesDto species;
+    @DocsDescription("The house")
     private HouseDto house;
+    @DocsDescription("The birthday")
     private LocalDate birthday;
+    @DocsDescription("The min temperature")
     private Integer temperatureMin;
+    @DocsDescription("The max temperature")
     private Integer temperatureMax;
+    @DocsDescription("The count od animals per house")
     private Integer animalsPerHouse;
+    @DocsDescription("The food consumption")
     private Integer foodConsumption;
 
     public AnimalDto() {

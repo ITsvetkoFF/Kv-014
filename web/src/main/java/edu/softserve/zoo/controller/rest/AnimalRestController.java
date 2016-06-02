@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.AnimalDto;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.service.AnimalService;
@@ -29,12 +30,14 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
         return animalService;
     }
 
+    @DocsTest
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<AnimalDto> getAll() {
         return super.getAll();
     }
 
+    @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @Override
     public AnimalDto getById(@PathVariable Long id) {
@@ -53,18 +56,20 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
         return super.update(dto, id);
     }
 
+    @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @Override
     public ResponseEntity delete(@PathVariable Long id) {
         return super.delete(id);
     }
 
+    @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/house/{id}", method = RequestMethod.GET)
     public List<AnimalDto> getAllByHouseId(@PathVariable Long id) {
         List<Animal> allByHouseId = animalService.getAllByHouseId(id);
         return converter.convertToDto(allByHouseId);
     }
-
+    @DocsTest(pathParameters = "161130")
     @RequestMapping(path = "/species/{id}", method = RequestMethod.GET)
     public List<AnimalDto> getAllBySpeciesId(@PathVariable Long id) {
         List<Animal> allBySpeciesId = animalService.getAllBySpeciesId(id);

@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.HouseDto;
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.service.HouseService;
@@ -28,6 +29,7 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         return houseService;
     }
 
+    @DocsTest
     @Override
     @RequestMapping(method = RequestMethod.GET)
     public List<HouseDto> getAll() {

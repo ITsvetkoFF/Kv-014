@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.SpeciesDto;
 import edu.softserve.zoo.model.Species;
 import edu.softserve.zoo.service.Service;
@@ -30,6 +31,7 @@ public class SpeciesRestController extends AbstractRestController<SpeciesDto, Sp
         return speciesService;
     }
 
+    @DocsTest
     @Override
     @RequestMapping(method = RequestMethod.GET)
     public List<SpeciesDto> getAll() {
