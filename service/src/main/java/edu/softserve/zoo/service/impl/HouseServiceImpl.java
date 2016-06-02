@@ -1,11 +1,18 @@
 package edu.softserve.zoo.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.persistence.repository.HouseRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
+import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.specification.impl.HouseSpecification;
 import edu.softserve.zoo.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of {@link HouseService} logic for {@link House} entity
@@ -18,9 +25,18 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     @Autowired
     private HouseRepository repository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     Repository<House> getRepository() {
         return repository;
+    }
+
+    @Override
+    @Transactional
+    public List<House> find(Map<String,String> filter) {
+        HouseSpecification specification = objectMapper.convertValue(filter, HouseSpecification.class);
+        return repository.find(specification);
     }
 }

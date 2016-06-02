@@ -2,14 +2,18 @@ package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.dto.HouseDto;
 import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.persistence.specification.impl.HouseSpecification;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static edu.softserve.zoo.controller.rest.Routes.HOUSES;
 
@@ -34,9 +38,9 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         return houseService;
     }
 
-    @Override
     @RequestMapping(method = RequestMethod.GET)
-    public List<HouseDto> getAll() {
-        return super.getAll();
+    public List<HouseDto> getHousesFiltered(@RequestParam Map<String,String> allRequestParams) {
+        List<House> result = houseService.find(allRequestParams);
+        return converter.convertToDto(result);
     }
 }
