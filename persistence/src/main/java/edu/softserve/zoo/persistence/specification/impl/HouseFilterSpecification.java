@@ -1,8 +1,6 @@
 package edu.softserve.zoo.persistence.specification.impl;
 
 import edu.softserve.zoo.model.House;
-import edu.softserve.zoo.model.ZooZone;
-import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -10,22 +8,23 @@ import org.hibernate.criterion.Restrictions;
 /**
  * @author Ilya Doroshenko
  */
-public class HouseSpecification implements DetachedCriteriaSpecification<House> {
-    private static final String ZONE_ID = "zone.id";
-    private static final String MAX_CAPACITY = "maxCapacity";
+public class HouseFilterSpecification implements DetachedCriteriaSpecification<House> {
+    private static final String ZONE_ID_FIELD = "zone.id";
+    private static final String MAX_CAPACITY_FIELD = "maxCapacity";
 
+    /* Filtering parameters. Ignored if null */
     private Long zoneId;
     private Integer maxCapacity;
 
-    public HouseSpecification() {
+    public HouseFilterSpecification() {
     }
 
     @Override
     public DetachedCriteria query() {
         DetachedCriteria criteria = DetachedCriteria.forClass(House.class);
 
-        addRestrictionIfNotNull(criteria, MAX_CAPACITY, maxCapacity);
-        addRestrictionIfNotNull(criteria, ZONE_ID, zoneId);
+        addRestrictionIfNotNull(criteria, MAX_CAPACITY_FIELD, maxCapacity);
+        addRestrictionIfNotNull(criteria, ZONE_ID_FIELD, zoneId);
 
         return criteria;
     }

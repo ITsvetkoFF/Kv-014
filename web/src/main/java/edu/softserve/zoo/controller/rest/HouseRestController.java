@@ -2,7 +2,6 @@ package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.dto.HouseDto;
 import edu.softserve.zoo.model.House;
-import edu.softserve.zoo.persistence.specification.impl.HouseSpecification;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

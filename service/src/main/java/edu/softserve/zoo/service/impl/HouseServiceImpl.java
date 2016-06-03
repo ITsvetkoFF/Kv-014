@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.persistence.repository.HouseRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.impl.HouseSpecification;
+import edu.softserve.zoo.persistence.specification.impl.HouseFilterSpecification;
 import edu.softserve.zoo.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,8 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
 
     @Override
     @Transactional
-    public List<House> find(Map<String,String> filter) {
-        HouseSpecification specification = objectMapper.convertValue(filter, HouseSpecification.class);
+    public List<House> find(Map<String, String> filter) {
+        HouseFilterSpecification specification = objectMapper.convertValue(filter, HouseFilterSpecification.class);
         return repository.find(specification);
     }
 }
