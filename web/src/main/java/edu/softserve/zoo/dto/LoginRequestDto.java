@@ -15,11 +15,6 @@ public class LoginRequestDto {
     public LoginRequestDto() {
     }
 
-    public LoginRequestDto(String username, String password) {
-        this.setUsername(username);
-        this.setPassword(password);
-    }
-
     public String getUsername() {
         return this.username;
     }

@@ -1,13 +1,14 @@
 package edu.softserve.zoo.web.security;
 
+import edu.softserve.zoo.service.security.AuthUserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -19,13 +20,15 @@ import java.io.IOException;
 
 
 /**
- * Filter which intercepts all request for routes that require authentification.
- * Checks the validity of the remember-me token and authentificate user for current request.
+ * Filter which intercepts all request for routes that require authentication.
+ * Checks the validity of the remember-me token and authenticate user for current request.
  *
  * @author Ilya Doroshenko
  */
 @Component
 public class AuthTokenFilter extends UsernamePasswordAuthenticationFilter {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -37,7 +40,7 @@ public class AuthTokenFilter extends UsernamePasswordAuthenticationFilter {
     private String tokenHeader;
 
     /**
-     * {@inheritDoc}
+     * Intercepts requests which require authentication.
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -48,13 +51,21 @@ public class AuthTokenFilter extends UsernamePasswordAuthenticationFilter {
         String username = tokenUtils.getUsernameFromToken(authToken);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            AuthUserDetails userDetails = (AuthUserDetails) userDetailsService.loadUserByUsername(username);
 
             if (tokenUtils.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+
+                /* Setting currently authenticated user */
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                LOGGER.info("User #{} is authenticated through the token", userDetails.getId());
+                LOGGER.debug(" -- His authorities are: {}", userDetails.getAuthorities());
+            } else {
+
+                LOGGER.warn("Auth token filter encountered invalid token for user: {}", username);
             }
         }
         chain.doFilter(request, response);

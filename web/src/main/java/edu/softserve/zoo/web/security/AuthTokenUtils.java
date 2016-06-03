@@ -4,13 +4,16 @@ import edu.softserve.zoo.service.security.AuthUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 /**
  * Utility class for maintaining remember-me token.
@@ -20,39 +23,45 @@ import java.util.Map;
 @Component
 public class AuthTokenUtils {
 
-    private final static String CLAIM_USER = "sub";
-    private final static String CLAIM_CREATED = "created";
-
-    @Value("${token.secret}")
-    private String secret;
-
     @Value("${token.expiration}")
     private Long expiration;
 
-    public AuthTokenUtils() {
+    private Key key;
+
+    @PostConstruct
+    private void initSecretKey() {
+        key = MacProvider.generateKey();
     }
 
     /**
      * Validates token against given {@link UserDetails}
-     * @param token token to validate
+     *
+     * @param token       token to validate
      * @param userDetails info about the user token is associated with
-     * @return
+     * @return true if token is valid
      */
     public Boolean validateToken(String token, UserDetails userDetails) {
         AuthUserDetails user = (AuthUserDetails) userDetails;
-        String username = this.getUsernameFromToken(token);
-        return (username.equals(user.getUsername()) && !(isExpired(token)));
+        Claims claims = getClaimsFromToken(token);
+
+        String tokenId = claims.getId();
+        String username = claims.getSubject();
+
+        return (username.equals(user.getUsername())
+                && !(isExpired(token))
+                && tokenId.equals(user.getToken()));
     }
 
     /**
-     * Extracts username from the specifed token.
+     * Extracts username from the specified token.
+     *
      * @param token token to extract username from
      * @return username specified in a token
      */
     public String getUsernameFromToken(String token) {
         String username;
         try {
-            final Claims claims = getClaimsFromToken(token);
+            Claims claims = getClaimsFromToken(token);
             username = claims.getSubject();
         } catch (Exception e) {
             username = null;
@@ -61,22 +70,35 @@ public class AuthTokenUtils {
     }
 
     /**
+     * Extracts token ID from the specified token.
+     *
+     * @param token token to extract ID from
+     * @return ID of a token
+     */
+    public String getIdFromToken(String token) {
+        String id;
+        try {
+            Claims claims = getClaimsFromToken(token);
+            id = claims.getId();
+        } catch (Exception e) {
+            id = null;
+        }
+        return id;
+    }
+
+    /**
      * Generates token for specified {@link UserDetails}
+     *
      * @param userDetails user info container
      * @return valid token
      */
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put(CLAIM_USER, userDetails.getUsername());
-        claims.put(CLAIM_CREATED, this.generateCurrentDate());
-        return generateToken(claims);
-    }
-
-    private String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(this.generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(generateCurrentDate())
+                .setExpiration(generateExpirationDate())
+                .setId(UUID.randomUUID().toString())
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
@@ -84,10 +106,10 @@ public class AuthTokenUtils {
         Claims claims;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(this.secret)
+                    .setSigningKey(key)
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception e) {
+        } catch (SignatureException e) {
             claims = null;
         }
         return claims;
@@ -110,7 +132,7 @@ public class AuthTokenUtils {
         Date created;
         try {
             final Claims claims = this.getClaimsFromToken(token);
-            created = new Date((Long) claims.get(CLAIM_CREATED));
+            created = claims.getIssuedAt();
         } catch (Exception e) {
             created = null;
         }

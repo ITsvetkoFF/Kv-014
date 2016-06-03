@@ -6,7 +6,6 @@ import edu.softserve.zoo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Serves for loading {@link Employee} authentification info for security mechanism.
+ * Serves for loading {@link Employee} authentication info for security mechanism.
  *
  * @author Ilya Doroshenko
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    private static final String ROLE_PREFIX = "ROLE_";
 
     @Autowired
     private EmployeeService employeeService;
@@ -28,13 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * Creates {@link AuthUserDetails} from the loaded by specified username {@link Employee}
      *
      * @param username the email of an employee
-     * @return populated {@link UserDetails} for authentification mechanism.
+     * @return populated {@link AuthUserDetails} for authentication mechanism.
      */
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public AuthUserDetails loadUserByUsername(String username) {
         Employee employee = employeeService.getEmployeeByEmail(username);
         Set<GrantedAuthority> authorities = mapRolesToGrantedAuthorities(employee.getRoles());
-        return new AuthUserDetails(employee.getEmail(), employee.getPassword(), employee.isEnabled(), authorities);
+        return new AuthUserDetails(employee.getId(), employee.getEmail(), employee.getPassword(),
+                employee.isEnabled(), employee.getToken(), authorities);
     }
 
     /**
@@ -45,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     private Set<GrantedAuthority> mapRolesToGrantedAuthorities(Set<Role> roles) {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getType().getSecurityAlias()))
+                .map(role -> new SimpleGrantedAuthority(ROLE_PREFIX + role.getType().name()))
                 .collect(Collectors.toSet());
     }
 }

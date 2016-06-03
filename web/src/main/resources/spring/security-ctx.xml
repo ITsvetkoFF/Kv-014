@@ -12,7 +12,8 @@
         <intercept-url pattern="/api/v1/employees*" method="GET" access="hasAnyRole('ROLE_MANAGER,ROLE_ADMIN')"/>
         <intercept-url pattern="/api/v1/employees*" access="hasRole('ROLE_ADMIN')"/>
 
-        <intercept-url pattern="/api/v1/login" access="permitAll"/>
+        <intercept-url pattern="/api/v1/login" access="isAnonymous()"/>
+        <intercept-url pattern="/api/v1/logout" access="isAuthenticated()"/>
         <intercept-url pattern="/api/v1/user" access="isAuthenticated()"/>
         <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
     </http>

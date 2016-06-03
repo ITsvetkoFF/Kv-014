@@ -15,6 +15,7 @@ public class Employee extends BaseEntity {
     private String email;
     private String password;
     private boolean enabled;
+    private String token;
     private Set<Role> roles;
 
     public Employee() {
@@ -83,6 +84,14 @@ public class Employee extends BaseEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

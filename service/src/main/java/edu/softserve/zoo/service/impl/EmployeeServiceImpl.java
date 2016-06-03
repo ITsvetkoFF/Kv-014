@@ -38,19 +38,15 @@ public class EmployeeServiceImpl extends AbstractService<Employee> implements Em
     @Transactional
     public Employee save(Employee entity) {
         String encodedPassword = passwordEncoder.encode(entity.getPassword());
-        String upperCaseEmail = entity.getEmail().toUpperCase(Locale.ROOT);
         entity.setPassword(encodedPassword);
-        entity.setEmail(upperCaseEmail);
         return super.save(entity);
     }
 
     @Override
     @Transactional
     public Employee update(Employee entity) {
-        String upperCaseEmail = entity.getEmail().toUpperCase(Locale.ROOT);
-        String encodedPassword = passwordEncoder.encode(entity.getPassword());
-        entity.setPassword(encodedPassword);
-        entity.setEmail(upperCaseEmail);
+        /*String encodedPassword = passwordEncoder.encode(entity.getPassword());
+        entity.setPassword(encodedPassword);*/
         return super.update(entity);
     }
 
