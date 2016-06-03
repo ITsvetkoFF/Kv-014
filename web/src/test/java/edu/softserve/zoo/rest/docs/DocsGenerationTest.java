@@ -82,6 +82,7 @@ public class DocsGenerationTest {
                 .apply(documentationConfiguration(this.restDocumentation))
                 .build();
     }
+
     private RestDocumentationResultHandler documentPrettyPrintReqResp(String useCase) {
         return document(useCase,
                 preprocessRequest(prettyPrint()),
@@ -98,9 +99,9 @@ public class DocsGenerationTest {
                         .collect(Collectors.toList())) {
 
             final RequestMethod requestMethod = mapping.getKey().getMethodsCondition().getMethods().stream().findFirst().get();
-            if (! Arrays.asList(RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PATCH,
+            if (!Arrays.asList(RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PATCH,
                     RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
-                return;
+                return; //TODO: throw Exception
 
             final ParameterDescriptor[] pathParameters = Arrays.stream(mapping.getValue().getMethodParameters())
                     .map(parameter -> {
@@ -114,10 +115,9 @@ public class DocsGenerationTest {
             Type generic = mapping.getValue().getMethod().getGenericReturnType();
             Class dtoClass;
             if (generic instanceof ParameterizedType) {
-                dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0];
+                dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0]; //TODO: Reflection Utils in Spring
                 isArray = true;
-            }
-            else
+            } else
                 dtoClass = (Class) generic;
 
             List<Field> fields = new LinkedList<>(Arrays.asList(dtoClass.getDeclaredFields()));
@@ -126,13 +126,13 @@ public class DocsGenerationTest {
             }
 
             boolean finalIsArray = isArray;
-            final FieldDescriptor[] responseFields =  !ResponseEntity.class.equals(dtoClass) ? fields.stream()
+            final FieldDescriptor[] responseFields = !ResponseEntity.class.equals(dtoClass) ? fields.stream()
                     .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsDescription.class))) //TODO: AntiVandal tests
-                    .map(pair -> fieldWithPath( (finalIsArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
+                    .map(pair -> fieldWithPath((finalIsArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
             System.out.println("return = " + dtoClass);
             final String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
-            System.out.println(requestMethod+": "+path);
+            System.out.println(requestMethod + ": " + path);
 
             Optional<MethodParameter> methodParameter = Arrays.stream(mapping.getValue().getMethodParameters())
                     .filter(parameter -> parameter.getParameterAnnotation(RequestBody.class) != null)
@@ -155,12 +155,12 @@ public class DocsGenerationTest {
                 document.snippets(requestFields(requestFields));
 
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
-            final Method httpMethod = RestDocumentationRequestBuilders.class.getMethod(requestMethod.toString().toLowerCase(), String.class,Object[].class);
+            final Method httpMethod = RestDocumentationRequestBuilders.class.getMethod(requestMethod.toString().toLowerCase(), String.class, Object[].class);
             if (requestMethod == RequestMethod.GET || requestMethod == RequestMethod.DELETE) {
                 this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
-                        .andDo(document);
+                        .andDo(document); //TODO: get out movkMvc and replace with own docs generation
             }
         }
     }
