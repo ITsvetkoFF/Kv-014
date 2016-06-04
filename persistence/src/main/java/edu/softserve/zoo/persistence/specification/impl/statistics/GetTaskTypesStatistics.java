@@ -1,6 +1,9 @@
 package edu.softserve.zoo.persistence.specification.impl.statistics;
 
+import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.persistence.specification.hibernate.HQLSpecification;
+
+import java.util.Map;
 
 import static edu.softserve.zoo.persistence.specification.impl.Queries.STAT_TASK_TYPE;
 
@@ -9,7 +12,7 @@ import static edu.softserve.zoo.persistence.specification.impl.Queries.STAT_TASK
  *
  * @author Taras Zubrei
  */
-public class GetTaskTypesStatistics implements HQLSpecification {
+public class GetTaskTypesStatistics<T extends Task> implements HQLSpecification<T> {
     private Long id;
 
     public GetTaskTypesStatistics(Long id) {

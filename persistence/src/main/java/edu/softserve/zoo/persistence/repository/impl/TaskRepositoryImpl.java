@@ -21,16 +21,18 @@ import java.util.stream.Collectors;
 @Repository
 public class TaskRepositoryImpl extends AbstractRepository<Task> implements TaskRepository {
     @Autowired
-    private PersistenceProvider persistenceProvider;
+    private PersistenceProvider<Task> persistenceProvider;
 
     @Override
     public TaskStatistics getStatistics(Long employeeId) {
         TaskStatistics statistics = new TaskStatistics();
-        Map<Task.TaskStatus, Long> taskStatuses = ((List<Map>) persistenceProvider.find(new GetTaskStatusesStatistics(employeeId)))
+        Map<Task.TaskStatus, Long> taskStatuses = persistenceProvider.<Map>find(new GetTaskStatusesStatistics<>(employeeId))
                 .stream()
+                .filter(map -> map.containsKey("0") && map.containsKey("1"))
                 .collect(Collectors.toMap(map -> (Task.TaskStatus) map.get("0"), entry -> (Long) entry.get("1")));
-        Map<Task.TaskType, Long> taskTypes = ((List<Map>) persistenceProvider.find(new GetTaskTypesStatistics(employeeId)))
+        Map<Task.TaskType, Long> taskTypes = persistenceProvider.<Map>find(new GetTaskTypesStatistics<>(employeeId))
                 .stream()
+                .filter(map -> map.containsKey("0") && map.containsKey("1"))
                 .collect(Collectors.toMap(map -> (Task.TaskType) map.get("0"), entry -> (Long) entry.get("1")));
         statistics.setTaskStatuses(taskStatuses);
         statistics.setTaskTypes(taskTypes);

@@ -9,7 +9,7 @@ import static edu.softserve.zoo.persistence.specification.impl.Queries.STAT_FED_
  *
  * @author Taras Zubrei
  */
-public class StatisticsGetFedAnimalTasksSpecification implements HQLSpecification {
+public class StatisticsGetFedAnimalTasksSpecification<T> implements HQLSpecification<T> {
     @Override
     public String query() {
         return STAT_FED_ANIMALS;

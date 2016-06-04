@@ -51,7 +51,7 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
 
     @RequestMapping(path="/count", method = RequestMethod.GET)
     public Long count() {
-        return getService().count(entityType);
+        return getService().count();
     }
 
     public Dto getById(@PathVariable Long id) {

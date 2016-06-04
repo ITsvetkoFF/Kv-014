@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface Service<T extends BaseEntity> {
 
+    Long count();
     /**
      * Returns domain object by id from persistent storage
      *

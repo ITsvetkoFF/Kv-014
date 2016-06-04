@@ -28,10 +28,9 @@ public interface Repository<T extends BaseEntity> {
     /**
      * Returns objects count in database for specified type.
      *
-     * @param type type of required entity
      * @return count.
      */
-    Long count(Class<T> type);
+    Long count();
 
     /**
      * Saves the entity into the repository.

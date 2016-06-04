@@ -12,6 +12,7 @@ import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -37,8 +38,9 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
         return persistenceProvider.findOne(specification);
     }
     @Override
-    public Long count(Class<T> type) {
-        return (Long) persistenceProvider.find(new CountSpecification<>(type)).get(0);
+    public Long count() {
+        Class<T> tClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return persistenceProvider.<Long>find(new CountSpecification<>(tClass)).get(0);
     }
 
     /**

@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class StatisticsRepositoryImpl implements StatisticsRepository {
     @Autowired
-    PersistenceProvider persistenceProvider;
+    PersistenceProvider<Long> persistenceProvider;
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
     public Long getFedAnimals() {
-        return  (Long) persistenceProvider.find(new StatisticsGetFedAnimalTasksSpecification()).get(0);
+        return  persistenceProvider.<Long>find(new StatisticsGetFedAnimalTasksSpecification<>()).get(0);
     }
 }
