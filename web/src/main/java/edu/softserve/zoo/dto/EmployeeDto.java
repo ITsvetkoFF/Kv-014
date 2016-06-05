@@ -1,6 +1,6 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.annotation.DocsDescription;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -10,15 +10,15 @@ import java.util.Set;
 
 @Dto(Employee.class)
 public class EmployeeDto extends BaseDto {
-    @DocsDescription("First name")
+    @DocsFieldDescription("First name")
     private String firstName;
-    @DocsDescription("Last name")
+    @DocsFieldDescription("Last name")
     private String lastName;
-    @DocsDescription("The date of employment")
+    @DocsFieldDescription("The date of employment")
     private LocalDate employmentDate;
-    @DocsDescription("E-mail")
+    @DocsFieldDescription("E-mail")
     private String email;
-    @DocsDescription("The roles of employee")
+    @DocsFieldDescription("The roles of employee")
     private Set<Object> roles;
 
     public EmployeeDto() {

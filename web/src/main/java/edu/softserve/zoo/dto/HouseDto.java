@@ -1,6 +1,6 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.annotation.DocsDescription;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -8,11 +8,11 @@ import java.util.Objects;
 
 @Dto(House.class)
 public class HouseDto extends BaseDto {
-    @DocsDescription("The zone")
+    @DocsFieldDescription("The zone")
     private ZooZoneDto zone;
-    @DocsDescription("The name")
+    @DocsFieldDescription("The name")
     private String name;
-    @DocsDescription("The max capacity of house")
+    @DocsFieldDescription("The max capacity of house")
     private Integer maxCapacity;
 
     public HouseDto() {

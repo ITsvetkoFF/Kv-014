@@ -1,6 +1,6 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.annotation.DocsDescription;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.Species;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -9,13 +9,13 @@ import java.util.Set;
 
 @Dto(Species.class)
 public class SpeciesDto extends BaseDto {
-    @DocsDescription("The family")
+    @DocsFieldDescription("The family")
     private FamilyDto family;
-    @DocsDescription("The scientific name")
+    @DocsFieldDescription("The scientific name")
     private String scientificName;
-    @DocsDescription("The common name")
+    @DocsFieldDescription("The common name")
     private String commonName;
-    @DocsDescription("The geographical zones")
+    @DocsFieldDescription(value = "The geographical zones", optional = true)
     private Set<GeographicalZoneDto> geographicalZones;
 
     public SpeciesDto() {

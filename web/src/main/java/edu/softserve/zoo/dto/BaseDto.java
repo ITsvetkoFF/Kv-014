@@ -1,10 +1,10 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.annotation.DocsDescription;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 
 public abstract class BaseDto {
 
-    @DocsDescription("The id")
+    @DocsFieldDescription("The id")
     private Long id;
 
     public Long getId() {

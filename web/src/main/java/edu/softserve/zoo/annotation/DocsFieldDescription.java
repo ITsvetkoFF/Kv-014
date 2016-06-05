@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
  * @author Taras Zubrei
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
-public @interface DocsTest {
-    String[] pathParameters() default {};
+@Target(ElementType.FIELD)
+public @interface DocsFieldDescription {
+    String value();
+    boolean optional() default false;
 }

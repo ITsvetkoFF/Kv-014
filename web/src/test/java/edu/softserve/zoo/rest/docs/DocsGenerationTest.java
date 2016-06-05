@@ -1,9 +1,12 @@
 package edu.softserve.zoo.rest.docs;
 
-import edu.softserve.zoo.annotation.DocsDescription;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
+import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
-import edu.softserve.zoo.dto.AnimalDto;
 import edu.softserve.zoo.dto.BaseDto;
+import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.persistence.WebException;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,6 +28,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
@@ -32,22 +37,17 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,6 +70,8 @@ public class DocsGenerationTest {
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     @Autowired
     private ParameterNameDiscoverer parameterNameDiscoverer;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
 
@@ -101,14 +103,18 @@ public class DocsGenerationTest {
             final RequestMethod requestMethod = mapping.getKey().getMethodsCondition().getMethods().stream().findFirst().get();
             if (!Arrays.asList(RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PATCH,
                     RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
-                return; //TODO: throw Exception
+                throw ApplicationException.getBuilderFor(WebException.class)
+                        .withMessage("Not supported Request Method")
+                        .build();
 
             final ParameterDescriptor[] pathParameters = Arrays.stream(mapping.getValue().getMethodParameters())
+                    .filter(parameter -> parameter.getParameterAnnotation(PathVariable.class) != null)
                     .map(parameter -> {
                         parameter.initParameterNameDiscovery(parameterNameDiscoverer);
                         return parameter;
                     })
-                    .map(parameter -> parameterWithName(parameter.getParameterName()).description("the desc")) //TODO: Get real description
+                    .map(parameter -> new ImmutablePair<>(parameter.getParameterName(), parameter.getParameterAnnotation(DocsParamDescription.class)))
+                    .map(pair -> parameterWithName(pair.left).description(pair.right.value()))
                     .toArray(ParameterDescriptor[]::new);
 
             boolean isArray = false;
@@ -127,7 +133,8 @@ public class DocsGenerationTest {
 
             boolean finalIsArray = isArray;
             final FieldDescriptor[] responseFields = !ResponseEntity.class.equals(dtoClass) ? fields.stream()
-                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsDescription.class))) //TODO: AntiVandal tests
+                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class))) //TODO: AntiVandal tests
+                    .filter(pair -> !pair.right.optional())
                     .map(pair -> fieldWithPath((finalIsArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
             System.out.println("return = " + dtoClass);
@@ -142,7 +149,8 @@ public class DocsGenerationTest {
                     .get()
                     .getParameterType()
                     .getDeclaredFields())
-                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsDescription.class)))
+                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
+                    .filter(pair -> !pair.right.optional())
                     .map(pair -> fieldWithPath(pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
 
@@ -153,15 +161,15 @@ public class DocsGenerationTest {
                 document.snippets(responseFields(responseFields));
             if (requestFields.length > 0)
                 document.snippets(requestFields(requestFields));
+            Method testDto = ReflectionUtils.findMethod(mapping.getValue().getMethod().getDeclaringClass(), "getTestDto"); //TODO: AntiVandal tests for containing getTestDto method in case of using POST, PATCH or PUT
 
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
             final Method httpMethod = RestDocumentationRequestBuilders.class.getMethod(requestMethod.toString().toLowerCase(), String.class, Object[].class);
-            if (requestMethod == RequestMethod.GET || requestMethod == RequestMethod.DELETE) {
-                this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
-                        .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andDo(document); //TODO: get out movkMvc and replace with own docs generation
-            }
+            this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(testDto != null ? objectMapper.writeValueAsString(testDto.invoke(this)): ""))
+                    .andExpect(status().isOk())
+                    .andDo(document);
         }
     }
 

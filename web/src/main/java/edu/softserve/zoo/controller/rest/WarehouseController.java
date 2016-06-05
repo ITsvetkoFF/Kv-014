@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.WarehouseDto;
 import edu.softserve.zoo.model.Warehouse;
@@ -37,12 +38,13 @@ public class WarehouseController extends AbstractRestController<WarehouseDto, Wa
 
     @DocsTest(pathParameters = "1")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public WarehouseDto getById(@PathVariable Long id) {
+    public WarehouseDto getById(@PathVariable @DocsParamDescription("id of warehouse") Long id) {
         return super.getById(id);
     }
 
+    @DocsTest(pathParameters = "1")
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public WarehouseDto update(@RequestBody WarehouseDto dto, @PathVariable Long id) {
+    public WarehouseDto update(@RequestBody WarehouseDto dto, @PathVariable @DocsParamDescription("id of warehouse") Long id) {
         return super.update(dto, id);
     }
 

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author Taras Zubrei
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface DocsDescription {
+@Target(ElementType.PARAMETER)
+public @interface DocsParamDescription {
     String value();
 }

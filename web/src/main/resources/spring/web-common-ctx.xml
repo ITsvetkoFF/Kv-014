@@ -7,11 +7,7 @@
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
-                        <property name="serializationInclusion" value="ALWAYS"/> <!-- TODO: Manage optional fields or always return null -->
-                    </bean>
-                </property>
+                <property name="objectMapper" ref="objectMapper"/>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
@@ -21,7 +17,9 @@
         <property name="defaultContentType" value="application/json"/>
     </bean>
 
-    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+        <property name="serializationInclusion" value="NON_NULL"/>
+    </bean>
 
     <bean id="dtoMapper" class="edu.softserve.zoo.converter.mapping.DtoMapperImpl">
         <property name="dtoPackage" value="edu.softserve.zoo.dto"/>
