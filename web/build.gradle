@@ -35,5 +35,5 @@ asciidoctor {
     inputs.dir snippetsDir
     outputDir "build/asciidoc"
     dependsOn test
-    sourceDir 'src/test/asciidoc'
+    sourceDir 'src/test/resources/asciidoc'
 }

@@ -1,6 +1,7 @@
 package edu.softserve.zoo.rest.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
@@ -8,6 +9,7 @@ import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.WebException;
 import edu.softserve.zoo.util.Validator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,10 +42,15 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,6 +104,61 @@ public class DocsGenerationTest {
 
     @Test
     public void run() throws Exception {
+        StringBuilder documentation = new StringBuilder();
+        documentation.append("= Zoo REST API Documentation\n")
+                .append("Taras Zubrei;\n")
+                .append(":doctype: book\n")
+                .append(":icons: font\n")
+                .append(":source-highlighter: highlightjs\n")
+                .append(":toc: left\n")
+                .append(":toclevels: 4\n")
+                .append(":sectlinks:\n")
+                .append("\n")
+                .append("[introduction]\n")
+                .append("= Introduction\n")
+                .append("\n")
+                .append("RESTful API for zoo\n")
+                .append("\n")
+                .append("[[overview]]\n")
+                .append("= Overview\n")
+                .append("\n")
+                .append("[[overview-http-verbs]]\n")
+                .append("== HTTP verbs\n")
+                .append("All controllers try to adhere as closely as possible to standard HTTP and REST conventions in its\n")
+                .append("use of HTTP verbs.\n")
+                .append("|===\n")
+                .append("| Verb | Usage\n")
+                .append("\n")
+                .append("| `GET`\n")
+                .append("| Used to retrieve a resource\n")
+                .append("\n")
+                .append("| `POST`\n")
+                .append("| Used to create a new resource\n")
+                .append("\n")
+                .append("| `PATCH`\n")
+                .append("| Used to update an existing resource, including partial updates\n")
+                .append("\n")
+                .append("| `DELETE`\n")
+                .append("| Used to delete an existing resource\n")
+                .append("|===\n")
+                .append("\n")
+                .append("[[overview-http-status-codes]]\n")
+                .append("== HTTP status codes\n")
+                .append("All controllers try to adhere as closely as possible to standard HTTP and REST conventions in its\n")
+                .append("use of HTTP status codes.\n")
+                .append("\n")
+                .append("|===\n")
+                .append("| Status code | Usage\n")
+                .append("\n")
+                .append("| `200 OK`\n")
+                .append("| Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action.\n")
+                .append("\n")
+                .append("| `404 Not Found`\n")
+                .append("| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.\n")
+                .append("|===\n")
+                .append("\n")
+                .append("[[resources]]\n")
+                .append("= Resources\n");
         for (Map.Entry<RequestMappingInfo, HandlerMethod> mapping :
                 requestMappingHandlerMapping.getHandlerMethods()
                         .entrySet()
@@ -122,7 +184,7 @@ public class DocsGenerationTest {
                     })
                     .map(parameter -> new ImmutablePair<>(parameter.getParameterName(), parameter.getParameterAnnotation(DocsParamDescription.class)))
                     .map(pair -> {
-                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every Path Variable parameter must be annotated with '"+DocsParamDescription.class.getSimpleName()+"' annotation").build());
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every Path Variable parameter must be annotated with '" + DocsParamDescription.class.getSimpleName() + "' annotation").build());
                         return pair;
                     })
                     .map(pair -> parameterWithName(pair.left).description(pair.right.value()))
@@ -147,7 +209,7 @@ public class DocsGenerationTest {
             final FieldDescriptor[] responseFields = !ResponseEntity.class.equals(dtoClass) ? fields.stream()
                     .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
                     .map(pair -> {
-                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsFieldDescription.class.getSimpleName()+"' annotation").build());
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsFieldDescription.class.getSimpleName() + "' annotation").build());
                         return pair;
                     })
                     .filter(pair -> !pair.right.optional())
@@ -164,14 +226,15 @@ public class DocsGenerationTest {
                     .getDeclaredFields())
                     .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
                     .map(pair -> {
-                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsFieldDescription.class.getSimpleName()+"' annotation").build());
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsFieldDescription.class.getSimpleName() + "' annotation").build());
                         return pair;
                     })
                     .filter(pair -> !pair.right.optional())
                     .map(pair -> fieldWithPath(pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
 
-            RestDocumentationResultHandler document = documentPrettyPrintReqResp(requestMethod.toString().toLowerCase() + path);
+            final String snippetsPath = "/" + requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
+            RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
             if (pathParameters.length > 0)
                 document.snippets(pathParameters(pathParameters));
             if (responseFields.length > 0)
@@ -179,17 +242,52 @@ public class DocsGenerationTest {
             if (requestFields.length > 0)
                 document.snippets(requestFields(requestFields));
             Method testDto = ReflectionUtils.findMethod(mapping.getValue().getMethod().getDeclaringClass(), "getTestDto");
-            if (Arrays.asList(RequestMethod.PATCH,RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
+            if (Arrays.asList(RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
                 Validator.notNull(testDto, ApplicationException.getBuilderFor(WebException.class).withMessage("'getTestDto' method is missing. It is needed for POST, PATCH and PUT").build());
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
-            Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsTest.class.getSimpleName()+"' annotation").build());
-            final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(),String.class, Object[].class);
+            Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsTest.class.getSimpleName() + "' annotation").build());
+            final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(), String.class, Object[].class);
             this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(testDto != null ? objectMapper.writeValueAsString(testDto.invoke(this)): ""))
+                    .content(testDto != null ? objectMapper.writeValueAsString(testDto.invoke(this)) : ""))
                     .andExpect(status().isOk())
                     .andDo(document);
+
+            Class entity = (Class) ((ParameterizedType) mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass()).getActualTypeArguments()[1];
+            DocsClassDescription docsClassDescription = mapping.getValue().getMethod().getDeclaringClass().getAnnotation(DocsClassDescription.class);
+            Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(WebException.class).withMessage("All rest controllers have to be annotated with '" + DocsClassDescription.class.getSimpleName() + "' annotation").build());
+            documentation
+                    .append("\n[[resource-")
+                    .append(entity.getSimpleName())
+                    .append("-")
+                    .append(requestMethod.name().toLowerCase())
+                    .append("]]\n== ")
+                    .append(StringUtils.capitalize(requestMethod.name().toLowerCase()))
+                    .append(" ")
+                    .append(entity.getSimpleName())
+                    .append("\n").append(docsClassDescription.value())
+                    .append("\n");
+            if (pathParameters.length > 0)
+                documentation.append("=== Path parameters\n\ninclude::{snippets}")
+                        .append(snippetsPath)
+                        .append("/path-parameters.adoc[]\n");
+            if (requestFields.length > 0)
+                documentation.append("=== Request fields\n\ninclude::{snippets}")
+                        .append(snippetsPath)
+                        .append("/request-fields.adoc[]\n");
+            if (requestFields.length > 0)
+                documentation.append("=== Response fields\n\ninclude::{snippets}")
+                        .append(snippetsPath)
+                        .append("/response-fields.adoc[]\n");
+            documentation.append("=== Example request\n\ninclude::{snippets}")
+                    .append(snippetsPath)
+                    .append("/curl-request.adoc[]\n");
+            documentation.append("=== Example response\n\ninclude::{snippets}")
+                    .append(snippetsPath)
+                    .append("/http-response.adoc[]\n\n");
         }
+        Files.write(Paths.get(System.getProperty("user.dir") + "/src/test/resources/asciidoc/documentation.adoc"), Arrays.asList(documentation.toString().split("\\n")), StandardOpenOption.TRUNCATE_EXISTING);
+        //TODO: limit get all
     }
 
 }

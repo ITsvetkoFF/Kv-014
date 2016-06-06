@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.SpeciesDto;
 import edu.softserve.zoo.model.Species;
@@ -21,6 +22,7 @@ import static edu.softserve.zoo.controller.rest.Routes.SPECIES;
  */
 @RestController
 @RequestMapping(SPECIES)
+@DocsClassDescription("Species resource")
 public class SpeciesRestController extends AbstractRestController<SpeciesDto, Species> {
 
     @Autowired

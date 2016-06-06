@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.WarehouseDto;
@@ -20,6 +21,7 @@ import static edu.softserve.zoo.controller.rest.Routes.WAREHOUSES;
  */
 @RestController
 @RequestMapping(WAREHOUSES)
+@DocsClassDescription("Warehouse resource")
 public class WarehouseController extends AbstractRestController<WarehouseDto, Warehouse> {
 
     @Autowired

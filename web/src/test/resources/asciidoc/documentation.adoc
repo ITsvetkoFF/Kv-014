@@ -1,0 +1,235 @@
+= Zoo REST API Documentation
+Taras Zubrei;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+RESTful API for zoo
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+All controllers try to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PATCH`
+| Used to update an existing resource, including partial updates
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+All controllers try to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `404 Not Found`
+| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+|===
+
+[[resources]]
+= Resources
+
+[[resource-Warehouse-get]]
+== Get Warehouse
+Warehouse resource
+=== Path parameters
+
+include::{snippets}/get/api/v1/warehouses/id/path-parameters.adoc[]
+=== Example request
+
+include::{snippets}/get/api/v1/warehouses/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/warehouses/id/http-response.adoc[]
+
+
+[[resource-Warehouse-get]]
+== Get Warehouse
+Warehouse resource
+=== Example request
+
+include::{snippets}/get/api/v1/warehouses/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/warehouses/http-response.adoc[]
+
+
+[[resource-Warehouse-patch]]
+== Patch Warehouse
+Warehouse resource
+=== Path parameters
+
+include::{snippets}/patch/api/v1/warehouses/id/path-parameters.adoc[]
+=== Request fields
+
+include::{snippets}/patch/api/v1/warehouses/id/request-fields.adoc[]
+=== Response fields
+
+include::{snippets}/patch/api/v1/warehouses/id/response-fields.adoc[]
+=== Example request
+
+include::{snippets}/patch/api/v1/warehouses/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/patch/api/v1/warehouses/id/http-response.adoc[]
+
+
+[[resource-Species-get]]
+== Get Species
+Species resource
+=== Example request
+
+include::{snippets}/get/api/v1/species/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/species/http-response.adoc[]
+
+
+[[resource-House-get]]
+== Get House
+House resource
+=== Example request
+
+include::{snippets}/get/api/v1/houses/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/houses/http-response.adoc[]
+
+
+[[resource-GeographicalZone-get]]
+== Get GeographicalZone
+Geographical zone resource
+=== Example request
+
+include::{snippets}/get/api/v1/geo_zones/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/geo_zones/http-response.adoc[]
+
+
+[[resource-Animal-get]]
+== Get Animal
+Animal resource
+=== Path parameters
+
+include::{snippets}/get/api/v1/animals/species/id/path-parameters.adoc[]
+=== Example request
+
+include::{snippets}/get/api/v1/animals/species/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/animals/species/id/http-response.adoc[]
+
+
+[[resource-Animal-get]]
+== Get Animal
+Animal resource
+=== Path parameters
+
+include::{snippets}/get/api/v1/animals/house/id/path-parameters.adoc[]
+=== Example request
+
+include::{snippets}/get/api/v1/animals/house/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/animals/house/id/http-response.adoc[]
+
+
+[[resource-Animal-get]]
+== Get Animal
+Animal resource
+=== Path parameters
+
+include::{snippets}/get/api/v1/animals/id/path-parameters.adoc[]
+=== Example request
+
+include::{snippets}/get/api/v1/animals/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/animals/id/http-response.adoc[]
+
+
+[[resource-Animal-get]]
+== Get Animal
+Animal resource
+=== Example request
+
+include::{snippets}/get/api/v1/animals/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/get/api/v1/animals/http-response.adoc[]
+
+
+[[resource-Animal-post]]
+== Post Animal
+Animal resource
+=== Request fields
+
+include::{snippets}/post/api/v1/animals/request-fields.adoc[]
+=== Response fields
+
+include::{snippets}/post/api/v1/animals/response-fields.adoc[]
+=== Example request
+
+include::{snippets}/post/api/v1/animals/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/post/api/v1/animals/http-response.adoc[]
+
+
+[[resource-Animal-patch]]
+== Patch Animal
+Animal resource
+=== Path parameters
+
+include::{snippets}/patch/api/v1/animals/id/path-parameters.adoc[]
+=== Request fields
+
+include::{snippets}/patch/api/v1/animals/id/request-fields.adoc[]
+=== Response fields
+
+include::{snippets}/patch/api/v1/animals/id/response-fields.adoc[]
+=== Example request
+
+include::{snippets}/patch/api/v1/animals/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/patch/api/v1/animals/id/http-response.adoc[]
+
+
+[[resource-Animal-delete]]
+== Delete Animal
+Animal resource
+=== Path parameters
+
+include::{snippets}/delete/api/v1/animals/id/path-parameters.adoc[]
+=== Example request
+
+include::{snippets}/delete/api/v1/animals/id/curl-request.adoc[]
+=== Example response
+
+include::{snippets}/delete/api/v1/animals/id/http-response.adoc[]

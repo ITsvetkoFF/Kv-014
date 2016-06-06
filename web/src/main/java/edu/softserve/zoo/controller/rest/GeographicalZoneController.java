@@ -1,6 +1,7 @@
 package edu.softserve.zoo.controller.rest;
 
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.GeographicalZoneDto;
 import edu.softserve.zoo.model.GeographicalZone;
@@ -22,6 +23,7 @@ import static edu.softserve.zoo.controller.rest.Routes.GEO_ZONES;
  */
 @RestController
 @RequestMapping(GEO_ZONES)
+@DocsClassDescription("Geographical zone resource")
 public class GeographicalZoneController extends AbstractRestController<GeographicalZoneDto, GeographicalZone> {
 
     @Autowired
