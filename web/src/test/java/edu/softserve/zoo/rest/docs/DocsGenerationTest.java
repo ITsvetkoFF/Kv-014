@@ -7,11 +7,14 @@ import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.WebException;
+import edu.softserve.zoo.util.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -72,6 +75,7 @@ public class DocsGenerationTest {
     private ParameterNameDiscoverer parameterNameDiscoverer;
     @Autowired
     private ObjectMapper objectMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocsGenerationTest.class);
 
     private MockMvc mockMvc;
 
@@ -107,6 +111,9 @@ public class DocsGenerationTest {
                         .withMessage("Not supported Request Method")
                         .build();
 
+            final String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
+            LOGGER.info(requestMethod + ": " + path);
+
             final ParameterDescriptor[] pathParameters = Arrays.stream(mapping.getValue().getMethodParameters())
                     .filter(parameter -> parameter.getParameterAnnotation(PathVariable.class) != null)
                     .map(parameter -> {
@@ -114,6 +121,10 @@ public class DocsGenerationTest {
                         return parameter;
                     })
                     .map(parameter -> new ImmutablePair<>(parameter.getParameterName(), parameter.getParameterAnnotation(DocsParamDescription.class)))
+                    .map(pair -> {
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every Path Variable parameter must be annotated with '"+DocsParamDescription.class.getSimpleName()+"' annotation").build());
+                        return pair;
+                    })
                     .map(pair -> parameterWithName(pair.left).description(pair.right.value()))
                     .toArray(ParameterDescriptor[]::new);
 
@@ -121,10 +132,11 @@ public class DocsGenerationTest {
             Type generic = mapping.getValue().getMethod().getGenericReturnType();
             Class dtoClass;
             if (generic instanceof ParameterizedType) {
-                dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0]; //TODO: Reflection Utils in Spring
+                dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0]; //TODO: Reflection Utils in Spring ??What method??
                 isArray = true;
-            } else
+            } else {
                 dtoClass = (Class) generic;
+            }
 
             List<Field> fields = new LinkedList<>(Arrays.asList(dtoClass.getDeclaredFields()));
             if (BaseDto.class.equals(dtoClass.getSuperclass())) {
@@ -133,13 +145,14 @@ public class DocsGenerationTest {
 
             boolean finalIsArray = isArray;
             final FieldDescriptor[] responseFields = !ResponseEntity.class.equals(dtoClass) ? fields.stream()
-                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class))) //TODO: AntiVandal tests
+                    .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
+                    .map(pair -> {
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsFieldDescription.class.getSimpleName()+"' annotation").build());
+                        return pair;
+                    })
                     .filter(pair -> !pair.right.optional())
                     .map(pair -> fieldWithPath((finalIsArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
-            System.out.println("return = " + dtoClass);
-            final String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
-            System.out.println(requestMethod + ": " + path);
 
             Optional<MethodParameter> methodParameter = Arrays.stream(mapping.getValue().getMethodParameters())
                     .filter(parameter -> parameter.getParameterAnnotation(RequestBody.class) != null)
@@ -150,6 +163,10 @@ public class DocsGenerationTest {
                     .getParameterType()
                     .getDeclaredFields())
                     .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
+                    .map(pair -> {
+                        Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsFieldDescription.class.getSimpleName()+"' annotation").build());
+                        return pair;
+                    })
                     .filter(pair -> !pair.right.optional())
                     .map(pair -> fieldWithPath(pair.left.getName()).description(pair.right.value()))
                     .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
@@ -161,10 +178,12 @@ public class DocsGenerationTest {
                 document.snippets(responseFields(responseFields));
             if (requestFields.length > 0)
                 document.snippets(requestFields(requestFields));
-            Method testDto = ReflectionUtils.findMethod(mapping.getValue().getMethod().getDeclaringClass(), "getTestDto"); //TODO: AntiVandal tests for containing getTestDto method in case of using POST, PATCH or PUT
-
+            Method testDto = ReflectionUtils.findMethod(mapping.getValue().getMethod().getDeclaringClass(), "getTestDto");
+            if (Arrays.asList(RequestMethod.PATCH,RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
+                Validator.notNull(testDto, ApplicationException.getBuilderFor(WebException.class).withMessage("'getTestDto' method is missing. It is needed for POST, PATCH and PUT").build());
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
-            final Method httpMethod = RestDocumentationRequestBuilders.class.getMethod(requestMethod.toString().toLowerCase(), String.class, Object[].class);
+            Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '"+DocsTest.class.getSimpleName()+"' annotation").build());
+            final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(),String.class, Object[].class);
             this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(testDto != null ? objectMapper.writeValueAsString(testDto.invoke(this)): ""))
