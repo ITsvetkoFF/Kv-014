@@ -1,7 +1,13 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "warehouses")
 public class Warehouse extends BaseEntity {
 
     private Supply supply;
@@ -11,6 +17,8 @@ public class Warehouse extends BaseEntity {
     public Warehouse() {
     }
 
+    @Enumerated
+    @Column(name = "id", nullable = false, insertable = false, updatable = false)
     public Supply getSupply() {
         return supply;
     }
@@ -19,6 +27,7 @@ public class Warehouse extends BaseEntity {
         this.supply = supply;
     }
 
+    @Column(name = "amount", nullable = false)
     public Integer getAmount() {
         return amount;
     }
@@ -27,6 +36,7 @@ public class Warehouse extends BaseEntity {
         this.amount = amount;
     }
 
+    @Column(name = "max_capacity", nullable = false)
     public Integer getMaxCapacity() {
         return maxCapacity;
     }

@@ -1,7 +1,10 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "families")
 public class Family extends BaseEntity {
     private String name;
     private AnimalClass animalClass;
@@ -9,6 +12,7 @@ public class Family extends BaseEntity {
     public Family() {
     }
 
+    @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;
     }
@@ -17,6 +21,8 @@ public class Family extends BaseEntity {
         this.name = name;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id", nullable = false)
     public AnimalClass getAnimalClass() {
         return animalClass;
     }

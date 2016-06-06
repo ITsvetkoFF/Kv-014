@@ -1,13 +1,19 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "classes")
 public class AnimalClass extends BaseEntity {
     private String name;
 
     public AnimalClass() {
     }
 
+    @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;
     }
