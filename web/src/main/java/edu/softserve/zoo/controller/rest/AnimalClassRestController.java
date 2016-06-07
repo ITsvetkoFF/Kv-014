@@ -1,5 +1,8 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
+import edu.softserve.zoo.annotation.DocsParamDescription;
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.AnimalClassDto;
 import edu.softserve.zoo.model.AnimalClass;
 import edu.softserve.zoo.service.AnimalClassService;
@@ -21,20 +24,27 @@ import static edu.softserve.zoo.controller.rest.Routes.ANIMAL_CLASSES;
  */
 @RestController
 @RequestMapping(ANIMAL_CLASSES)
+@DocsClassDescription("Class resource")
 public class AnimalClassRestController extends AbstractRestController<AnimalClassDto, AnimalClass> {
 
     @Autowired
     private AnimalClassService service;
 
+    public AnimalClassRestController() {
+        super(AnimalClass.class);
+    }
+
+    @DocsTest
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<AnimalClassDto> getAll() {
         return super.getAll();
     }
 
+    @DocsTest(pathParameters = "173420")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @Override
-    public AnimalClassDto getById(@PathVariable Long id) {
+    public AnimalClassDto getById(@PathVariable @DocsParamDescription("The class id") Long id) {
         return super.getById(id);
     }
 

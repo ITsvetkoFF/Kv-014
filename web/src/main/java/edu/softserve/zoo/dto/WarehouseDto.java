@@ -3,7 +3,6 @@ package edu.softserve.zoo.dto;
 import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.annotation.Dto;
-import edu.softserve.zoo.model.Warehouse;
 
 import java.util.Objects;
 
@@ -13,7 +12,7 @@ public class WarehouseDto extends BaseDto {
     private Warehouse.Supply supply;
     @DocsFieldDescription("The amount")
     private Integer amount;
-    @DocsDescription("The max capacity")
+    @DocsFieldDescription("The max capacity")
     private Integer maxCapacity;
 
     public WarehouseDto() {

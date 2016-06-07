@@ -147,7 +147,7 @@ public class DocsGenerationTest {
             else
                 testDto = null;
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
-            Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsTest.class.getSimpleName() + "' annotation").build());
+            Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every method with request mappings must be annotated with '%s' annotation. Problem method: %s", DocsTest.class.getSimpleName(), mapping.getValue().getMethod())).build());
             final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(), String.class, Object[].class);
             this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
                     .contentType(MediaType.APPLICATION_JSON)
@@ -157,7 +157,7 @@ public class DocsGenerationTest {
 
             Class entity = (Class) ((ParameterizedType) mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass()).getActualTypeArguments()[1];
             DocsClassDescription docsClassDescription = mapping.getValue().getMethod().getDeclaringClass().getAnnotation(DocsClassDescription.class);
-            Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(WebException.class).withMessage("All rest controllers have to be annotated with '" + DocsClassDescription.class.getSimpleName() + "' annotation").build());
+            Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("All rest controllers have to be annotated with '%s' annotation. Problem class: %s", DocsClassDescription.class.getSimpleName(), mapping.getValue().getMethod().getDeclaringClass())).build());
             documentation
                     .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),'-'), entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),' ')))
                     .append(docsClassDescription.value())
@@ -190,11 +190,11 @@ public class DocsGenerationTest {
                 .get()
                 .getParameterType()
                 .getDeclaredFields())
-                .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
-                .map(pair -> {
-                    Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsFieldDescription.class.getSimpleName() + "' annotation").build());
-                    return pair;
+                .map(field -> {
+                    Validator.notNull(field.getAnnotation(DocsFieldDescription.class), ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every field must be annotated with '%s' annotation. Problem field: %s", DocsFieldDescription.class.getSimpleName(), field)).build());
+                    return field;
                 })
+                .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
                 .filter(pair -> !pair.right.optional())
                 .map(pair -> fieldWithPath(pair.left.getName()).description(pair.right.value()))
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
@@ -206,11 +206,11 @@ public class DocsGenerationTest {
             fields.addAll(0, Arrays.asList(dtoClass.getSuperclass().getDeclaredFields()));
         }
         return !ResponseEntity.class.equals(dtoClass) ? fields.stream()
-                .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
-                .map(pair -> {
-                    Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every field must be annotated with '" + DocsFieldDescription.class.getSimpleName() + "' annotation").build());
-                    return pair;
+                .map(field -> {
+                    Validator.notNull(field.getAnnotation(DocsFieldDescription.class), ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every field must be annotated with '%s' annotation. Problem field: %s", DocsFieldDescription.class.getSimpleName(), field)).build());
+                    return field;
                 })
+                .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
                 .filter(pair -> !pair.right.optional())
                 .map(pair -> fieldWithPath((isArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
@@ -223,11 +223,11 @@ public class DocsGenerationTest {
                     parameter.initParameterNameDiscovery(parameterNameDiscoverer);
                     return parameter;
                 })
-                .map(parameter -> new ImmutablePair<>(parameter.getParameterName(), parameter.getParameterAnnotation(DocsParamDescription.class)))
-                .map(pair -> {
-                    Validator.notNull(pair.right, ApplicationException.getBuilderFor(WebException.class).withMessage("Every Path Variable parameter must be annotated with '" + DocsParamDescription.class.getSimpleName() + "' annotation").build());
-                    return pair;
+                .map(parameter -> {
+                    Validator.notNull(parameter.getParameterAnnotation(DocsParamDescription.class), ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every Path Variable parameter must be annotated with '%s' annotation. Problem parameter: %s in %s", DocsParamDescription.class.getSimpleName(), parameter.getParameterName(), parameter.getMethod())).build());
+                    return parameter;
                 })
+                .map(parameter -> new ImmutablePair<>(parameter.getParameterName(), parameter.getParameterAnnotation(DocsParamDescription.class)))
                 .map(pair -> parameterWithName(pair.left).description(pair.right.value()))
                 .toArray(ParameterDescriptor[]::new);
     }
