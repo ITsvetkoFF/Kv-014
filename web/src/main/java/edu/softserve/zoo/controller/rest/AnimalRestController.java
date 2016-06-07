@@ -43,23 +43,6 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
         return super.getAll();
     }
 
-    public static AnimalDto getTestDto() {
-        AnimalDto dto = new AnimalDto();
-        dto.setNickname("Angel");
-        dto.setFoodConsumption(10);
-        dto.setAnimalsPerHouse(5);
-        dto.setBirthday(LocalDate.MIN);
-        HouseDto house = new HouseDto();
-        house.setId(2L);
-        dto.setHouse(house);
-        SpeciesDto species = new SpeciesDto();
-        species.setId(161130L);
-        dto.setSpecies(species);
-        dto.setTemperatureMin(20);
-        dto.setTemperatureMax(40);
-        return dto;
-    }
-
     @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @Override

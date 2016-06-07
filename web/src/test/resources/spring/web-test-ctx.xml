@@ -8,4 +8,7 @@
     <import resource="classpath:spring/service-test-ctx.xml"/>
     <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean id="parameterNameDiscoverer" class="org.springframework.core.DefaultParameterNameDiscoverer"/>
+    <bean id="webTestProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations" value="classpath*:asciidoc/web-test.properties"/>
+    </bean>
 </beans>
