@@ -1,7 +1,10 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "houses")
 public class House extends BaseEntity {
     private String name;
     private ZooZone zone;
@@ -10,6 +13,7 @@ public class House extends BaseEntity {
     public House() {
     }
 
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -18,6 +22,8 @@ public class House extends BaseEntity {
         this.name = name;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zoo_zone_id", nullable = false)
     public ZooZone getZone() {
         return zone;
     }
@@ -26,6 +32,7 @@ public class House extends BaseEntity {
         this.zone = zone;
     }
 
+    @Column(name = "max_capacity", nullable = false)
     public Integer getMaxCapacity() {
         return maxCapacity;
     }

@@ -1,8 +1,11 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tasks")
 public class Task extends BaseEntity {
     private Employee assignee;
     private Employee assigner;
@@ -18,6 +21,8 @@ public class Task extends BaseEntity {
     public Task() {
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignee_id", nullable = false)
     public Employee getAssignee() {
         return assignee;
     }
@@ -26,6 +31,8 @@ public class Task extends BaseEntity {
         this.assignee = assignee;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigner_id", nullable = false)
     public Employee getAssigner() {
         return assigner;
     }
@@ -34,6 +41,7 @@ public class Task extends BaseEntity {
         this.assigner = assigner;
     }
 
+    @Column(name = "started_estimated", nullable = false)
     public LocalDateTime getEstimatedStart() {
         return estimatedStart;
     }
@@ -42,6 +50,7 @@ public class Task extends BaseEntity {
         this.estimatedStart = estimatedStart;
     }
 
+    @Column(name = "accomplished_estimated", nullable = false)
     public LocalDateTime getEstimatedFinish() {
         return estimatedFinish;
     }
@@ -50,6 +59,7 @@ public class Task extends BaseEntity {
         this.estimatedFinish = estimatedFinish;
     }
 
+    @Column(name = "started_actual")
     public LocalDateTime getActualStart() {
         return actualStart;
     }
@@ -58,6 +68,7 @@ public class Task extends BaseEntity {
         this.actualStart = actualStart;
     }
 
+    @Column(name = "accomplished_actual")
     public LocalDateTime getActualFinish() {
         return actualFinish;
     }
@@ -66,6 +77,8 @@ public class Task extends BaseEntity {
         this.actualFinish = actualFinish;
     }
 
+    @Enumerated
+    @Column(name = "task_type", nullable = false)
     public TaskType getTaskType() {
         return taskType;
     }
@@ -74,6 +87,8 @@ public class Task extends BaseEntity {
         this.taskType = taskType;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zone_id", nullable = false)
     public ZooZone getZone() {
         return zone;
     }
@@ -82,6 +97,7 @@ public class Task extends BaseEntity {
         this.zone = zone;
     }
 
+    @Column(name = "task_comment", length = 100)
     public String getDescription() {
         return description;
     }
@@ -90,6 +106,8 @@ public class Task extends BaseEntity {
         this.description = description;
     }
 
+    @Enumerated
+    @Column(name = "status")
     public TaskStatus getStatus() {
         return status;
     }

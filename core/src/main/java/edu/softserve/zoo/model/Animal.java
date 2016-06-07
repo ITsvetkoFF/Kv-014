@@ -1,8 +1,11 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(name = "animals")
 public class Animal extends BaseEntity {
     private String nickname;
     private Species species;
@@ -16,6 +19,7 @@ public class Animal extends BaseEntity {
     public Animal() {
     }
 
+    @Column(name = "nickname", length = 50)
     public String getNickname() {
         return nickname;
     }
@@ -24,6 +28,8 @@ public class Animal extends BaseEntity {
         this.nickname = nickname;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "species_id", nullable = false)
     public Species getSpecies() {
         return species;
     }
@@ -32,6 +38,8 @@ public class Animal extends BaseEntity {
         this.species = species;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "house_id", nullable = false)
     public House getHouse() {
         return house;
     }
@@ -40,6 +48,7 @@ public class Animal extends BaseEntity {
         this.house = house;
     }
 
+    @Column(name = "birthday")
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -48,6 +57,7 @@ public class Animal extends BaseEntity {
         this.birthday = birthday;
     }
 
+    @Column(name = "temperature_min", nullable = false)
     public Integer getTemperatureMin() {
         return temperatureMin;
     }
@@ -56,6 +66,7 @@ public class Animal extends BaseEntity {
         this.temperatureMin = temperatureMin;
     }
 
+    @Column(name = "temperature_max", nullable = false)
     public Integer getTemperatureMax() {
         return temperatureMax;
     }
@@ -64,6 +75,7 @@ public class Animal extends BaseEntity {
         this.temperatureMax = temperatureMax;
     }
 
+    @Column(name = "food_consumption", nullable = false)
     public Integer getFoodConsumption() {
         return foodConsumption;
     }
@@ -72,6 +84,7 @@ public class Animal extends BaseEntity {
         this.foodConsumption = foodConsumption;
     }
 
+    @Column(name = "animals_per_house", nullable = false)
     public Integer getAnimalsPerHouse() {
         return animalsPerHouse;
     }

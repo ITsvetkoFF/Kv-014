@@ -1,13 +1,21 @@
 package edu.softserve.zoo.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "employee_roles")
 public class Role extends BaseEntity {
     private Type type;
 
     public Role() {
     }
 
+    @Enumerated
+    @Column(name = "id", nullable = false, insertable = false, updatable = false)
     public Type getType() {
         return type;
     }
