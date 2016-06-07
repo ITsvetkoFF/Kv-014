@@ -23,6 +23,8 @@ import static java.lang.String.format;
 
 /**
  * Class that manages relationships between Entities and their DTO.
+ *
+ * Created by Andrii Abramov on 5/29/16.
  */
 public class DtoMapperImpl implements DtoMapper {
 
@@ -98,7 +100,7 @@ public class DtoMapperImpl implements DtoMapper {
     /**
      * Checks if every Class in {@link #dtoPackage} is annotated.
      *
-     * @param dtoClass
+     * @param dtoClass to validate
      */
     private void validate(Class<? extends BaseDto> dtoClass) {
         final Dto dtoAnnotation = AnnotationUtils.getAnnotation(dtoClass, Dto.class);

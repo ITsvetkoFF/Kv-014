@@ -16,6 +16,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <!-- This profile will be loaded if we don't specify the other one -->
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>production</param-value>
+    </context-param>
+
     <servlet-mapping>
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
