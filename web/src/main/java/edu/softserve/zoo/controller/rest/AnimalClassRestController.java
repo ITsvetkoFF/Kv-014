@@ -41,7 +41,7 @@ public class AnimalClassRestController extends AbstractRestController<AnimalClas
         return super.getAll();
     }
 
-    @DocsTest(pathParameters = "173420")
+    @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @Override
     public AnimalClassDto getById(@PathVariable @DocsParamDescription("The class id") Long id) {
