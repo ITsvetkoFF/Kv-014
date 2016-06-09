@@ -1,15 +1,15 @@
 package edu.softserve.zoo.persistence.provider.impl;
 
+import com.google.common.collect.Iterables;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.persistence.specification.impl.GetByIdSpecification;
 import edu.softserve.zoo.util.Validator;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author Bohdan Cherniakh
  */
 @Component
-public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
+public class HibernatePersistenceProvider<T extends BaseEntity> implements PersistenceProvider<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernatePersistenceProvider.class);
     private static final String ERROR_LOG_TEMPLATE = "An exception occurred during {} operation. Message: {}";
@@ -49,11 +49,14 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      * {@inheritDoc}
      */
     @Override
-    public T findOne(Long id, Class<T> type) {
+    public T findOne(Specification<T> specification) {
         try {
-            Session session = getSession();
-            Criteria criteria = new GetByIdSpecification<>(type, id).query().getExecutableCriteria(session);
-            return (T) criteria.uniqueResult();
+            Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceException.class)
+                    .forReason(PersistenceReason.SPECIFICATION_IS_NULL)
+                    .withMessage("Specification can not be null")
+                    .build());
+            List<T> result = processSpecification(specification);
+            return Iterables.getFirst(result, null);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "findOne", ex.getMessage());
             throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
@@ -110,6 +113,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
     public boolean delete(Long id, Class type) {
+
         try {
             return getSession().createQuery(String.format(DELETE_QUERY, type.getSimpleName(), id)).executeUpdate() == 1;
         } catch (HibernateException ex) {
@@ -125,7 +129,7 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
      *
      * @param specification the {@link Specification} object that describes the specification that should be processed
      *                      using appropriate {@link SpecificationProcessingStrategy}.
-     * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
+     * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
      * if there are no objects in the database that match the specification.
      * @throws PersistenceException if {@code specification} is incorrect or query errors
      * @throws NullPointerException if {@code specification} is {@code null}
@@ -138,16 +142,13 @@ public class HibernatePersistenceProvider<T> implements PersistenceProvider<T> {
                 .forReason(PersistenceReason.SPECIFICATION_IS_NULL)
                 .withMessage("Specification can not be null")
                 .build());
-
-        List<T> data = null;
         try {
-            data = processSpecification(specification);
+            return processSpecification(specification);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "find", ex.getMessage());
             throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage("Can not perform find by current specification").build();
         }
-        return data;
     }
 
     private List<T> processSpecification(Specification<T> specification) {

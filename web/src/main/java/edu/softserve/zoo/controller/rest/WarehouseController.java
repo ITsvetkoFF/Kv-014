@@ -23,10 +23,6 @@ public class WarehouseController extends AbstractRestController<WarehouseDto, Wa
     @Autowired
     private WarehouseService warehouseService;
 
-    protected WarehouseController() {
-        super(Warehouse.class);
-    }
-
     @Override
     protected Service<Warehouse> getService() {
         return warehouseService;

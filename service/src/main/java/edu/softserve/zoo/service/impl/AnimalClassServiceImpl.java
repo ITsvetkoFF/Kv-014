@@ -22,4 +22,9 @@ public class AnimalClassServiceImpl extends AbstractService<AnimalClass> impleme
     Repository<AnimalClass> getRepository() {
         return repository;
     }
+
+    @Override
+    Class<AnimalClass> getType() {
+        return AnimalClass.class;
+    }
 }

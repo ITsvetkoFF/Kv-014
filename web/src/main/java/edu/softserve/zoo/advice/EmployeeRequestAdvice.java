@@ -1,6 +1,6 @@
 package edu.softserve.zoo.advice;
 
-import edu.softserve.zoo.controller.rest.impl.EmployeeRestController;
+import edu.softserve.zoo.controller.rest.EmployeeRestController;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.dto.RoleDto;
 import edu.softserve.zoo.exceptions.ApplicationException;

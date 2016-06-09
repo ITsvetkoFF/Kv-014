@@ -3,8 +3,8 @@ package edu.softserve.zoo.service.impl;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.persistence.repository.AnimalRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.impl.animal.AnimalGetAllByHouseIdSpecification;
-import edu.softserve.zoo.persistence.specification.impl.animal.AnimalGetAllBySpeciesIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.animal.AnimalGetAllByHouseIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.animal.AnimalGetAllBySpeciesIdSpecification;
 import edu.softserve.zoo.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,4 +39,11 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
     Repository<Animal> getRepository() {
         return repository;
     }
+
+    @Override
+    Class<Animal> getType() {
+        return Animal.class;
+    }
+
+
 }

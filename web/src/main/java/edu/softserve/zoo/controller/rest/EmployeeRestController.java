@@ -1,6 +1,5 @@
-package edu.softserve.zoo.controller.rest.impl;
+package edu.softserve.zoo.controller.rest;
 
-import edu.softserve.zoo.controller.rest.AbstractRestController;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.service.EmployeeService;
@@ -22,10 +21,6 @@ public class EmployeeRestController extends AbstractRestController<EmployeeDto, 
 
     @Autowired
     private EmployeeService employeeService;
-
-    public EmployeeRestController() {
-        super(Employee.class);
-    }
 
     @Override
     protected Service<Employee> getService() {

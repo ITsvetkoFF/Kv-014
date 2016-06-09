@@ -5,9 +5,7 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,10 +23,6 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
     @Autowired
     private HouseService houseService;
 
-    protected HouseRestController() {
-        super(House.class);
-    }
-
     @Override
     protected Service<House> getService() {
         return houseService;
@@ -38,5 +32,11 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
     @RequestMapping(method = RequestMethod.GET)
     public List<HouseDto> getAll() {
         return super.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "zoneId")
+    public List<HouseDto> getAllByZooZoneId(@RequestParam Long zoneId) {
+        List<House> allByZoneId = houseService.getAllByZooZoneId(zoneId);
+        return converter.convertToDto(allByZoneId);
     }
 }

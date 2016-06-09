@@ -1,4 +1,4 @@
-package edu.softserve.zoo.persistence.specification.impl.animal;
+package edu.softserve.zoo.persistence.specification.hibernate.impl.animal;
 
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.Species;

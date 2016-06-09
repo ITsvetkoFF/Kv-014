@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.specification.hibernate;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 /**
@@ -7,7 +8,7 @@ import edu.softserve.zoo.persistence.specification.Specification;
  *
  * @author Bohdan Cherniakh
  */
-public interface HQLSpecification<T> extends Specification<T> {
+public interface HQLSpecification<T extends BaseEntity> extends Specification<T> {
 
     /**
      * Returns valid HQL query as a string.

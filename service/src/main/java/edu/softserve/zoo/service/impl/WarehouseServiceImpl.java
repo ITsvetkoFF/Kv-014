@@ -23,4 +23,9 @@ public class WarehouseServiceImpl extends AbstractService<Warehouse> implements 
     Repository<Warehouse> getRepository() {
         return warehouseRepository;
     }
+
+    @Override
+    Class<Warehouse> getType() {
+        return Warehouse.class;
+    }
 }

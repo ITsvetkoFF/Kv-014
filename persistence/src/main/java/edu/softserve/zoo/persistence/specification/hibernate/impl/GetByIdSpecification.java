@@ -1,5 +1,6 @@
-package edu.softserve.zoo.persistence.specification.impl;
+package edu.softserve.zoo.persistence.specification.hibernate.impl;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
@@ -11,7 +12,7 @@ import org.hibernate.criterion.Restrictions;
  * @param <T> Specifies the entity class. Stands for compile time validating {@link Specification}
  * @author Andrii Abramov on 13-May-16.
  */
-public class GetByIdSpecification<T> implements DetachedCriteriaSpecification<T> {
+public class GetByIdSpecification<T extends BaseEntity> implements DetachedCriteriaSpecification<T> {
 
     private final Class<T> FOR_ENTITY;
     private final Long ID;

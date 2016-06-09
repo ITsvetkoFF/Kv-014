@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.provider;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;
@@ -10,17 +11,15 @@ import java.util.List;
  * @param <T> the type of the domain objects which are stored.
  * @author Bohdan Cherniakh
  */
-public interface PersistenceProvider<T> {
+public interface PersistenceProvider<T extends BaseEntity> {
 
     /**
-     * Retrieves entity by id from persistent storage.
+     * Finds domain object in the persistent storage according to given Specification.
      *
-     * @param id identifier of required entity
-     * @param type type of required entity
-     * @return entity with specified identifier.
-     * @throws edu.softserve.zoo.persistence.exception.NotFoundException if entity not found with given id
+     * @param specification defines restrictions for performed search.
+     * @return domain object by defined restrictions or null if not found
      */
-    T findOne(Long id, Class<T> type);
+    T findOne(Specification<T> specification);
 
     /**
      * Saves the given entity into the persistent storage.
@@ -41,7 +40,7 @@ public interface PersistenceProvider<T> {
     /**
      * Deletes the given entity from the persistent storage.
      *
-     * @param id of domain object that should be deleted.
+     * @param id   of domain object that should be deleted.
      * @param type of domain object that should be deleted.
      */
     boolean delete(Long id, Class<T> type);
@@ -51,7 +50,7 @@ public interface PersistenceProvider<T> {
      * Specification object.
      *
      * @param specification the {@link Specification} object that describes the query that should be performed.
-     * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
+     * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
      * @see Specification
      */
     List<T> find(Specification<T> specification);

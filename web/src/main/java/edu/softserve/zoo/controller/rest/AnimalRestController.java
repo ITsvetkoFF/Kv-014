@@ -24,10 +24,6 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     @Autowired
     private AnimalService animalService;
 
-    protected AnimalRestController() {
-        super(Animal.class);
-    }
-
     @Override
     protected Service<Animal> getService() {
         return animalService;

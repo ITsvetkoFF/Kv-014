@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.specification.hibernate;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 /**
@@ -7,7 +8,7 @@ import edu.softserve.zoo.persistence.specification.Specification;
  *
  * @author Bohdan Cherniakh
  */
-public interface SQLSpecification<T> extends Specification<T> {
+public interface SQLSpecification<T extends BaseEntity> extends Specification<T> {
 
     /**
      * Returns the type of a domain object.

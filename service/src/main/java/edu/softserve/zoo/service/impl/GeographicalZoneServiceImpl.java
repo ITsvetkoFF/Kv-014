@@ -18,4 +18,9 @@ public class GeographicalZoneServiceImpl extends AbstractService<GeographicalZon
     Repository<GeographicalZone> getRepository() {
         return geographicalZoneRepository;
     }
+
+    @Override
+    Class<GeographicalZone> getType() {
+        return GeographicalZone.class;
+    }
 }
