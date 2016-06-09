@@ -7,7 +7,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,16 +23,19 @@ import java.util.UUID;
  * @author Ilya Doroshenko
  */
 @Component
-public class AuthTokenUtils {
+public class JwtUtils {
 
     @Value("${token.expiration}")
     private Long expiration;
 
-    private Key key;
+    //private Key key;
+
+    private String key;
 
     @PostConstruct
     private void initSecretKey() {
-        key = MacProvider.generateKey();
+        //key = MacProvider.generateKey();
+        key = "123";
     }
 
     /**
