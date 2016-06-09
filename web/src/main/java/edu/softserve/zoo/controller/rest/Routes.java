@@ -12,5 +12,6 @@ public interface Routes {
     String EMPLOYEES = API_V1 + "/employees";
     String ANIMAL_CLASSES = API_V1 + "/animal_classes";
     String FAMILIES = API_V1 + "/families";
+    String TASKS = API_V1 + "/tasks";
 
 }
