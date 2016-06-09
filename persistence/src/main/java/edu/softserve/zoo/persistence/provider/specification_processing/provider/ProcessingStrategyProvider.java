@@ -1,6 +1,7 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.provider;
 
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 
@@ -10,7 +11,7 @@ import edu.softserve.zoo.persistence.specification.Specification;
  * @param <T> the type of the domain objects which are been processed.
  * @author Bohdan Cherniakh
  */
-public interface ProcessingStrategyProvider<T> {
+public interface ProcessingStrategyProvider<T extends BaseEntity> {
     /**
      * Return the corresponding implementation of the {@link SpecificationProcessingStrategy}
      * for defined {@link Specification}

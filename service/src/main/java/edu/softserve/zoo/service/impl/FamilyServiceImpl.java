@@ -22,4 +22,9 @@ public class FamilyServiceImpl extends AbstractService<Family> implements Family
     Repository<Family> getRepository() {
         return repository;
     }
+
+    @Override
+    Class<Family> getType() {
+        return Family.class;
+    }
 }

@@ -10,7 +10,10 @@ import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -23,12 +26,6 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
 
     @Autowired
     protected ModelConverter converter;
-
-    private Class<Entity> entityType;
-
-    protected AbstractRestController(Class<Entity> entityType) {
-        this.entityType = entityType;
-    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
@@ -43,11 +40,11 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
     }
 
     public Dto getById(@PathVariable Long id) {
-        return converter.convertToDto(getService().findOne(id, entityType));
+        return converter.convertToDto(getService().findOne(id));
     }
 
     public List<Dto> getAll() {
-        return converter.convertToDto(getService().findAll(entityType));
+        return converter.convertToDto(getService().findAll());
     }
 
     public Dto create(@RequestBody Dto dto) {
@@ -60,7 +57,7 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
     }
 
     public ResponseEntity delete(@PathVariable Long id) {
-        getService().delete(id, entityType);
+        getService().delete(id);
         return ResponseEntity.ok().build();
     }
 

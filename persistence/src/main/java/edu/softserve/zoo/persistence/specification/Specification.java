@@ -1,12 +1,14 @@
 package edu.softserve.zoo.persistence.specification;
 
+import edu.softserve.zoo.model.BaseEntity;
+
 /**
  * Interface that defines the specification API.
- * Should provide the data for the {@link edu.softserve.zoo.persistence.repository.Repository#find(Specification)}
+ * Should provide the data for the {@link edu.softserve.zoo.persistence.repository.Repository}
  *
  * @author Bohdan Cherniakh
  */
-public interface Specification<T> {
+public interface Specification<T extends BaseEntity> {
 
     /**
      * <p>Static util method for creating property name string</p>

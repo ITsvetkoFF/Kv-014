@@ -2,6 +2,7 @@ package edu.softserve.zoo.persistence.provider.specification_processing.provider
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Bohdan Cherniakh
  */
 @Component
-public class ProcessingStrategyProviderImpl<T> implements ProcessingStrategyProvider<T> {
+public class ProcessingStrategyProviderImpl<T extends BaseEntity> implements ProcessingStrategyProvider<T> {
 
     @Autowired
     private Map<String, SpecificationProcessingStrategy<T>> supportedProcessingStrategies;

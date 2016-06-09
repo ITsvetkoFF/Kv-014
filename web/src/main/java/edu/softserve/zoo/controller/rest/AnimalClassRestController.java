@@ -26,10 +26,6 @@ public class AnimalClassRestController extends AbstractRestController<AnimalClas
     @Autowired
     private AnimalClassService service;
 
-    public AnimalClassRestController() {
-        super(AnimalClass.class);
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<AnimalClassDto> getAll() {

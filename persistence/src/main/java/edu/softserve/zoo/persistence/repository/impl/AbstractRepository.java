@@ -12,8 +12,8 @@ import java.util.List;
  * <p>Abstract implementation of the <tt>Repository</tt>. Help to implement concrete repositories for every
  * domain object. Implements routine CRUD operations.</p>
  *
- * @author Bohdan Cherniakh
  * @param <T> type of the domain object.
+ * @author Bohdan Cherniakh
  */
 public abstract class AbstractRepository<T extends BaseEntity> implements Repository<T> {
 
@@ -27,8 +27,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public T findOne(Long id, Class<T> type) {
-        return persistenceProvider.findOne(id, type);
+    public T findOne(Specification<T> specification) {
+        return persistenceProvider.findOne(specification);
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      * {@inheritDoc}
      */
     @Override
-    public boolean delete(Long id , Class<T> type) {
+    public boolean delete(Long id, Class<T> type) {
         return persistenceProvider.delete(id, type);
     }
 

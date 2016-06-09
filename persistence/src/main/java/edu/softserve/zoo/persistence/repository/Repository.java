@@ -18,14 +18,12 @@ public interface Repository<T extends BaseEntity> {
 
 
     /**
-     * Retrieves entity by id from persistent storage.
+     * Finds domain object in the repository according to given Specification.
      *
-     * @param id identifier of required entity
-     * @param type type of required entity
-     * @return entity with specified identifier.
-     * @throws edu.softserve.zoo.persistence.exception.NotFoundException if entity not found with given id
+     * @param specification defines restrictions for performed search.
+     * @return domain object by defined restrictions or null if not found
      */
-    T findOne(Long id, Class<T> type);
+    T findOne(Specification<T> specification);
 
     /**
      * Saves the entity into the repository.
@@ -39,7 +37,7 @@ public interface Repository<T extends BaseEntity> {
     /**
      * Deletes the entity from the repository
      *
-     * @param id - identifier of object that should be deleted.
+     * @param id   - identifier of object that should be deleted.
      * @param type - type object that should be deleted.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      */
@@ -58,7 +56,7 @@ public interface Repository<T extends BaseEntity> {
      * Finds entities in the repository according to given Specification.
      *
      * @param specification defines restrictions for performed search.
-     * @return The {@link List} of domain objects or null if there are no objects in the database that match the query.
+     * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
      * @throws PersistenceException given the information about the problem that occurred with the storage.
      * @see Specification
      */

@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.strategy.impl;
 
+import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component("DetachedCriteriaSpecification")
-public class DetachedCriteriaProcessingStrategy<T> implements SpecificationProcessingStrategy<T> {
+public class DetachedCriteriaProcessingStrategy<T extends BaseEntity> implements SpecificationProcessingStrategy<T> {
 
     @Autowired
     private SessionFactory sessionFactory;

@@ -26,10 +26,6 @@ public class FamilyRestController extends AbstractRestController<FamilyDto, Fami
     @Autowired
     private FamilyService service;
 
-    public FamilyRestController() {
-        super(Family.class);
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<FamilyDto> getAll() {

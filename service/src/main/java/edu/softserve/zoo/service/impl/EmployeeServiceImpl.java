@@ -18,4 +18,9 @@ public class EmployeeServiceImpl extends AbstractService<Employee> implements Em
     Repository<Employee> getRepository() {
         return employeeRepository;
     }
+
+    @Override
+    Class<Employee> getType() {
+        return Employee.class;
+    }
 }

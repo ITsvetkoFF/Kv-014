@@ -25,10 +25,6 @@ public class SpeciesRestController extends AbstractRestController<SpeciesDto, Sp
     @Autowired
     private SpeciesService speciesService;
 
-    protected SpeciesRestController() {
-        super(Species.class);
-    }
-
     @Override
     protected Service<Species> getService() {
         return speciesService;

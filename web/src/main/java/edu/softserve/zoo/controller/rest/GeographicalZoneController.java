@@ -26,10 +26,6 @@ public class GeographicalZoneController extends AbstractRestController<Geographi
     @Autowired
     private GeographicalZoneService geographicalZoneService;
 
-    public GeographicalZoneController() {
-        super(GeographicalZone.class);
-    }
-
     @Override
     protected Service<GeographicalZone> getService() {
         return geographicalZoneService;

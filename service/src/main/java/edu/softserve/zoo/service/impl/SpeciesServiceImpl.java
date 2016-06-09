@@ -23,4 +23,9 @@ public class SpeciesServiceImpl extends AbstractService<Species> implements Spec
     Repository<Species> getRepository() {
         return repository;
     }
+
+    @Override
+    Class<Species> getType() {
+        return Species.class;
+    }
 }
