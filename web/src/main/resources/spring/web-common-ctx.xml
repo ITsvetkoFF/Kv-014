@@ -53,6 +53,8 @@
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
+    <bean id="invalidRequestProcessor" class="edu.softserve.zoo.validation.impl.InvalidRequestProcessorImpl"/>
+
     <context:component-scan
             base-package="edu.softserve.zoo.controller.rest, edu.softserve.zoo.converter, edu.softserve.zoo.advice"/>
 </beans>

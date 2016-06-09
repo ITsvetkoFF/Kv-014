@@ -10,6 +10,7 @@ import edu.softserve.zoo.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static edu.softserve.zoo.controller.rest.Routes.WAREHOUSES;
@@ -46,7 +47,7 @@ public class WarehouseController extends AbstractRestController<WarehouseDto, Wa
 
     @DocsTest(pathParameters = "1")
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public WarehouseDto update(@RequestBody WarehouseDto dto, @PathVariable @DocsParamDescription("id of warehouse") Long id) {
+    public WarehouseDto update(@Valid @RequestBody WarehouseDto dto, @PathVariable @DocsParamDescription("id of warehouse") Long id) {
         return super.update(dto, id);
     }
 

@@ -19,8 +19,8 @@ import static org.hibernate.cfg.AvailableSettings.*;
 
 /**
  * Set of Common Configurations for all profiles in Application Context.
- * <p>
- * Created by Andrii Abramov on 6/7/16.
+ *
+ * @author Andrii Abramov on 6/7/16.
  */
 @Configuration
 @EnableTransactionManagement

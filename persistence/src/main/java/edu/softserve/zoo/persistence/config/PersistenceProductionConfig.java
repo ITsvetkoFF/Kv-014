@@ -10,8 +10,8 @@ import javax.sql.DataSource;
 /**
  * This Configuration is loaded when the 'production' profile is active.
  * Initializes the PostgreSQL DataSource (establishes connection)
- * <p>
- * Created by Andrii Abramov on 6/7/16.
+ *
+ * @author Andrii Abramov on 6/7/16.
  */
 @Configuration
 @Profile("production")

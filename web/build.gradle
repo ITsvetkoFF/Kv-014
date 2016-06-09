@@ -9,6 +9,7 @@ dependencies {
     compile apache_commons_lang
     compile apache_commons_collections4
     compile apache_commons_commons_beanutils
+    compile hibernate_validator
     testCompile spring_test
     testCompile spring_rest_docs
     testCompile hsqldb
