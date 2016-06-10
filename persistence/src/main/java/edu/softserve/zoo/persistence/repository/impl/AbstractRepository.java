@@ -40,7 +40,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     @Override
     public Long count() {
         Class<T> tClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        return persistenceProvider.<Long>find(new CountSpecification<>(tClass)).get(0);
+        Object count = persistenceProvider.find(new CountSpecification<>(tClass)).get(0);
+        return (Long) count;
     }
 
     /**
