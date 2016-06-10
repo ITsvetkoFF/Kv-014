@@ -20,9 +20,7 @@ war {
         into 'docs'
     }
 }
-task ignoreDocs(type: Test) {
-    exclude 'edu/softserve/zoo/rest/docs/**'
-}
+
 ext {
     snippetsDir = file('build/generated-snippets')
 }
