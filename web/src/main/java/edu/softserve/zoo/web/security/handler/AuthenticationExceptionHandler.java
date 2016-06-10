@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Handler for all unauthorized request to secured endpoints.
- *
  * @author Ilya Doroshenko
  */
 @Component
-public class AuthenticationExceptionHandler implements AuthenticationEntryPoint {
+public class AuthenticationExceptionHandler implements AuthenticationFailureHandler {
 
     private final String JSON_CONTENT_TYPE = "application/json";
 
@@ -26,14 +24,13 @@ public class AuthenticationExceptionHandler implements AuthenticationEntryPoint 
     ObjectMapper objectMapper;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setContentType(JSON_CONTENT_TYPE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         Error error = new Error();
-        error.setMessage(e.getMessage());
+        error.setMessage(exception.getMessage());
 
         objectMapper.writeValue(response.getOutputStream(), error);
     }
-
 }

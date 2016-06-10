@@ -82,6 +82,7 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
         Employee employee = employeeService.findOne(userDetails.getId(), Employee.class);
         employee.setToken(jwtUtils.getIdFromToken(token));
         employeeService.update(employee);
+        //todo wrap ApplicationException? move to UserService and wrap there?
 
         response.setHeader(tokenHeaderName, token);
 
@@ -98,10 +99,11 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
             AuthUserDetails userDetails = (AuthUserDetails) userDetailsService.loadUserByUsername(username);
 
             if (jwtUtils.validateToken(authToken, userDetails)) {
-                /* Writing token ID to user record */
+                /* Erasing token ID from user record */
                 Employee employee = employeeService.findOne(userDetails.getId(), Employee.class);
                 employee.setToken(null);
                 employeeService.update(employee);
+                //todo wrap ApplicationException? move to UserService and wrap there?
             } else {
                 LOGGER.warn("Auth token filter encountered invalid token for user: {}", username);
             }

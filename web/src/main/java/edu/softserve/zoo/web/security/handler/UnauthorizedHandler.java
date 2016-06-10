@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author Ilya Doroshenko
  */
 @Component
-public class AuthorizationExceptionHandler implements AccessDeniedHandler {
+public class UnauthorizedHandler implements AccessDeniedHandler {
 
     private final String JSON_CONTENT_TYPE = "application/json";
 

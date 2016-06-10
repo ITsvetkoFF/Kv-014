@@ -5,38 +5,23 @@
 		                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd">
 
     <!-- Security properties -->
-    <http create-session="stateless" entry-point-ref="authenticationExceptionHandler" >
+    <http create-session="stateless" entry-point-ref="unauthenticatedHandler">
         <csrf disabled="true"/>
-        <access-denied-handler ref="authorizationExceptionHandler"/>
-
+        <access-denied-handler ref="unauthorizedHandler"/>
 
         <custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
         <custom-filter position="FORM_LOGIN_FILTER" ref="loginAuthFilter"/>
         <custom-filter position="REMEMBER_ME_FILTER" ref="tokenAuthFilter"/>
 
-        <!-- Put the most specific matches at the top of less specific ones -->
+        <!-- Put the most specific matches at the top -->
         <intercept-url pattern="/api/v1/employees*" method="GET" access="hasAnyRole('ROLE_MANAGER')"/>
         <intercept-url pattern="/api/v1/employees*" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="/api/v1/login" access="permitAll"/>
-        <!--<intercept-url pattern="/api/v1/logout" access="isAuthenticated()"/>-->
+        <intercept-url pattern="/api/v1/logout" access="permitAll"/>
         <intercept-url pattern="/api/v1/user" access="isAuthenticated()"/>
         <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
     </http>
-
-    <beans:bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
-        <beans:constructor-arg name="authenticationManager" ref="authenticationManager"/>
-        <beans:constructor-arg name="authenticationEntryPoint" ref="authenticationExceptionHandler"/>
-        <beans:property name="rememberMeServices" ref="jwtRememberMeServices"/>
-    </beans:bean>
-
-    <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <beans:constructor-arg name="logoutSuccessHandler" ref="logoutSuccessHandler"/>
-        <beans:constructor-arg name="handlers" ref="jwtRememberMeServices"/>
-        <beans:property name="filterProcessesUrl" value="/api/v1/logout"/>
-    </beans:bean>
-
-    <beans:bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
 
     <!-- Filter responsible for intercepting login requests -->
     <beans:bean id="loginAuthFilter" class="edu.softserve.zoo.web.security.LoginAuthFilter">
@@ -44,14 +29,25 @@
         <beans:property name="authenticationManager" ref="authenticationManager"/>
         <beans:property name="rememberMeServices" ref="jwtRememberMeServices"/>
         <beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler"/>
-        <beans:property name="authenticationFailureHandler" ref="authenticationFailureHandlerImpl"/>
+        <beans:property name="authenticationFailureHandler" ref="authenticationExceptionHandler"/>
     </beans:bean>
+
+    <!-- Filter responsible for intercepting logout requests -->
+    <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:property name="filterProcessesUrl" value="/api/v1/logout"/>
+        <beans:constructor-arg name="logoutSuccessHandler" ref="logoutSuccessHandler"/>
+        <beans:constructor-arg name="handlers" ref="jwtRememberMeServices"/>
+    </beans:bean>
+
+    <beans:bean id="logoutSuccessHandler"
+                class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
 
     <!-- Configuring main authentication manager -->
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsServiceImpl">
             <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
+
     </authentication-manager>
 
     <!-- Password hashing provider for storing in DB -->

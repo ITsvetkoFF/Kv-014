@@ -1,5 +1,7 @@
 package edu.softserve.zoo.service.security;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.model.Role;
 import edu.softserve.zoo.service.EmployeeService;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -33,10 +36,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public AuthUserDetails loadUserByUsername(String username) {
-        Employee employee = employeeService.getEmployeeByEmail(username);
-        Set<GrantedAuthority> authorities = mapRolesToGrantedAuthorities(employee.getRoles());
-        return new AuthUserDetails(employee.getId(), employee.getEmail(), employee.getPassword(),
-                employee.isEnabled(), employee.getToken(), authorities);
+        try {
+            Employee employee = employeeService.getEmployeeByEmail(username);
+            Set<GrantedAuthority> authorities = mapRolesToGrantedAuthorities(employee.getRoles());
+            return new AuthUserDetails(employee.getId(), employee.getEmail(), employee.getPassword(),
+                    employee.isEnabled(), employee.getToken(), authorities);
+        }
+        catch (NotFoundException ex) {
+            throw new UsernameNotFoundException(ex.getReason().getMessage());
+        }
+
     }
 
     /**

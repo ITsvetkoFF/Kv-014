@@ -30,12 +30,10 @@ public class JwtUtils {
 
     //private Key key;
 
-    private String key;
+    private String key = "sdasdasdq2asd123";
 
-    @PostConstruct
-    private void initSecretKey() {
-        //key = MacProvider.generateKey();
-        key = "123";
+    public JwtUtils() {
+        //key = MacProvider.generateKey(); //todo: make it dependant on a profile or smth, not comment it
     }
 
     /**
