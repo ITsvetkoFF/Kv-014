@@ -1,5 +1,6 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -8,15 +9,25 @@ import java.util.Objects;
 
 @Dto(Task.class)
 public class TaskDto extends BaseDto {
+    @DocsFieldDescription("The assignee")
     private EmployeeDto assignee;
+    @DocsFieldDescription("The assigner")
     private EmployeeDto assigner;
+    @DocsFieldDescription("The estimated start")
     private LocalDateTime estimatedStart;
+    @DocsFieldDescription("The estimated finish")
     private LocalDateTime estimatedFinish;
+    @DocsFieldDescription("The actual start")
     private LocalDateTime actualStart;
+    @DocsFieldDescription("The actual finish")
     private LocalDateTime actualFinish;
+    @DocsFieldDescription("The task type")
     private Task.TaskType taskType;
+    @DocsFieldDescription("The zone")
     private ZooZoneDto zone;
+    @DocsFieldDescription("The description")
     private String description;
+    @DocsFieldDescription("The status")
     private Task.TaskStatus status;
 
     public TaskDto() {

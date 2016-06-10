@@ -1,5 +1,8 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
+import edu.softserve.zoo.annotation.DocsParamDescription;
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.FamilyDto;
 import edu.softserve.zoo.model.Family;
 import edu.softserve.zoo.service.FamilyService;
@@ -21,20 +24,23 @@ import static edu.softserve.zoo.controller.rest.Routes.FAMILIES;
  */
 @RestController
 @RequestMapping(FAMILIES)
+@DocsClassDescription("Family resource")
 public class FamilyRestController extends AbstractRestController<FamilyDto, Family> {
 
     @Autowired
     private FamilyService service;
 
+    @DocsTest
     @RequestMapping(method = RequestMethod.GET)
     @Override
     public List<FamilyDto> getAll() {
         return super.getAll();
     }
 
+    @DocsTest(pathParameters = "159811")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @Override
-    public FamilyDto getById(@PathVariable Long id) {
+    public FamilyDto getById(@PathVariable @DocsParamDescription("The family id") Long id) {
         return super.getById(id);
     }
 

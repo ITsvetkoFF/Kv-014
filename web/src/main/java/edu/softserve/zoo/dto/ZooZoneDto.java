@@ -1,5 +1,6 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.ZooZone;
 import edu.softserve.zoo.annotation.Dto;
 
@@ -7,9 +8,13 @@ import java.util.Objects;
 
 @Dto(ZooZone.class)
 public class ZooZoneDto extends BaseDto {
+    @DocsFieldDescription("The name")
     private String name;
+    @DocsFieldDescription("The description")
     private String description;
+    @DocsFieldDescription("The house capacity")
     private Integer houseCapacity;
+    @DocsFieldDescription("The geographical zone")
     private GeographicalZoneDto geographicalZone;
 
     public ZooZoneDto() {

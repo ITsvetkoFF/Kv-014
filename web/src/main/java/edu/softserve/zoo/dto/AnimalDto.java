@@ -1,20 +1,35 @@
 package edu.softserve.zoo.dto;
 
-import edu.softserve.zoo.model.Animal;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Animal;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Dto(Animal.class)
 public class AnimalDto extends BaseDto {
+    @DocsFieldDescription("The nickname")
     private String nickname;
+    @DocsFieldDescription("All species")
     private SpeciesDto species;
+    @DocsFieldDescription("The house")
     private HouseDto house;
+    @DocsFieldDescription("The birthday")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate birthday;
+    @DocsFieldDescription("The min temperature")
     private Integer temperatureMin;
+    @DocsFieldDescription("The max temperature")
     private Integer temperatureMax;
+    @DocsFieldDescription("The count od animals per house")
     private Integer animalsPerHouse;
+    @DocsFieldDescription("The food consumption")
     private Integer foodConsumption;
 
     public AnimalDto() {
