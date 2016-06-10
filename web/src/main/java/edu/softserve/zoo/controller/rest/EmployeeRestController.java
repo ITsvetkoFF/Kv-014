@@ -1,5 +1,7 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.service.EmployeeService;
@@ -20,6 +22,7 @@ import static edu.softserve.zoo.controller.rest.Routes.EMPLOYEES;
  */
 @RestController
 @RequestMapping(EMPLOYEES)
+@DocsClassDescription("Employee resource")
 public class EmployeeRestController extends AbstractRestController<EmployeeDto, Employee> {
 
     @Autowired
@@ -28,6 +31,13 @@ public class EmployeeRestController extends AbstractRestController<EmployeeDto, 
     @Override
     protected Service<Employee> getService() {
         return employeeService;
+    }
+
+    @DocsTest
+    @RequestMapping(path="/count", method = RequestMethod.GET)
+    @Override
+    public Long count() {
+        return super.count();
     }
 
     @Override

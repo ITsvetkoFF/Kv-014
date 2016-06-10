@@ -37,7 +37,7 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
     @Transactional
     @Override
     public Long count() {
-        return getRepository().count(type);
+        return getRepository().count();
     }
 
     @Transactional

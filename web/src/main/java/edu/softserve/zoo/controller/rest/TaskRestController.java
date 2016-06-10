@@ -1,40 +1,67 @@
 package edu.softserve.zoo.controller.rest;
 
+
+import edu.softserve.zoo.annotation.DocsClassDescription;
+import edu.softserve.zoo.annotation.DocsParamDescription;
+import edu.softserve.zoo.annotation.DocsTest;
+import edu.softserve.zoo.dto.TaskDto;
 import edu.softserve.zoo.dto.TaskStatisticsDto;
 import edu.softserve.zoo.dto.TaskStatusDto;
 import edu.softserve.zoo.dto.TaskTypeDto;
+import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.model.TaskStatistics;
-import edu.softserve.zoo.persistence.repository.TaskRepository;
+import edu.softserve.zoo.service.Service;
+import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static edu.softserve.zoo.controller.rest.Routes.API_V1;
+import static edu.softserve.zoo.controller.rest.Routes.TASKS;
 
 /**
- * Just mock for testing
- *
- * @author Taras Zubrei
+ * RestController implementation for {@link Task} entity.
  */
+
+@DocsClassDescription("Task resource")
 @RestController
-@RequestMapping(API_V1 + "/tasks")
-public class TaskRestController {
+@RequestMapping(TASKS)
+public class TaskRestController extends AbstractRestController<TaskDto, Task> {
+
     @Autowired
-    TaskRepository repo;
+    private TaskService taskService;
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(method = RequestMethod.GET, params = "assigneeId")
+    public List<TaskDto> tasksGetAllByAssignee(@RequestParam("assigneeId") @DocsParamDescription("The id of assignee") Long assigneeId) {
+        List<Task> taskList = taskService.taskGetAllByAssigneeId(assigneeId);
+        return converter.convertToDto(taskList);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(method = RequestMethod.GET, params = "assignerId")
+    public List<TaskDto> tasksGetAllByAssigner(@RequestParam("assignerId") @DocsParamDescription("The id of assigner") Long assignerId) {
+        List<Task> taskList = taskService.taskGetAllByAssignerId(assignerId);
+        return converter.convertToDto(taskList);
+    }
+
+    @DocsTest
+    @Override
+    @RequestMapping(method = RequestMethod.GET)
+    public List<TaskDto> getAll() {
+        return super.getAll();
+    }
+
+    @DocsTest(pathParameters = "2")
     @RequestMapping(path = "/statistics/{id}", method = RequestMethod.GET, produces = "application/json")
-    @Transactional
-    public TaskStatisticsDto getEmployeeTasksStatuses(@PathVariable Long id) {
+    public TaskStatisticsDto getStatistics(@PathVariable @DocsParamDescription("Employee id") Long id) {
         TaskStatisticsDto dto = new TaskStatisticsDto();
-        TaskStatistics statistics = repo.getStatistics(id);
+        TaskStatistics statistics = taskService.getStatistics(id);
         dto.setTaskStatuses(
                 statistics.getTaskStatuses().entrySet().stream()
-                .map(pair -> new TaskStatusDto(pair.getKey(), pair.getValue()))
-                .collect(Collectors.toList())
+                        .map(pair -> new TaskStatusDto(pair.getKey(), pair.getValue()))
+                        .collect(Collectors.toList())
         );
         dto.setTaskTypes(
                 statistics.getTaskTypes().entrySet().stream()
@@ -42,5 +69,10 @@ public class TaskRestController {
                         .collect(Collectors.toList())
         );
         return dto;
+    }
+
+    @Override
+    protected Service<Task> getService() {
+        return taskService;
     }
 }

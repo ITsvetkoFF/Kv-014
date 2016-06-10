@@ -3,6 +3,7 @@ package edu.softserve.zoo.service.impl;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssigneeIdSpecification;
@@ -67,4 +68,15 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
         return taskRepository.find(new TaskGetAllByAssigneeIdSpecification(assigneeId));
     }
 
+    @Override
+    @Transactional
+    public TaskStatistics getStatistics(Long employeeId) {
+        Validator.notNull(employeeService.findOne(employeeId),
+                ApplicationException
+                        .getBuilderFor(NotFoundException.class)
+                        .forReason(ServiceReason.NOT_FOUND)
+                        .withMessage("Invalid Employee id supplied")
+                        .build());
+        return taskRepository.getStatistics(employeeId);
+    }
 }

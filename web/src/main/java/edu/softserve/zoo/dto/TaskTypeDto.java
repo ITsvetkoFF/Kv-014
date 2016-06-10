@@ -1,5 +1,6 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.IrrespectiveDto;
 import edu.softserve.zoo.model.Task;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,9 @@ import java.util.Objects;
  */
 @IrrespectiveDto
 public class TaskTypeDto {
+    @DocsFieldDescription("Task type")
     private String taskType;
+    @DocsFieldDescription("The count")
     private Long count;
 
     public TaskTypeDto() {

@@ -1,5 +1,6 @@
 package edu.softserve.zoo.dto;
 
+import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.IrrespectiveDto;
 
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.Objects;
  */
 @IrrespectiveDto
 public class TaskStatisticsDto {
+    @DocsFieldDescription("Statuses of tasks")
     List<TaskStatusDto> taskStatuses;
+    @DocsFieldDescription("Types of tasks")
     List<TaskTypeDto> taskTypes;
 
     public TaskStatisticsDto() {

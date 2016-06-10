@@ -6,14 +6,19 @@ import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
+import edu.softserve.zoo.persistence.provider.impl.JdbcPersistenceProvider;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.Table;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigInteger;
 import java.util.List;
+
+import static edu.softserve.zoo.persistence.specification.impl.Queries.COUNT;
 
 /**
  * <p>Abstract implementation of the <tt>Repository</tt>. Help to implement concrete repositories for every
@@ -29,6 +34,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Autowired
     private PersistenceProvider<T> persistenceProvider;
+    @Autowired
+    private JdbcPersistenceProvider<Long> jdbcPersistenceProvider;
 
     /**
      * {@inheritDoc}
@@ -40,8 +47,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     @Override
     public Long count() {
         Class<T> tClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        Object count = persistenceProvider.find(new CountSpecification<>(tClass)).get(0);
-        return (Long) count;
+        return jdbcPersistenceProvider.findOne(String.format(COUNT, tClass.getAnnotation(Table.class).name()), BigInteger::longValue);
     }
 
     /**
