@@ -132,7 +132,7 @@ public class DocsGenerationTest {
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
             final FieldDescriptor[] responseFields = getRequestFields(isArray, dtoClass);
-            final String snippetsPath = "/" + requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
+            String snippetsPath = requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
 
             LOGGER.info(requestMethod + ": " + path);
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
@@ -160,6 +160,7 @@ public class DocsGenerationTest {
             Class entity = (Class) ((ParameterizedType) mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass()).getActualTypeArguments()[1];
             DocsClassDescription docsClassDescription = mapping.getValue().getMethod().getDeclaringClass().getAnnotation(DocsClassDescription.class);
             Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("All rest controllers have to be annotated with '%s' annotation. Problem class: %s", DocsClassDescription.class.getSimpleName(), mapping.getValue().getMethod().getDeclaringClass())).build());
+            snippetsPath = "/" + snippetsPath;
             documentation
                     .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),'-'), entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),' ')))
                     .append(docsClassDescription.value())

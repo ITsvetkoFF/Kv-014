@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Dto(Animal.class)
 public class AnimalDto extends BaseDto {
-    @DocsFieldDescription("The nickname")
+    @DocsFieldDescription(value = "The nickname", optional = true)
     private String nickname;
     @DocsFieldDescription("All species")
     private SpeciesDto species;
