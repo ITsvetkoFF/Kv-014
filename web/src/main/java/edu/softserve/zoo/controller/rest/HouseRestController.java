@@ -1,6 +1,7 @@
 package edu.softserve.zoo.controller.rest;
 
 import edu.softserve.zoo.annotation.DocsClassDescription;
+import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.HouseDto;
 import edu.softserve.zoo.model.House;
@@ -38,8 +39,9 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         return super.getAll();
     }
 
+    @DocsTest(pathParameters = "1")
     @RequestMapping(method = RequestMethod.GET, params = "zoneId")
-    public List<HouseDto> getAllByZooZoneId(@RequestParam Long zoneId) {
+    public List<HouseDto> getAllByZooZoneId(@RequestParam @DocsParamDescription("The zone") Long zoneId) {
         List<House> allByZoneId = houseService.getAllByZooZoneId(zoneId);
         return converter.convertToDto(allByZoneId);
     }
