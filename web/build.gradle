@@ -31,13 +31,16 @@ ext {
 
 test {
     outputs.dir snippetsDir
+    exclude 'edu/softserve/zoo/rest/docs/**'
 }
-
+task docsTest(type: Test) {
+    include 'edu/softserve/zoo/rest/docs/**'
+}
 
 asciidoctor {
     attributes 'snippets': snippetsDir
     inputs.dir snippetsDir
     outputDir "build/asciidoc"
-    dependsOn test
+    dependsOn docsTest
     sourceDir 'src/test/resources/asciidoc'
 }
