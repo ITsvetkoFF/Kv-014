@@ -32,8 +32,6 @@ public class AnimalDto extends BaseDto {
     private HouseDto house;
 
     @DocsFieldDescription("The birthday")
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate birthday;
 
     @DocsFieldDescription("The min temperature")

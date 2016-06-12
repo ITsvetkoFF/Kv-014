@@ -1,3 +1,4 @@
+import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.exception.WebReason;
 import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.persistence.exception.PersistenceReason;
@@ -14,6 +15,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Locale;
 
@@ -23,7 +25,8 @@ import java.util.Locale;
  * @author Serhii Alekseichenko
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/web-test-ctx.xml")
+@ContextConfiguration(classes = WebConfig.class)
+@WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
 public class I18nTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(I18nTest.class);
