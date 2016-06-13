@@ -17,6 +17,8 @@ public class TaskStatusDto {
     @DocsFieldDescription("The count")
     private Long count;
 
+    public TaskStatusDto() {
+    }
 
     public TaskStatusDto(Task.TaskStatus taskStatus, Long count) {
         this.taskStatus = StringUtils.capitalize(taskStatus.toString().toLowerCase().replace('_', ' '));

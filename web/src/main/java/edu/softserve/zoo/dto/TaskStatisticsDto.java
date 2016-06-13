@@ -12,9 +12,9 @@ import java.util.Objects;
 @IrrespectiveDto
 public class TaskStatisticsDto {
     @DocsFieldDescription("Statuses of tasks")
-    List<TaskStatusDto> taskStatuses;
+    private List<TaskStatusDto> taskStatuses;
     @DocsFieldDescription("Types of tasks")
-    List<TaskTypeDto> taskTypes;
+    private List<TaskTypeDto> taskTypes;
 
     public TaskStatisticsDto() {
     }

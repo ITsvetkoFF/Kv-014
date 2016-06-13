@@ -8,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * @author Taras Zubrei
@@ -20,6 +21,7 @@ public class TaskServiceTest {
     @Autowired
     private TaskService taskService;
     private final Long invalidEmployeeId = 12L;
+    private final Long validEmployeeId = 2L;
 
     @Test(expected = ApplicationException.class)
     public void invalidEmployeeIdForStatistics() {
@@ -32,5 +34,11 @@ public class TaskServiceTest {
     @Test(expected = ApplicationException.class)
     public void invalidEmployeeIdForAllByAssigner() {
         taskService.taskGetAllByAssignerId(invalidEmployeeId);
+    }
+    @Test
+    public void validEmployeeId() {
+        Assert.notNull(taskService.getStatistics(validEmployeeId));
+        Assert.notNull(taskService.taskGetAllByAssigneeId(validEmployeeId));
+        Assert.notNull(taskService.taskGetAllByAssignerId(validEmployeeId));
     }
 }

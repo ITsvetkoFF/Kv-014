@@ -46,7 +46,7 @@ public class TaskTypeDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskTypeDto that = (TaskTypeDto) o;
-        return taskType == that.taskType &&
+        return Objects.equals(taskType, that.taskType) &&
                 Objects.equals(count, that.count);
     }
 

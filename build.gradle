@@ -15,7 +15,7 @@ def servlet_api_version = '3.1.0'
 def jackson_version = '2.6.5'
 def jjwt_version = '0.6.0'
 def guava_version = '19.0'
-def javax_el_version = '2.2'
+def javax_el_version = '2.2'\
 def sourceVersion = '0.0.1-SNAPSHOT'
 
 def slf4j_version = '1.7.21'

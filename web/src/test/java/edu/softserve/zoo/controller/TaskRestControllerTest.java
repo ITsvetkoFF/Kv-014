@@ -1,7 +1,12 @@
 package edu.softserve.zoo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.controller.rest.Routes;
+import edu.softserve.zoo.dto.TaskStatisticsDto;
+import edu.softserve.zoo.dto.TaskStatusDto;
+import edu.softserve.zoo.dto.TaskTypeDto;
 import edu.softserve.zoo.model.Task;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.is;
+import java.util.Arrays;
+
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -30,32 +35,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TaskRestControllerTest {
     @Autowired
     private WebApplicationContext context;
+    @Autowired
+    ObjectMapper objectMapper;
     private MockMvc mockMvc;
 
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
+
     @Test
     public void statistics() throws Exception {
-        this.mockMvc.perform(get(Routes.TASKS+"/statistics/{id}", 2).contentType(MediaType.APPLICATION_JSON))
+        final TaskStatisticsDto dto = new TaskStatisticsDto();
+        dto.setTaskTypes(Arrays.asList(
+                new TaskTypeDto(Task.TaskType.FEEDING, 1L),
+                new TaskTypeDto(Task.TaskType.HEALTH_INSPECTION, 3L),
+                new TaskTypeDto(Task.TaskType.GIVE_MEDICINE, 3L)
+        ));
+        dto.setTaskStatuses(Arrays.asList(
+                new TaskStatusDto(Task.TaskStatus.ACCOMPLISHED, 4L),
+                new TaskStatusDto(Task.TaskStatus.FAILED, 1L),
+                new TaskStatusDto(Task.TaskStatus.IN_PROGRESS, 2L)
+        ));
+        this.mockMvc.perform(get(Routes.TASKS + "/statistics/{id}", 2).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.taskStatuses[0].taskStatus", is(enumToString(Task.TaskStatus.ACCOMPLISHED))))
-                .andExpect(jsonPath("$.taskStatuses[0].count", is(4)))
-                .andExpect(jsonPath("$.taskStatuses[1].taskStatus", is(enumToString(Task.TaskStatus.FAILED))))
-                .andExpect(jsonPath("$.taskStatuses[1].count", is(1)))
-                .andExpect(jsonPath("$.taskStatuses[2].taskStatus", is(enumToString(Task.TaskStatus.IN_PROGRESS))))
-                .andExpect(jsonPath("$.taskStatuses[2].count", is(2)))
-                .andExpect(jsonPath("$.taskTypes[0].taskType", is(enumToString(Task.TaskType.FEEDING))))
-                .andExpect(jsonPath("$.taskTypes[0].count", is(1)))
-                .andExpect(jsonPath("$.taskTypes[1].taskType", is(enumToString(Task.TaskType.HEALTH_INSPECTION))))
-                .andExpect(jsonPath("$.taskTypes[1].count", is(3)))
-                .andExpect(jsonPath("$.taskTypes[2].taskType", is(enumToString(Task.TaskType.GIVE_MEDICINE))))
-                .andExpect(jsonPath("$.taskTypes[2].count", is(3)));
-        this.mockMvc.perform(get(Routes.TASKS+"/statistics/{id}", 12).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(mvcResult -> {
+                    TaskStatisticsDto response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), TaskStatisticsDto.class);
+                    Assert.assertEquals("Response validation failed", dto, response);
+                });
+        this.mockMvc.perform(get(Routes.TASKS + "/statistics/{id}", 12).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-    }
-    private String enumToString(Enum s){
-        return org.apache.commons.lang3.StringUtils.capitalize(s.toString().toLowerCase().replace('_', ' '));
     }
 }
