@@ -1,10 +1,7 @@
 package edu.softserve.zoo.rest.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.softserve.zoo.annotation.DocsClassDescription;
-import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.annotation.DocsParamDescription;
-import edu.softserve.zoo.annotation.DocsTest;
+import edu.softserve.zoo.annotation.*;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.WebException;
@@ -21,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.RestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -127,14 +123,14 @@ public class DocsGenerationTest {
                         .build();
 
             final String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
+            LOGGER.info(requestMethod + ": " + path);
             final boolean isArray = mapping.getValue().getMethod().getGenericReturnType() instanceof ParameterizedType;
             final Class dtoClass = getDtoClass(mapping.getValue());
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
-            final FieldDescriptor[] responseFields = getRequestFields(isArray, dtoClass);
+            final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass);
             String snippetsPath = requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
 
-            LOGGER.info(requestMethod + ": " + path);
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
             if (pathParameters.length > 0)
                 document.snippets(pathParameters(pathParameters));
@@ -157,12 +153,16 @@ public class DocsGenerationTest {
                     .andExpect(status().isOk())
                     .andDo(document);
 
-            Class entity = (Class) ((ParameterizedType) mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass()).getActualTypeArguments()[1];
+            Class entity;
+            if (mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass() instanceof ParameterizedType)
+                entity = (Class) ((ParameterizedType) mapping.getValue().getMethod().getDeclaringClass().getGenericSuperclass()).getActualTypeArguments()[1];
+            else
+                entity = dtoClass;
             DocsClassDescription docsClassDescription = mapping.getValue().getMethod().getDeclaringClass().getAnnotation(DocsClassDescription.class);
             Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("All rest controllers have to be annotated with '%s' annotation. Problem class: %s", DocsClassDescription.class.getSimpleName(), mapping.getValue().getMethod().getDeclaringClass())).build());
             snippetsPath = "/" + snippetsPath;
             documentation
-                    .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),'-'), entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()),' ')))
+                    .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), '-'), entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), ' ')))
                     .append(docsClassDescription.value())
                     .append("\n\n");
             if (pathParameters.length > 0)
@@ -203,12 +203,12 @@ public class DocsGenerationTest {
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
     }
 
-    private FieldDescriptor[] getRequestFields(final boolean isArray, Class<?> dtoClass) {
+    private FieldDescriptor[] getResponseFields(final boolean isArray, Class<?> dtoClass) {
         List<Field> fields = new LinkedList<>(Arrays.asList(dtoClass.getDeclaredFields()));
         if (BaseDto.class.equals(dtoClass.getSuperclass())) {
             fields.addAll(0, Arrays.asList(dtoClass.getSuperclass().getDeclaredFields()));
         }
-        return !ResponseEntity.class.equals(dtoClass) ? fields.stream()
+        return dtoClass.getAnnotation(Dto.class) != null || dtoClass.getAnnotation(IrrespectiveDto.class) != null ? fields.stream()
                 .map(field -> {
                     Validator.notNull(field.getAnnotation(DocsFieldDescription.class), ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every field must be annotated with '%s' annotation. Problem field: %s", DocsFieldDescription.class.getSimpleName(), field)).build());
                     return field;
@@ -239,7 +239,7 @@ public class DocsGenerationTest {
         Type generic = method.getMethod().getGenericReturnType();
         Class dtoClass;
         if (generic instanceof ParameterizedType) {
-            dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0]; //TODO: Reflection Utils in Spring ??What method??
+            dtoClass = (Class) ((ParameterizedType) generic).getActualTypeArguments()[0];
         } else {
             dtoClass = (Class) generic;
         }

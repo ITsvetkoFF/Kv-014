@@ -9,8 +9,8 @@ def junit_version = '4.12'
 def apache_commons_lang_version = '3.4'
 def apache_commons_collections_version = '4.1'
 def apache_commons_commons_beanutils_version = '1.9.2'
-def jackson_version = '2.6.5'
 def spring_rest_docs_version = '1.0.1.RELEASE'
+def jackson_version = '2.6.5'
 def guava_version = '19.0'
 def javax_el_version = '2.2'
 def sourceVersion = '0.0.1-SNAPSHOT'
@@ -72,6 +72,8 @@ allprojects {
     dependencies {
         compile slf4j, log4j2, slf4j_log4j2_binding, jcl_over_slf4j, jboss_logging
         testCompile junit
+        testCompile hsqldb
+        testCompile spring_test
     }
     configurations {
         /* For proper SLF4J integration with Spring */
