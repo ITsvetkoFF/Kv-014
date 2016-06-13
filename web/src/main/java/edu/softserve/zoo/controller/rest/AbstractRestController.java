@@ -8,6 +8,7 @@ import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
+
+import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 
 /**
  * This class provides a skeletal implementation of common basic operations for REST controllers
@@ -27,16 +30,23 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
     @Autowired
     protected ModelConverter converter;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
     public Error handleApplicationException(ApplicationException exception) {
-        return new Error(exception);
+        String message = messageSource.getMessage(exception.getReason().getMessage(), null,
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), getLocale());
+        return new Error(message);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
     public Error handleNotFoundExceptionException(NotFoundException exception) {
-        return new Error(exception);
+        String message = messageSource.getMessage(exception.getReason().getMessage(), null,
+                HttpStatus.NOT_FOUND.getReasonPhrase(), getLocale());
+        return new Error(message);
     }
 
     public Dto getById(@PathVariable Long id) {

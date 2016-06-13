@@ -6,9 +6,9 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
  * @author Vadym Holub
  */
 public enum PersistenceReason implements ExceptionReason {
-    HIBERNATE_QUERY_FAILED("Internal server error"),
-    SPECIFICATION_IS_NULL("Internal server error"),
-    NULL_VALUE_IN_SPECIFICATION("passed not valid request parameter");
+    HIBERNATE_QUERY_FAILED("reason.persistence.hibernate_query_failed"),
+    SPECIFICATION_IS_NULL("reason.persistence.specification_is_null"),
+    NULL_VALUE_IN_SPECIFICATION("reason.persistence.null_value_in_specification");
 
     private final String message;
 

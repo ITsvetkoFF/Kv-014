@@ -6,7 +6,7 @@ import edu.softserve.zoo.exceptions.ExceptionReason;
  * @author Vadym Holub
  */
 public enum ServiceReason implements ExceptionReason {
-    NOT_FOUND("Not Found");
+    NOT_FOUND("reason.service.not_found");
 
     private final String message;
 
