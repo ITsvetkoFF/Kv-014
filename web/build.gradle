@@ -14,7 +14,6 @@ dependencies {
     testCompile spring_rest_docs
     testCompile hsqldb
     testCompile javax_el
-
 }
 
 war {
