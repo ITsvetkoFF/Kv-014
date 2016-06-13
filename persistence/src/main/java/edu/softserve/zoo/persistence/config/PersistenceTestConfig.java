@@ -12,8 +12,8 @@ import javax.sql.DataSource;
 /**
  * This Configuration is loaded when the 'test' profile is active.
  * Initializes the HSQLDB DataSource (creates schema, populates database)
- * <p>
- * Created by Andrii Abramov on 6/7/16.
+ *
+ * @author Andrii Abramov on 6/7/16.
  */
 @Configuration
 @Profile("test")
@@ -28,8 +28,7 @@ public class PersistenceTestConfig {
     public DataSource dataSource() {
         final String schemaScript = env.getProperty("db.schema_script");
         final String populateScript = env.getProperty("db.populate_script");
-        System.err.println(schemaScript);
-        System.err.println(populateScript);
+
         final EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         final EmbeddedDatabase db = builder
                 .setType(EmbeddedDatabaseType.HSQL)

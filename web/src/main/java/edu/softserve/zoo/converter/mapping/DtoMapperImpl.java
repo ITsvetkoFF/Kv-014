@@ -24,7 +24,7 @@ import static java.lang.String.format;
 /**
  * Class that manages relationships between Entities and their DTO.
  *
- * Created by Andrii Abramov on 5/29/16.
+ * @author Andrii Abramov on 5/29/16.
  */
 public class DtoMapperImpl implements DtoMapper {
 

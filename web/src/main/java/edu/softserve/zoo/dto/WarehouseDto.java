@@ -4,6 +4,7 @@ import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.annotation.Dto;
 
+import javax.validation.constraints.Min;
 import java.util.Objects;
 
 @Dto(Warehouse.class)
@@ -11,8 +12,12 @@ public class WarehouseDto extends BaseDto {
     @DocsFieldDescription("Supply type")
     private Warehouse.Supply supply;
     @DocsFieldDescription("The amount")
+
+    @Min(0)
     private Integer amount;
     @DocsFieldDescription("The max capacity")
+
+    @Min(0)
     private Integer maxCapacity;
 
     public WarehouseDto() {
