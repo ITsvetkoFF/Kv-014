@@ -72,15 +72,16 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     }
 
     @DocsTest(pathParameters = "1")
-    @RequestMapping(path = "/house/{id}", method = RequestMethod.GET)
-    public List<AnimalDto> getAllByHouseId(@PathVariable @DocsParamDescription("id of animal") Long id) {
-        List<Animal> allByHouseId = animalService.getAllByHouseId(id);
+    @RequestMapping(method = RequestMethod.GET, params = "houseId")
+    public List<AnimalDto> getAllByHouseId(@RequestParam("houseId") Long houseId) {
+        List<Animal> allByHouseId = animalService.getAllByHouseId(houseId);
         return converter.convertToDto(allByHouseId);
     }
+
     @DocsTest(pathParameters = "161130")
-    @RequestMapping(path = "/species/{id}", method = RequestMethod.GET)
-    public List<AnimalDto> getAllBySpeciesId(@PathVariable @DocsParamDescription("id of animal") Long id) {
-        List<Animal> allBySpeciesId = animalService.getAllBySpeciesId(id);
+    @RequestMapping(method = RequestMethod.GET, params = "speciesId")
+    public List<AnimalDto> getAllBySpeciesId(@RequestParam("speciesId") Long speciesId) {
+        List<Animal> allBySpeciesId = animalService.getAllBySpeciesId(speciesId);
         return converter.convertToDto(allBySpeciesId);
     }
 }
