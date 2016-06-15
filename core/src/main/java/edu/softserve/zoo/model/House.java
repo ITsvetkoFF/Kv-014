@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "houses")
 public class House extends BaseEntity {
+
     private String name;
     private ZooZone zone;
     private Integer maxCapacity;
@@ -13,7 +14,7 @@ public class House extends BaseEntity {
     public House() {
     }
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 50)
     public String getName() {
         return name;
     }

@@ -1,33 +1,54 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Task;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Dto(Task.class)
 public class TaskDto extends BaseDto {
+
     @DocsFieldDescription("The assignee")
+    @NotNull
     private EmployeeDto assignee;
+
     @DocsFieldDescription("The assigner")
+    @NotNull
     private EmployeeDto assigner;
+
     @DocsFieldDescription("The estimated start")
+    @NotNull
     private LocalDateTime estimatedStart;
+
     @DocsFieldDescription("The estimated finish")
+    @NotNull
     private LocalDateTime estimatedFinish;
+
     @DocsFieldDescription("The actual start")
     private LocalDateTime actualStart;
+
     @DocsFieldDescription("The actual finish")
     private LocalDateTime actualFinish;
+
     @DocsFieldDescription("The task type")
+    @NotNull
     private Task.TaskType taskType;
+
     @DocsFieldDescription("The zone")
+    @NotNull
     private ZooZoneDto zone;
+
     @DocsFieldDescription("The description")
+    @NotNull
+    @Length(max = 100)
     private String description;
+
     @DocsFieldDescription("The status")
+    // TODO nullable ?
     private Task.TaskStatus status;
 
     public TaskDto() {

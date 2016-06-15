@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "geo_zones")
 public class GeographicalZone extends BaseEntity {
+
     private String regionName;
 
     public GeographicalZone() {

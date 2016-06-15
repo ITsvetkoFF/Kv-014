@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "animals")
 public class Animal extends BaseEntity {
+
     private String nickname;
     private Species species;
     private House house;

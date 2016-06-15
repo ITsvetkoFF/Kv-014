@@ -4,8 +4,6 @@ import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.AnimalDto;
-import edu.softserve.zoo.dto.HouseDto;
-import edu.softserve.zoo.dto.SpeciesDto;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.service.AnimalService;
 import edu.softserve.zoo.service.Service;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static edu.softserve.zoo.controller.rest.Routes.ANIMALS;
@@ -58,7 +55,7 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     }
 
     @DocsTest(pathParameters = "1")
-    @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @Override
     public AnimalDto update(@RequestBody AnimalDto dto, @PathVariable @DocsParamDescription("id of animal") Long id) {
         return super.update(dto, id);

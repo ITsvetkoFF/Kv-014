@@ -3,6 +3,7 @@ package edu.softserve.zoo.service.test;
 import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.service.WarehouseService;
+import edu.softserve.zoo.service.config.ServiceConfig;
 import edu.softserve.zoo.service.exception.InvalidDataException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  * @author Andrii Abramov on 6/15/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/service-test-ctx.xml")
+@ContextConfiguration(classes = ServiceConfig.class)
 @ActiveProfiles("test")
 public class WarehouseServiceTest {
 

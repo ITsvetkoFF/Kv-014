@@ -1,16 +1,25 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.Family;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Family;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Dto(Family.class)
 public class FamilyDto extends BaseDto {
+
     @DocsFieldDescription("The name")
+    @NotNull
+    @NotEmpty
+    @Length(max = 50)
     private String name;
+
     @DocsFieldDescription("The animal")
+    @NotNull
     private AnimalClassDto animalClass;
 
     public FamilyDto() {

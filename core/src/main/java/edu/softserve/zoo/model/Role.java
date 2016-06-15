@@ -9,6 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "employee_roles")
 public class Role extends BaseEntity {
+
     private Type type;
 
     public Role() {

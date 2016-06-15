@@ -7,29 +7,49 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.Dto;
 import edu.softserve.zoo.model.Animal;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Dto(Animal.class)
 public class AnimalDto extends BaseDto {
+
     @DocsFieldDescription(value = "The nickname", optional = true)
+    @NotNull
+    @NotEmpty
+    @Length(max = 50)
     private String nickname;
+
     @DocsFieldDescription("All species")
+    @NotNull
     private SpeciesDto species;
+
     @DocsFieldDescription("The house")
+    @NotNull
     private HouseDto house;
+
     @DocsFieldDescription("The birthday")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate birthday;
+
     @DocsFieldDescription("The min temperature")
+    @NotNull
     private Integer temperatureMin;
+
     @DocsFieldDescription("The max temperature")
+    @NotNull
     private Integer temperatureMax;
-    @DocsFieldDescription("The count od animals per house")
+
+    @DocsFieldDescription("The count of animals per house")
+    @NotNull
     private Integer animalsPerHouse;
+
     @DocsFieldDescription("The food consumption")
+    @NotNull
     private Integer foodConsumption;
 
     public AnimalDto() {

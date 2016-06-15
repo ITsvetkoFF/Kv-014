@@ -1,23 +1,28 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Warehouse;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Dto(Warehouse.class)
 public class WarehouseDto extends BaseDto {
+
     @DocsFieldDescription("Supply type")
+    @NotNull
     private Warehouse.Supply supply;
+
     @DocsFieldDescription("The amount")
-
     @Min(0)
+    @NotNull
     private Integer amount;
-    @DocsFieldDescription("The max capacity")
 
+    @DocsFieldDescription("The max capacity")
     @Min(0)
+    @NotNull
     private Integer maxCapacity;
 
     public WarehouseDto() {

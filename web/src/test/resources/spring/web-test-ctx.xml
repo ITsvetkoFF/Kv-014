@@ -15,6 +15,7 @@
     <bean id="webTestProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath*:asciidoc/web-test.properties"/>
     </bean>
+
     <context:component-scan
             base-package="edu.softserve.zoo.test.endpoints.checking.checker"/>
 

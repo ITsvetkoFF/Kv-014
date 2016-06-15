@@ -46,7 +46,7 @@ public class WarehouseController extends AbstractRestController<WarehouseDto, Wa
     }
 
     @DocsTest(pathParameters = "1")
-    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public WarehouseDto update(@Valid @RequestBody WarehouseDto dto, @PathVariable @DocsParamDescription("id of warehouse") Long id) {
         return super.update(dto, id);
     }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="WARN" shutdownHook="disable">
 
     <Properties>
         <Property name="path">${env:ZOO_LOGGING}</Property>
     </Properties>
 
     <Appenders>
-        <File name="File" fileName="${path}\test.log">
+        <File name="File" fileName="${path}/test.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level [%logger{1.}] - %msg%n"/>
         </File>
 

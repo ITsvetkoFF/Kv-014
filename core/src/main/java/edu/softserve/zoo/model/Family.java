@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "families")
 public class Family extends BaseEntity {
+
     private String name;
     private AnimalClass animalClass;
 

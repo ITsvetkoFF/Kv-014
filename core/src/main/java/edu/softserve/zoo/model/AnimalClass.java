@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "classes")
 public class AnimalClass extends BaseEntity {
+
     private String name;
 
     public AnimalClass() {

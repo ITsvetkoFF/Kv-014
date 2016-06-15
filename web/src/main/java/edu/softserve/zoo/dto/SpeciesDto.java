@@ -1,20 +1,34 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.Species;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Species;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
 @Dto(Species.class)
 public class SpeciesDto extends BaseDto {
+
     @DocsFieldDescription("The family")
+    @NotNull
     private FamilyDto family;
+
     @DocsFieldDescription("The scientific name")
+    @NotNull
+    @NotEmpty
+    @Length(max = 50)
     private String scientificName;
+
     @DocsFieldDescription("The common name")
+    @NotNull
+    @NotEmpty
+    @Length(max = 50)
     private String commonName;
+
     @DocsFieldDescription(value = "The geographical zones", optional = true)
     private Set<GeographicalZoneDto> geographicalZones;
 
