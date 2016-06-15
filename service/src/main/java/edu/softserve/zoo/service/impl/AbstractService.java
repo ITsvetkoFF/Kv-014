@@ -2,6 +2,7 @@ package edu.softserve.zoo.service.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
+import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
@@ -55,6 +56,19 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
     @Override
     public void delete(Long id) {
         getRepository().delete(id, type);
+    }
+
+    /**
+     * Checks if provided {@code arg} is null.
+     * If so, throws {@link ServiceException} with {@link ServiceReason#ARGUMENT_IS_NULL} reason.
+     *
+     * @param arg argument to check
+     */
+    protected void validateNullableArgument(Object arg) {
+        Validator.notNull(arg, ApplicationException.getBuilderFor(ServiceException.class)
+                .forReason(ServiceReason.ARGUMENT_IS_NULL)
+                .withMessage("Provided argument can't be null")
+                .build());
     }
 
     abstract Repository<T> getRepository();

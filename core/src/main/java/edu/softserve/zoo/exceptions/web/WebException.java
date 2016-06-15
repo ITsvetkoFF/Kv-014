@@ -1,4 +1,4 @@
-package edu.softserve.zoo.exceptions.persistence;
+package edu.softserve.zoo.exceptions.web;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.ExceptionReason;

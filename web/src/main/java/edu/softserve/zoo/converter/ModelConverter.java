@@ -3,7 +3,7 @@ package edu.softserve.zoo.converter;
 import edu.softserve.zoo.converter.mapping.DtoMapper;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.WebException;
+import edu.softserve.zoo.exceptions.web.WebException;
 import edu.softserve.zoo.model.BaseEntity;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
