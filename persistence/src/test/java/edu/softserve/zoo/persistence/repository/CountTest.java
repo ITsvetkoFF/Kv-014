@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.persistence.config.PersistenceTestConfig;
+import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceTestConfig.class)
+@ContextConfiguration(classes = PersistenceConfig.class)
 @ActiveProfiles("test")
 @Transactional
 public class CountTest {

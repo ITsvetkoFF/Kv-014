@@ -37,7 +37,7 @@ public class ResourceIdInPluralFormRouteChecker implements RouteChecker {
     static {
         String[] ignoredNouns = {"women", "men", "children", "teeth", "feet",
                 "people", "mice", "cacti", "foci", "fungi", "nuclei", "syllabi",
-                "phenomena", "criteria", "data", "user"};
+                "phenomena", "criteria", "data", "user", "count"};
 
         Collections.addAll(IGNORED, ignoredNouns);
     }

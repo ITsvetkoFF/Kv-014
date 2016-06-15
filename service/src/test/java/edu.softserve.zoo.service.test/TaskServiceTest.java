@@ -1,6 +1,8 @@
-package edu.softserve.zoo.service;
+package edu.softserve.zoo.service.test;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.service.TaskService;
+import edu.softserve.zoo.service.config.ServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import org.springframework.util.Assert;
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:spring/service-test-ctx.xml")
+@ContextConfiguration(classes = ServiceConfig.class)
 @ActiveProfiles("test")
 @Transactional
 public class TaskServiceTest {

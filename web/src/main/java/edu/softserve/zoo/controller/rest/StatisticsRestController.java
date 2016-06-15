@@ -24,7 +24,7 @@ public class StatisticsRestController extends AbstractRestController {
     StatisticsService service;
 
     @DocsTest
-    @RequestMapping(path = "/fed_animals", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/fed-animals", method = RequestMethod.GET, produces = "application/json")
     public Float getFedAnimalsPercentage() {
         return service.getFedAnimalsPercentage();
     }

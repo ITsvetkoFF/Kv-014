@@ -4,7 +4,7 @@ import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.model.ZooZone;
-import edu.softserve.zoo.persistence.config.PersistenceTestConfig;
+import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceTestConfig.class)
+@ContextConfiguration(classes = PersistenceConfig.class)
 @ActiveProfiles("test")
 @Transactional
 public class TaskRepositoryTest {
