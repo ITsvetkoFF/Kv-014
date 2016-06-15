@@ -1,4 +1,4 @@
-package edu.softserve.zoo.persistence.specification.impl.task;
+package edu.softserve.zoo.persistence.specification.hibernate.impl.task;
 
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.model.Task;

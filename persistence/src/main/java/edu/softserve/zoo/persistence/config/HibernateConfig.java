@@ -3,7 +3,7 @@ package edu.softserve.zoo.persistence.config;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -18,14 +18,14 @@ import java.util.Properties;
 import static org.hibernate.cfg.AvailableSettings.*;
 
 /**
- * Set of Common Configurations for all profiles in Application Context.
+ * Hibernate specific configurations.
  *
- * @author Andrii Abramov on 6/7/16.
+ * @author Andrii Abramov on 6/15/16.
  */
 @Configuration
+@Import(DataSourceConfig.class)
 @EnableTransactionManagement
-@PropertySource("classpath:persistence-common.properties")
-public class PersistenceConfig {
+public class HibernateConfig {
 
     @Resource
     private Environment env;
@@ -47,11 +47,10 @@ public class PersistenceConfig {
 
     private Properties hibernateProperties() {
         final Properties properties = new Properties();
-        properties.put(SHOW_SQL, env.getProperty("db.show_sql"));
-        properties.put(FORMAT_SQL, env.getProperty("db.format_sql"));
-        properties.put(DIALECT, env.getProperty("db.dialect"));
+        properties.put(SHOW_SQL, env.getProperty("db.prod.show_sql"));
+        properties.put(FORMAT_SQL, env.getProperty("db.prod.format_sql"));
+        properties.put(DIALECT, env.getProperty("db.prod.dialect"));
         properties.put(DEFAULT_SCHEMA, env.getProperty("db.default_schema"));
         return properties;
     }
-
 }
