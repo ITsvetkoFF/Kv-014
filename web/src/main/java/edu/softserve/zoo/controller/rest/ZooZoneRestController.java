@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Routes.ZOO_ZONES)
 @DocsClassDescription("Zoo zone resource")
-public class ZooZoneController extends AbstractRestController<ZooZoneDto, ZooZone> {
+public class ZooZoneRestController extends AbstractRestController<ZooZoneDto, ZooZone> {
 
     @Autowired
     private ZooZoneService zooZoneService;

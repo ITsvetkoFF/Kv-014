@@ -24,7 +24,7 @@ import static edu.softserve.zoo.controller.rest.Routes.GEO_ZONES;
 @RestController
 @RequestMapping(GEO_ZONES)
 @DocsClassDescription("Geographical zone resource")
-public class GeographicalZoneController extends AbstractRestController<GeographicalZoneDto, GeographicalZone> {
+public class GeographicalZoneRestController extends AbstractRestController<GeographicalZoneDto, GeographicalZone> {
 
     @Autowired
     private GeographicalZoneService geographicalZoneService;
