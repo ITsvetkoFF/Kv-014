@@ -2,12 +2,11 @@ package edu.softserve.zoo.service.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
-import edu.softserve.zoo.persistence.specification.impl.task.TaskGetAllByAssigneeIdSpecification;
-import edu.softserve.zoo.persistence.specification.impl.task.TaskGetAllByAssignerIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssigneeIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssignerIdSpecification;
 import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.service.TaskService;
 import edu.softserve.zoo.service.exception.ServiceReason;
