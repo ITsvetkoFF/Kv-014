@@ -36,7 +36,7 @@ public class TaskRestControllerTest {
     @Autowired
     private WebApplicationContext context;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     private MockMvc mockMvc;
 
     @Before

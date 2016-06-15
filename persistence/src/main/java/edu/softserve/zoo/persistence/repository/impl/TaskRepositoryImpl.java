@@ -25,18 +25,16 @@ import java.util.stream.Collectors;
 @Repository
 public class TaskRepositoryImpl extends AbstractRepository<Task> implements TaskRepository {
     @Autowired
-    private JdbcPersistenceProvider<ImmutablePair<Task.TaskStatus, Long>> taskStatusPersistenceProvider;
-    @Autowired
-    private JdbcPersistenceProvider<ImmutablePair<Task.TaskType, Long>> taskTypePersistenceProvider;
+    private JdbcPersistenceProvider persistenceProvider;
 
     @Override
     public TaskStatistics getStatistics(Long employeeId) {
         TaskStatistics statistics = new TaskStatistics();
-        Map<Task.TaskStatus, Long> taskStatuses = taskStatusPersistenceProvider.findAll(new TaskStatusesSpecification<Object[]>(employeeId),
+        Map<Task.TaskStatus, Long> taskStatuses = persistenceProvider.findAll(new TaskStatusesSpecification<Object[]>(employeeId),
                 arr -> new ImmutablePair<>(Task.TaskStatus.values()[((BigInteger) arr[0]).intValue()], ((BigInteger) arr[1]).longValue()))
                 .stream()
                 .collect(toLinkedMap(pair -> pair.left, pair -> pair.right));
-        Map<Task.TaskType, Long> taskTypes = taskTypePersistenceProvider.findAll(new TaskTypesSpecification<Object[]>(employeeId),
+        Map<Task.TaskType, Long> taskTypes = persistenceProvider.findAll(new TaskTypesSpecification<Object[]>(employeeId),
                 arr -> new ImmutablePair<>(Task.TaskType.values()[((BigInteger) arr[0]).intValue()], ((BigInteger) arr[1]).longValue()))
                 .stream()
                 .collect(toLinkedMap(pair -> pair.left, pair -> pair.right));

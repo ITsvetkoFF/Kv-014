@@ -10,7 +10,7 @@ import java.util.function.Function;
  *
  * @author Taras Zubrei
  */
-public interface JdbcPersistenceProvider<T> {
+public interface JdbcPersistenceProvider {
     /**
      * Finds the collection of objects in the persistent storage. The search criteria is defined by the
      * JdbcSpecification object.
@@ -20,7 +20,7 @@ public interface JdbcPersistenceProvider<T> {
      * @return result list which each element of was processed by {@code processor} function.
      * @see JdbcSpecification
      */
-    <K> List<T> findAll(JdbcSpecification<K> specification, Function<K, T> processor);
+    <T, K> List<T> findAll(JdbcSpecification<K> specification, Function<K, T> processor);
 
     /**
      * Finds object in the persistent storage according to given Specification.
@@ -29,5 +29,5 @@ public interface JdbcPersistenceProvider<T> {
      * @param processor     the function that converts jdbc result into needed object.
      * @return object by defined restrictions and processed with function.
      */
-    <K> T findOne(JdbcSpecification<K> specification, Function<K, T> processor);
+    <T, K> T findOne(JdbcSpecification<K> specification, Function<K, T> processor);
 }

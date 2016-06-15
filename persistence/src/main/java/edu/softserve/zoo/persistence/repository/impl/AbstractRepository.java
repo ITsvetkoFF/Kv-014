@@ -33,7 +33,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     @Autowired
     private PersistenceProvider<T> persistenceProvider;
     @Autowired
-    private JdbcPersistenceProvider<Long> jdbcPersistenceProvider;
+    private JdbcPersistenceProvider jdbcPersistenceProvider;
 
     /**
      * {@inheritDoc}

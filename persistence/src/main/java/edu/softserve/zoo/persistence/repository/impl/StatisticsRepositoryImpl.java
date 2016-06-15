@@ -16,7 +16,7 @@ import java.math.BigInteger;
 @Repository
 public class StatisticsRepositoryImpl implements StatisticsRepository {
     @Autowired
-    JdbcPersistenceProvider<Long> persistenceProvider;
+    JdbcPersistenceProvider persistenceProvider;
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)

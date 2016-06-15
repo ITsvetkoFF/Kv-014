@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
  * @author Taras Zubrei
  */
 @Component
-public class JdbcPersistenceProviderImpl<T> implements JdbcPersistenceProvider<T> {
+public class JdbcPersistenceProviderImpl implements JdbcPersistenceProvider {
     @Autowired
     private SessionFactory sessionFactory;
 
     /**
      * {@inheritDoc}
      */
-    public <K> List<T> findAll(JdbcSpecification<K> specification, Function<K, T> processor) {
+    public <T, K> List<T> findAll(JdbcSpecification<K> specification, Function<K, T> processor) {
         List<K> list = sessionFactory.getCurrentSession().createSQLQuery(specification.query()).list();
         return list.stream().map(processor).collect(Collectors.toList());
     }
@@ -31,7 +31,7 @@ public class JdbcPersistenceProviderImpl<T> implements JdbcPersistenceProvider<T
     /**
      * {@inheritDoc}
      */
-    public <K> T findOne(JdbcSpecification<K> specification, Function<K, T> processor) {
+    public <T, K> T findOne(JdbcSpecification<K> specification, Function<K, T> processor) {
         return processor.apply((K) sessionFactory.getCurrentSession().createSQLQuery(specification.query()).uniqueResult());
     }
 }
