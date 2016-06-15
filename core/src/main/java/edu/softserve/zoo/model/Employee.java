@@ -8,6 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "employees")
 public class Employee extends BaseEntity {
+
     private String firstName;
     private String lastName;
     private LocalDate employmentDate;

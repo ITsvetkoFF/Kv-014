@@ -3,7 +3,6 @@ package edu.softserve.zoo.persistence.config;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -23,7 +22,6 @@ import static org.hibernate.cfg.AvailableSettings.*;
  * @author Andrii Abramov on 6/15/16.
  */
 @Configuration
-@Import(DataSourceConfig.class)
 @EnableTransactionManagement
 public class HibernateConfig {
 

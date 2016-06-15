@@ -9,9 +9,14 @@ import java.util.Objects;
  */
 public class FieldError {
 
-    private final String fieldName;
-    private final Object rejectedValue;
-    private final String validationMessage;
+    private String fieldName;
+    private Object rejectedValue;
+    private String validationMessage;
+
+
+    public FieldError() {
+    }
+
 
     public FieldError(String fieldName, Object rejectedValue, String validationMessage) {
         this.fieldName = fieldName;
@@ -33,6 +38,17 @@ public class FieldError {
         return validationMessage;
     }
 
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public void setRejectedValue(Object rejectedValue) {
+        this.rejectedValue = rejectedValue;
+    }
+
+    public void setValidationMessage(String validationMessage) {
+        this.validationMessage = validationMessage;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -47,5 +63,14 @@ public class FieldError {
     @Override
     public int hashCode() {
         return Objects.hash(fieldName, rejectedValue, validationMessage);
+    }
+
+    @Override
+    public String toString() {
+        return "FieldError{" +
+                "fieldName='" + fieldName + '\'' +
+                ", rejectedValue=" + rejectedValue +
+                ", validationMessage='" + validationMessage + '\'' +
+                '}';
     }
 }

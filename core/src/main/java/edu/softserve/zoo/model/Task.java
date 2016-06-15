@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "tasks")
 public class Task extends BaseEntity {
+
     private Employee assignee;
     private Employee assigner;
     private LocalDateTime estimatedStart;

@@ -7,6 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "species")
 public class Species extends BaseEntity {
+
     private Family family;
     private String scientificName;
     private String commonName;

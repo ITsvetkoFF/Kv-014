@@ -4,7 +4,7 @@ import edu.softserve.zoo.annotation.IrrespectiveDto;
 import edu.softserve.zoo.validation.FieldError;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,11 +17,7 @@ import java.util.Objects;
 @IrrespectiveDto
 public class InvalidRequestDto {
 
-    private final List<FieldError> errors;
-
-    public InvalidRequestDto(FieldError... errors) {
-        this.errors = new ArrayList<>(Arrays.asList(errors));
-    }
+    private final List<FieldError> errors = new ArrayList<>();
 
     public void addFieldError(FieldError error) {
         if (error != null) {
@@ -37,12 +33,24 @@ public class InvalidRequestDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InvalidRequestDto that = (InvalidRequestDto) o;
-        return Objects.equals(errors, that.errors);
+        final InvalidRequestDto that = (InvalidRequestDto) o;
+
+        final List<FieldError> thatErrors = that.getErrors();
+
+        final boolean equalLength = thatErrors.size() == errors.size();
+
+        return equalLength && new HashSet<>(errors).containsAll(new HashSet<>(thatErrors));
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(errors);
+    }
+
+    @Override
+    public String toString() {
+        return "InvalidRequestDto{" +
+                "errors=" + errors +
+                '}';
     }
 }

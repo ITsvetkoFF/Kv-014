@@ -1,18 +1,29 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.House;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Dto(House.class)
 public class HouseDto extends BaseDto {
+
     @DocsFieldDescription("The zone")
+    @NotNull
     private ZooZoneDto zone;
+
     @DocsFieldDescription("The name")
+    @NotNull
+    @NotEmpty
+    @Length(max = 50)
     private String name;
+
     @DocsFieldDescription("The max capacity of house")
+    @NotNull
     private Integer maxCapacity;
 
     public HouseDto() {
