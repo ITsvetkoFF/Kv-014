@@ -23,7 +23,7 @@ import static edu.softserve.zoo.controller.rest.Routes.WAREHOUSES;
 @RestController
 @RequestMapping(WAREHOUSES)
 @DocsClassDescription("Warehouse resource")
-public class WarehouseController extends AbstractRestController<WarehouseDto, Warehouse> {
+public class WarehouseRestController extends AbstractRestController<WarehouseDto, Warehouse> {
 
     @Autowired
     private WarehouseService warehouseService;
