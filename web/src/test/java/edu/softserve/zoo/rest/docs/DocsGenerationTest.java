@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.annotation.*;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.WebException;
+import edu.softserve.zoo.exceptions.web.WebException;
 import edu.softserve.zoo.util.Validator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;

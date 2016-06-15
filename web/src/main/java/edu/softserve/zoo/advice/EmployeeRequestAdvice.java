@@ -4,7 +4,7 @@ import edu.softserve.zoo.controller.rest.EmployeeRestController;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.dto.RoleDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.WebException;
+import edu.softserve.zoo.exceptions.web.WebException;
 import edu.softserve.zoo.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static edu.softserve.zoo.exception.WebReason.ENUM_MAPPING_FAILED;
 
