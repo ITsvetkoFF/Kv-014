@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.Employee;
+import edu.softserve.zoo.core.model.Employee;
 
 /**
  * <p>Specific repository for {@link Employee} domain objects</p>

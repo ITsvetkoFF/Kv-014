@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl.animal;
 
-import edu.softserve.zoo.model.Animal;
-import edu.softserve.zoo.model.Species;
+import edu.softserve.zoo.core.model.Animal;
+import edu.softserve.zoo.core.model.Species;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;

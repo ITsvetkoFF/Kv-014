@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.core.model.House;
 import edu.softserve.zoo.persistence.repository.HouseRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.house.GetAllByZooZoneIdSpecification;

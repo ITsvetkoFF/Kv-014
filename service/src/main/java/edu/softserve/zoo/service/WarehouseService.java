@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.Warehouse;
+import edu.softserve.zoo.core.model.Warehouse;
 
 /**
  * Extending {@link Service} with explicit {@link Warehouse} entity.

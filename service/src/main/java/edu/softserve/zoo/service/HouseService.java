@@ -1,6 +1,7 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.core.model.House;
+import edu.softserve.zoo.core.model.ZooZone;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ import java.util.List;
 public interface HouseService extends Service<House> {
 
     /**
-     * Returns the List of {@link House} by specified {@link edu.softserve.zoo.model.ZooZone} id
+     * Returns the List of {@link House} by specified {@link ZooZone} id
      *
-     * @param id of {@link edu.softserve.zoo.model.ZooZone}
+     * @param id of {@link ZooZone}
      * @return List of {@link House}
      */
     List<House> getAllByZooZoneId(Long id);

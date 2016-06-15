@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.strategy.impl;
 
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.GeographicalZone;
+import edu.softserve.zoo.core.model.GeographicalZone;
 
 /**
  * <p>GeographicalZoneRepository extends {@link Repository} and provides specific implementation for {@link GeographicalZone}</p>

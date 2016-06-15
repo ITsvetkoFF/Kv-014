@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.Animal;
+import edu.softserve.zoo.core.model.Animal;
 
 import java.util.List;
 

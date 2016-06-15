@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.exception;
 
-import edu.softserve.zoo.exceptions.ExceptionReason;
+import edu.softserve.zoo.core.exceptions.ExceptionReason;
 
 /**
  * @author Vadym Holub

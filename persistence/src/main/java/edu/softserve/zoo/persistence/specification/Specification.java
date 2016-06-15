@@ -1,10 +1,12 @@
 package edu.softserve.zoo.persistence.specification;
 
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.model.BaseEntity;
+import edu.softserve.zoo.persistence.provider.PersistenceProvider;
+import edu.softserve.zoo.persistence.repository.Repository;
 
 /**
  * Interface that defines the specification API.
- * Should provide the data for the {@link edu.softserve.zoo.persistence.repository.Repository}
+ * Should provide the data for the {@link Repository}
  *
  * @author Bohdan Cherniakh
  */
@@ -25,8 +27,8 @@ public interface Specification<T extends BaseEntity> {
     }
 
     /**
-     * <p>Defines the API for the query which is used by {@link edu.softserve.zoo.persistence.repository.Repository} and
-     * {@link edu.softserve.zoo.persistence.provider.PersistenceProvider}</p>
+     * <p>Defines the API for the query which is used by {@link Repository} and
+     * {@link PersistenceProvider}</p>
      *
      * @return the query definition.
      */

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.Warehouse;
+import edu.softserve.zoo.core.model.Warehouse;
 
 /**
  * <p>Specific repository for {@link Warehouse} domain objects</p>

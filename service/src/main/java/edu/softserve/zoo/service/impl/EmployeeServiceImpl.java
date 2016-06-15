@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.Employee;
+import edu.softserve.zoo.core.model.Employee;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.service.EmployeeService;

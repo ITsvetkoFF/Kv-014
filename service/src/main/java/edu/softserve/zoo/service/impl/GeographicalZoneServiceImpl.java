@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.GeographicalZone;
+import edu.softserve.zoo.core.model.GeographicalZone;
 import edu.softserve.zoo.persistence.repository.GeographicalZoneRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.service.GeographicalZoneService;

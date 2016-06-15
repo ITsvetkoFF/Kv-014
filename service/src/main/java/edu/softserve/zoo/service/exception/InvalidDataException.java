@@ -1,7 +1,7 @@
 package edu.softserve.zoo.service.exception;
 
-import edu.softserve.zoo.exceptions.ExceptionReason;
-import edu.softserve.zoo.exceptions.service.ServiceException;
+import edu.softserve.zoo.core.exceptions.ExceptionReason;
+import edu.softserve.zoo.core.exceptions.service.ServiceException;
 
 /**
  * Use this Exception when user provided logically incorrect data.

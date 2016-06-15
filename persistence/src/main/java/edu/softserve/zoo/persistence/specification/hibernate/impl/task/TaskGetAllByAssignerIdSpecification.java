@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl.task;
 
-import edu.softserve.zoo.model.Employee;
-import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.core.model.Employee;
+import edu.softserve.zoo.core.model.Task;
 
 /**
  * <p>Implementation of for filtering {@link Task} by assignerId parameter</p>

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.Family;
+import edu.softserve.zoo.core.model.Family;
 
 /**
  * <p>Specific repository for {@link Family} domain objects</p>
