@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
-import edu.softserve.zoo.model.Animal;
+import edu.softserve.zoo.core.model.Animal;
 import edu.softserve.zoo.persistence.repository.AnimalRepository;
 import org.springframework.stereotype.Repository;
 

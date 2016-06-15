@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.Species;
+import edu.softserve.zoo.core.model.Species;
 
 /**
  * <p>Specific repository for {@link Species} domain objects</p>

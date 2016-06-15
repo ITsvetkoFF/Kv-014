@@ -17,6 +17,6 @@
     </bean>
 
     <context:component-scan
-            base-package="edu.softserve.zoo.test.endpoints.checking.checker"/>
+            base-package="edu.softserve.zoo.web.test.rest.endpoints.checking.checker"/>
 
 </beans>

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.AnimalClass;
+import edu.softserve.zoo.core.model.AnimalClass;
 import edu.softserve.zoo.persistence.repository.AnimalClassRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.service.AnimalClassService;

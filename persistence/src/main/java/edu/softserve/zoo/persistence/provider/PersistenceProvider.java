@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.provider;
 
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;

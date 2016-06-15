@@ -1,12 +1,12 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.provider.impl;
 
-import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.exceptions.ApplicationException;
+import edu.softserve.zoo.core.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.core.model.BaseEntity;
+import edu.softserve.zoo.core.util.Validator;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
-import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;

@@ -44,8 +44,8 @@
         <property name="serializationInclusion" value="NON_NULL"/>
     </bean>
 
-    <bean id="dtoMapper" class="edu.softserve.zoo.converter.mapping.DtoMapperImpl">
-        <property name="dtoPackage" value="edu.softserve.zoo.dto"/>
+    <bean id="dtoMapper" class="edu.softserve.zoo.web.converter.mapping.DtoMapperImpl">
+        <property name="dtoPackage" value="edu.softserve.zoo.web.dto"/>
     </bean>
 
     <bean id="localeResolver"
@@ -58,12 +58,12 @@
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
 
-    <bean id="invalidRequestProcessor" class="edu.softserve.zoo.validation.impl.InvalidRequestProcessorImpl"/>
+    <bean id="invalidRequestProcessor" class="edu.softserve.zoo.web.validation.impl.InvalidRequestProcessorImpl"/>
 
     <context:component-scan
-            base-package="edu.softserve.zoo.controller.rest,
-            edu.softserve.zoo.converter,
-            edu.softserve.zoo.advice,
+            base-package="edu.softserve.zoo.web.controller.rest,
+            edu.softserve.zoo.web.converter,
+            edu.softserve.zoo.web.controller.advice,
             edu.softserve.zoo.service"/>
 
 </beans>

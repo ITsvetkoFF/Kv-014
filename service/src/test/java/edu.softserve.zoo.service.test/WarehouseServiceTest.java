@@ -1,10 +1,11 @@
 package edu.softserve.zoo.service.test;
 
-import edu.softserve.zoo.exceptions.service.ServiceException;
-import edu.softserve.zoo.model.Warehouse;
+import edu.softserve.zoo.core.exceptions.service.ServiceException;
+import edu.softserve.zoo.core.model.Warehouse;
 import edu.softserve.zoo.service.WarehouseService;
 import edu.softserve.zoo.service.config.ServiceConfig;
 import edu.softserve.zoo.service.exception.InvalidDataException;
+import edu.softserve.zoo.service.impl.WarehouseServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for {@link edu.softserve.zoo.service.impl.WarehouseServiceImpl}
+ * Tests for {@link WarehouseServiceImpl}
  *
  * @author Andrii Abramov on 6/15/16.
  */

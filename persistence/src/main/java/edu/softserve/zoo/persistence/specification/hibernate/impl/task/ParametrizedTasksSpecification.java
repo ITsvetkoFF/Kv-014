@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl.task;
 
-import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.core.model.Task;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;

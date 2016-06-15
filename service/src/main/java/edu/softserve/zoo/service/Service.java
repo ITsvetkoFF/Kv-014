@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
-import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.exceptions.NotFoundException;
+import edu.softserve.zoo.core.model.BaseEntity;
 
 import java.util.List;
 

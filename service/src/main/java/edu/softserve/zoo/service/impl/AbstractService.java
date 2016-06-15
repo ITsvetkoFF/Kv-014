@@ -1,15 +1,15 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.exceptions.service.ServiceException;
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.exceptions.ApplicationException;
+import edu.softserve.zoo.core.exceptions.NotFoundException;
+import edu.softserve.zoo.core.exceptions.service.ServiceException;
+import edu.softserve.zoo.core.model.BaseEntity;
+import edu.softserve.zoo.core.util.Validator;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.exception.ServiceReason;
-import edu.softserve.zoo.util.Validator;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.config;
 
-import edu.softserve.zoo.util.AppProfiles;
+import edu.softserve.zoo.core.util.AppProfiles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

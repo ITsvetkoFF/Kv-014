@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.Family;
+import edu.softserve.zoo.core.model.Family;
 
 /**
  * {@link Service} for {@link Family} domain objects.

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.core.model.House;
 
 /**
  * <p>Specific repository for {@link House} domain objects</p>

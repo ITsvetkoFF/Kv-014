@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
-import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.core.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.core.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;

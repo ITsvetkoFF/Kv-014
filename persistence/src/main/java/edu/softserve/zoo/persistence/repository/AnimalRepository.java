@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.model.Animal;
+import edu.softserve.zoo.core.model.Animal;
 
 /**
  * <p>Specific repository implementation addons for {@link Animal} entity</p>

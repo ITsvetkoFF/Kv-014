@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
-import edu.softserve.zoo.model.Role;
+import edu.softserve.zoo.core.model.Role;
 import edu.softserve.zoo.persistence.repository.RoleRepository;
 import org.springframework.stereotype.Repository;
 

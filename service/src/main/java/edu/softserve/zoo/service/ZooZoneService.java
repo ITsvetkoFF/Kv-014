@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.ZooZone;
+import edu.softserve.zoo.core.model.ZooZone;
 
 /**
  * {@link Service} serves to manage {@link ZooZone} domain objects

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.model.Family;
+import edu.softserve.zoo.core.model.Family;
 import edu.softserve.zoo.persistence.repository.FamilyRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.service.FamilyService;

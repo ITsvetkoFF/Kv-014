@@ -1,6 +1,6 @@
 package edu.softserve.zoo.service;
 
-import edu.softserve.zoo.model.AnimalClass;
+import edu.softserve.zoo.core.model.AnimalClass;
 
 /**
  * {@link Service} for {@link AnimalClass} domain objects.

@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
-import edu.softserve.zoo.model.GeographicalZone;
+import edu.softserve.zoo.core.model.GeographicalZone;
 import edu.softserve.zoo.persistence.repository.GeographicalZoneRepository;
 import org.springframework.stereotype.Repository;
 

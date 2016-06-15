@@ -1,13 +1,13 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.model.Warehouse;
+import edu.softserve.zoo.core.exceptions.ApplicationException;
+import edu.softserve.zoo.core.model.Warehouse;
+import edu.softserve.zoo.core.util.Validator;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.WarehouseRepository;
 import edu.softserve.zoo.service.WarehouseService;
 import edu.softserve.zoo.service.exception.InvalidDataException;
 import edu.softserve.zoo.service.exception.ServiceReason;
-import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

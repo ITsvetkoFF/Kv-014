@@ -1,6 +1,6 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
-import edu.softserve.zoo.model.Employee;
+import edu.softserve.zoo.core.model.Employee;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
 import org.springframework.stereotype.Repository;
 
