@@ -12,6 +12,7 @@ import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
@@ -48,9 +49,12 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public Long count() {
-        Class<T> tClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        return jdbcPersistenceProvider.findOne(new CountSpecification<>(tClass), BigInteger::longValue);
+        return jdbcPersistenceProvider.findOne(new CountSpecification<>(getEntityType()), BigInteger::longValue);
     }
+
+    protected Class<T> getEntityType() {
+        throw new NotImplementedException("Specify type of Entity to count");
+    };
 
     /**
      * {@inheritDoc}
