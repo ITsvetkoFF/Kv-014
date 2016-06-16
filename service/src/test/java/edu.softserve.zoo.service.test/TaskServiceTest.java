@@ -1,6 +1,8 @@
 package edu.softserve.zoo.service.test;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.NotFoundException;
+import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.service.TaskService;
 import edu.softserve.zoo.service.config.ServiceConfig;
 import org.junit.Test;
@@ -25,17 +27,29 @@ public class TaskServiceTest {
     private final Long invalidEmployeeId = 12L;
     private final Long validEmployeeId = 2L;
 
-    @Test(expected = ApplicationException.class)
+    @Test(expected = NotFoundException.class)
     public void invalidEmployeeIdForStatistics() {
         taskService.getStatistics(invalidEmployeeId);
     }
-    @Test(expected = ApplicationException.class)
+    @Test(expected = NotFoundException.class)
     public void invalidEmployeeIdForAllByAssignee() {
         taskService.taskGetAllByAssigneeId(invalidEmployeeId);
     }
-    @Test(expected = ApplicationException.class)
+    @Test(expected = NotFoundException.class)
     public void invalidEmployeeIdForAllByAssigner() {
         taskService.taskGetAllByAssignerId(invalidEmployeeId);
+    }
+    @Test(expected = ServiceException.class)
+    public void nullEmployeeIdForStatistics() {
+        taskService.getStatistics(null);
+    }
+    @Test(expected = ServiceException.class)
+    public void nullEmployeeIdForAllByAssignee() {
+        taskService.taskGetAllByAssigneeId(null);
+    }
+    @Test(expected = ServiceException.class)
+    public void nullEmployeeIdForAllByAssigner() {
+        taskService.taskGetAllByAssignerId(null);
     }
     @Test
     public void validEmployeeId() {
