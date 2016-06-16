@@ -51,4 +51,9 @@ public class TaskRepositoryImpl extends AbstractRepository<Task> implements Task
                 (u, v) -> {throw new IllegalStateException(String.format("Duplicate key %s", u));},
                 LinkedHashMap::new);
     }
+
+    @Override
+    protected Class<Task> getEntityType() {
+        return Task.class;
+    }
 }

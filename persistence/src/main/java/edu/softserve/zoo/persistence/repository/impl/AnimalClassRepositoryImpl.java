@@ -1,5 +1,6 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
+import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.AnimalClass;
 import edu.softserve.zoo.persistence.repository.AnimalClassRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class AnimalClassRepositoryImpl extends AbstractRepository<AnimalClass> implements AnimalClassRepository {
+    @Override
+    protected Class<AnimalClass> getEntityType() {
+        return AnimalClass.class;
+    }
 }

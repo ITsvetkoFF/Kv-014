@@ -52,9 +52,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
         return jdbcPersistenceProvider.findOne(new CountSpecification<>(getEntityType()), BigInteger::longValue);
     }
 
-    protected Class<T> getEntityType() {
-        throw new NotImplementedException("Specify type of Entity to count");
-    };
+    protected abstract Class<T> getEntityType();
 
     /**
      * {@inheritDoc}

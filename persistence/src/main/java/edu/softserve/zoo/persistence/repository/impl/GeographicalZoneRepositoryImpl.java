@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class GeographicalZoneRepositoryImpl extends AbstractRepository<GeographicalZone> implements GeographicalZoneRepository {
+    @Override
+    protected Class<GeographicalZone> getEntityType() {
+        return GeographicalZone.class;
+    }
 }
