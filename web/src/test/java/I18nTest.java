@@ -2,6 +2,7 @@ import edu.softserve.zoo.exception.WebReason;
 import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.service.exception.ServiceReason;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import java.util.Locale;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring/web-test-ctx.xml")
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 public class I18nTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(I18nTest.class);
     private static final String UKRAINIAN = "uk";

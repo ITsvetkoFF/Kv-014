@@ -2,6 +2,7 @@ package edu.softserve.zoo.test.endpoints;
 
 import edu.softserve.zoo.test.endpoints.checking.CheckResult;
 import edu.softserve.zoo.test.endpoints.checking.checker.RouteChecker;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertFalse;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:spring/web-test-ctx.xml")
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 public class RoutesCorrectnessTest {
 
     @Autowired

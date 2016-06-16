@@ -3,6 +3,7 @@ package edu.softserve.zoo.rest.request;
 import edu.softserve.zoo.controller.rest.Routes;
 import edu.softserve.zoo.dto.InvalidRequestDto;
 import edu.softserve.zoo.dto.WarehouseDto;
+import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.validation.FieldError;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,7 +22,7 @@ import java.util.Locale;
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring/web-test-ctx.xml")
 @WebAppConfiguration
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 public class WarehouseDtoInvalidRequestTest extends AbstractValidationTest<WarehouseDto> {
 
     private static final long WAREHOUSE_ID = 1L;

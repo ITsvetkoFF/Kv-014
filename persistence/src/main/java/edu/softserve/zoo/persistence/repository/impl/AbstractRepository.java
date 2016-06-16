@@ -1,9 +1,14 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -61,5 +66,18 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     @Override
     public List<T> find(Specification<T> specification) {
         return persistenceProvider.find(specification);
+    }
+
+    /**
+     * Checks if provided {@code arg} is null.
+     * If so, throws {@link ServiceException} with {@link PersistenceReason#ARGUMENT_IS_NULL} reason.
+     *
+     * @param arg argument to check
+     */
+    protected void validateNullableArgument(Object arg) {
+        Validator.notNull(arg, ApplicationException.getBuilderFor(PersistenceException.class)
+                .forReason(PersistenceReason.ARGUMENT_IS_NULL)
+                .withMessage("Provided argument can't be null")
+                .build());
     }
 }
