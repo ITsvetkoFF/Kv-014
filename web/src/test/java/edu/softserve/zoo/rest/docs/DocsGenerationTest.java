@@ -5,6 +5,7 @@ import edu.softserve.zoo.annotation.*;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.web.WebException;
+import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.util.Validator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -66,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:spring/web-test-ctx.xml")
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 @WebAppConfiguration
 public class DocsGenerationTest {
     @Rule

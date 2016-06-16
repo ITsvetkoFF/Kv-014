@@ -5,6 +5,7 @@ import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.service.WarehouseService;
 import edu.softserve.zoo.service.config.ServiceConfig;
 import edu.softserve.zoo.service.exception.InvalidDataException;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ServiceConfig.class)
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 public class WarehouseServiceTest {
 
     private static final Long VALID_WAREHOUSE_ID = 1L;

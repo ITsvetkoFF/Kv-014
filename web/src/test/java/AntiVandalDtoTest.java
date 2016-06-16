@@ -1,5 +1,6 @@
 import edu.softserve.zoo.converter.mapping.DtoMapperImpl;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.util.AppProfiles;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring/web-test-ctx.xml")
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 public class AntiVandalDtoTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AntiVandalDtoTest.class);

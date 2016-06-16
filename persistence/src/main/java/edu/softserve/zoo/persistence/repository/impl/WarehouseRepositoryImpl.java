@@ -11,4 +11,26 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class WarehouseRepositoryImpl extends AbstractRepository<Warehouse> implements WarehouseRepository {
+
+    @Override
+    public Warehouse update(Warehouse entity) {
+
+        validateNullableArgument(entity);
+        return super.update(entity);
+    }
+
+    @Override
+    public boolean delete(Long id, Class<Warehouse> type) {
+
+        validateNullableArgument(id);
+        validateNullableArgument(type);
+        return super.delete(id, type);
+    }
+
+    @Override
+    public Warehouse save(Warehouse entity) {
+
+        validateNullableArgument(entity);
+        return super.save(entity);
+    }
 }
