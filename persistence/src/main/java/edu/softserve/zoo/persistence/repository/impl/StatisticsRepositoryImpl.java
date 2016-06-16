@@ -19,7 +19,6 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     JdbcPersistenceProvider persistenceProvider;
 
     @Override
-    @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
     public Long getFedAnimals() {
         return persistenceProvider.findOne(new FedAnimalsSpecification<>(), BigInteger::longValue);
     }

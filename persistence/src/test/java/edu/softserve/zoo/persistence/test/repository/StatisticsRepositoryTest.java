@@ -1,6 +1,10 @@
-package edu.softserve.zoo.persistence.repository;
+package edu.softserve.zoo.persistence.test.repository;
 
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
+import edu.softserve.zoo.persistence.repository.StatisticsRepository;
+import edu.softserve.zoo.persistence.repository.impl.StatisticsRepositoryImpl;
+import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +21,9 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = PersistenceConfig.class)
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 @Transactional
+@RepositoryTest(forRepository = StatisticsRepositoryImpl.class)
 public class StatisticsRepositoryTest {
     @Autowired
     StatisticsRepository statisticsRepository;

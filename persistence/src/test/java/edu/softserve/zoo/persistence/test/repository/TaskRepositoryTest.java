@@ -1,12 +1,18 @@
-package edu.softserve.zoo.persistence.repository;
+package edu.softserve.zoo.persistence.test.repository;
 
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.model.ZooZone;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
+import edu.softserve.zoo.persistence.repository.EmployeeRepository;
+import edu.softserve.zoo.persistence.repository.TaskRepository;
+import edu.softserve.zoo.persistence.repository.ZooZoneRepository;
+import edu.softserve.zoo.persistence.repository.impl.TaskRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
+import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +31,9 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = PersistenceConfig.class)
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 @Transactional
+@RepositoryTest(forRepository = TaskRepositoryImpl.class)
 public class TaskRepositoryTest {
     @Autowired
     TaskRepository taskRepository;
