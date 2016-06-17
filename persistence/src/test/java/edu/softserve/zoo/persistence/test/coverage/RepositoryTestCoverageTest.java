@@ -46,7 +46,7 @@ public class RepositoryTestCoverageTest {
     private static final String REPOSITORY_COVERED_MESSAGE = "Good job! Somebody wrote tests for {} in {} class.";
     private static final String REPOSITORY_NOT_COVERED_MESSAGE = "Warning! No tests for {}.";
     private static final String NO_REPOSITORIES_FOUND = "No repositories were found in %s package. Maybe you should check package?";
-    private static final String NOT_ALL_REPOSITORIES_TESTED = "Not all repositories covered by tests yet.";
+    private static final String NOT_ALL_REPOSITORIES_TESTED = "Not all repositories are covered by tests yet.";
 
     @Autowired
     private ApplicationContext applicationContext;

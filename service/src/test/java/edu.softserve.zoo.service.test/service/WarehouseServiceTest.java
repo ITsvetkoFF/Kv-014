@@ -1,10 +1,12 @@
-package edu.softserve.zoo.service.test;
+package edu.softserve.zoo.service.test.service;
 
 import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.service.WarehouseService;
 import edu.softserve.zoo.service.config.ServiceConfig;
 import edu.softserve.zoo.service.exception.InvalidDataException;
+import edu.softserve.zoo.service.impl.WarehouseServiceImpl;
+import edu.softserve.zoo.service.test.coverage.annotation.ServiceTest;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +23,10 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Andrii Abramov on 6/15/16.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceConfig.class)
 @ActiveProfiles(AppProfiles.TEST)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ServiceTest(forService = WarehouseServiceImpl.class)
+@ContextConfiguration(classes = ServiceConfig.class)
 public class WarehouseServiceTest {
 
     private static final Long VALID_WAREHOUSE_ID = 1L;
