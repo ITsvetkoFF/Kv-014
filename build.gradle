@@ -10,6 +10,7 @@ def apache_commons_lang_version = '3.4'
 def apache_commons_collections_version = '4.1'
 def apache_commons_commons_beanutils_version = '1.9.2'
 def spring_rest_docs_version = '1.0.1.RELEASE'
+def servlet_api_version = '3.1.0'
 def jackson_version = '2.6.5'
 def guava_version = '19.0'
 def javax_el_version = '2.2'
@@ -42,6 +43,7 @@ ext {
     jackson = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     junit = "junit:junit:$junit_version"
     hsqldb = "org.hsqldb:hsqldb:$hsqldb_version"
+    servlet_api = "javax.servlet:javax.servlet-api:$servlet_api_version"
 
     /* Logging bridge */
     slf4j = "org.slf4j:slf4j-api:$slf4j_version"

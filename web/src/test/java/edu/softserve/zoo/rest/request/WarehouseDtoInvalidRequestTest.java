@@ -1,5 +1,6 @@
 package edu.softserve.zoo.rest.request;
 
+import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.controller.rest.Routes;
 import edu.softserve.zoo.dto.InvalidRequestDto;
 import edu.softserve.zoo.dto.WarehouseDto;
@@ -20,7 +21,7 @@ import java.util.Locale;
  */
 
 @RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/web-test-ctx.xml")
+@ContextConfiguration(classes = WebConfig.class)
 @WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
 public class WarehouseDtoInvalidRequestTest extends AbstractValidationTest<WarehouseDto> {

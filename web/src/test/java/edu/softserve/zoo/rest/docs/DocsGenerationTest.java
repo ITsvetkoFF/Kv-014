@@ -2,6 +2,7 @@ package edu.softserve.zoo.rest.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.annotation.*;
+import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.web.WebException;
@@ -66,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:spring/web-test-ctx.xml")
+@ContextConfiguration(classes = WebConfig.class)
 @ActiveProfiles(AppProfiles.TEST)
 @WebAppConfiguration
 public class DocsGenerationTest {

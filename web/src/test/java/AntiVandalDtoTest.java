@@ -1,3 +1,4 @@
+import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.converter.mapping.DtoMapperImpl;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.util.AppProfiles;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -39,7 +41,8 @@ import static org.junit.Assert.assertTrue;
  * @author Andrii Abramov on 23-May-16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/web-test-ctx.xml")
+@ContextConfiguration(classes = WebConfig.class)
+@WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
 public class AntiVandalDtoTest {
 
