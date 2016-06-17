@@ -1,11 +1,13 @@
 package edu.softserve.zoo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.controller.rest.Routes;
 import edu.softserve.zoo.dto.TaskStatisticsDto;
 import edu.softserve.zoo.dto.TaskStatusDto;
 import edu.softserve.zoo.dto.TaskTypeDto;
 import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:spring/web-test-ctx.xml")
-@ActiveProfiles("test")
+@ContextConfiguration(classes = WebConfig.class)
+@ActiveProfiles(AppProfiles.TEST)
 @WebAppConfiguration
 public class TaskRestControllerTest {
     @Autowired

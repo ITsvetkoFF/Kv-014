@@ -4,6 +4,7 @@ import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.service.TaskService;
 import edu.softserve.zoo.service.config.ServiceConfig;
+import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.util.Assert;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ServiceConfig.class)
-@ActiveProfiles("test")
+@ActiveProfiles(AppProfiles.TEST)
 @Transactional
 public class TaskServiceTest {
     @Autowired
