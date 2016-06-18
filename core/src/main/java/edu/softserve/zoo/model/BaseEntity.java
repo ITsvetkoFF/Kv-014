@@ -1,17 +1,17 @@
 package edu.softserve.zoo.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
 @MappedSuperclass
+@Access(AccessType.PROPERTY)
 public abstract class BaseEntity {
 
+    @Setter
     private Long id;
-
-    public BaseEntity() {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,4 @@ public abstract class BaseEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
