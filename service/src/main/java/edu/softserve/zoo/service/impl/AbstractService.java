@@ -2,13 +2,12 @@ package edu.softserve.zoo.service.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.exceptions.service.ServiceException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
 import edu.softserve.zoo.service.Service;
-import edu.softserve.zoo.service.exception.ServiceReason;
 import edu.softserve.zoo.util.Validator;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
     public T findOne(Long id) {
         T result = getRepository().findOne(new GetByIdSpecification<>(type, id));
         Validator.notNull(result, ApplicationException.getBuilderFor(NotFoundException.class)
-                .forReason(ServiceReason.NOT_FOUND).build());
+                .forReason(NotFoundException.Reason.BY_ID).build());
         return result;
     }
 
@@ -66,13 +65,13 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
 
     /**
      * Checks if provided {@code arg} is null.
-     * If so, throws {@link ServiceException} with {@link ServiceReason#ARGUMENT_IS_NULL} reason.
+     * If so, throws {@link ValidationException} with {@link ValidationException.Reason#ARGUMENT_IS_NULL} reason.
      *
      * @param arg argument to check
      */
     protected void validateNullableArgument(Object arg) {
-        Validator.notNull(arg, ApplicationException.getBuilderFor(ServiceException.class)
-                .forReason(ServiceReason.ARGUMENT_IS_NULL)
+        Validator.notNull(arg, ApplicationException.getBuilderFor(ValidationException.class)
+                .forReason(ValidationException.Reason.ARGUMENT_IS_NULL)
                 .withMessage("Provided argument can't be null")
                 .build());
     }

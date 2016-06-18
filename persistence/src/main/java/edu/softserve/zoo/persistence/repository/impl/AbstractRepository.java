@@ -1,21 +1,16 @@
 package edu.softserve.zoo.persistence.repository.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
-import edu.softserve.zoo.exceptions.service.ServiceException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.provider.JdbcPersistenceProvider;
-import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
-import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.ParameterizedType;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -88,13 +83,13 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
 
     /**
      * Checks if provided {@code arg} is null.
-     * If so, throws {@link ServiceException} with {@link PersistenceReason#ARGUMENT_IS_NULL} reason.
+     * If so, throws {@link ValidationException} with {@link ValidationException.Reason#ARGUMENT_IS_NULL} reason.
      *
      * @param arg argument to check
      */
     protected void validateNullableArgument(Object arg) {
-        Validator.notNull(arg, ApplicationException.getBuilderFor(PersistenceException.class)
-                .forReason(PersistenceReason.ARGUMENT_IS_NULL)
+        Validator.notNull(arg, ApplicationException.getBuilderFor(ValidationException.class)
+                .forReason(ValidationException.Reason.ARGUMENT_IS_NULL)
                 .withMessage("Provided argument can't be null")
                 .build());
     }

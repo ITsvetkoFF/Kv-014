@@ -1,10 +1,10 @@
 package edu.softserve.zoo.service.test;
 
-import edu.softserve.zoo.exceptions.service.ServiceException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.service.WarehouseService;
 import edu.softserve.zoo.service.config.ServiceConfig;
-import edu.softserve.zoo.service.exception.InvalidDataException;
+import edu.softserve.zoo.service.exception.WarehouseException;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,27 +31,27 @@ public class WarehouseServiceTest {
     @Autowired
     private WarehouseService warehouseService;
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void testSaveNullArgument() {
         warehouseService.save(null);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void testUpdateNullArgument() {
         warehouseService.update(null);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void testDeleteNullArgument() {
         warehouseService.delete(null);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void testFindOneNullArgument() {
         warehouseService.findOne(null);
     }
 
-    @Test(expected = InvalidDataException.class)
+    @Test(expected = WarehouseException.class)
     public void testUpdateWithInvalidData() {
         final Warehouse invalidWarehouse = getInvalidWarehouse();
 
@@ -61,7 +61,7 @@ public class WarehouseServiceTest {
         warehouseService.update(invalidWarehouse);
     }
 
-    @Test(expected = InvalidDataException.class)
+    @Test(expected = WarehouseException.class)
     public void testSaveInvalidData() {
 
         Warehouse invalidWarehouse = getInvalidWarehouse();
@@ -71,7 +71,7 @@ public class WarehouseServiceTest {
         warehouseService.update(invalidWarehouse);
     }
 
-    @Test(expected = InvalidDataException.class)
+    @Test(expected = WarehouseException.class)
     public void testUpdateInvalidData() {
         final Warehouse warehouseToUpdate = warehouseService.findOne(VALID_WAREHOUSE_ID);
         assertNotNull(warehouseToUpdate);

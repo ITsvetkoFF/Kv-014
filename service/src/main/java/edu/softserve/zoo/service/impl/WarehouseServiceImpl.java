@@ -5,8 +5,7 @@ import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.WarehouseRepository;
 import edu.softserve.zoo.service.WarehouseService;
-import edu.softserve.zoo.service.exception.InvalidDataException;
-import edu.softserve.zoo.service.exception.ServiceReason;
+import edu.softserve.zoo.service.exception.WarehouseException;
 import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +38,8 @@ public class WarehouseServiceImpl extends AbstractService<Warehouse> implements 
 
         boolean warehouseOverflow = entity.getAmount() > entity.getMaxCapacity();
         Validator.isTrue(!warehouseOverflow,
-                ApplicationException.getBuilderFor(InvalidDataException.class)
-                        .forReason(ServiceReason.INVALID_DATA_PROVIDED)
+                ApplicationException.getBuilderFor(WarehouseException.class)
+                        .forReason(WarehouseException.Reason.AMOUNT_GREATER_THAN_CAPACITY)
                         .withMessage("Warehouse overflow")
                         .build()
         );
@@ -65,8 +64,8 @@ public class WarehouseServiceImpl extends AbstractService<Warehouse> implements 
 
         boolean warehouseOverflow = entity.getAmount() > entity.getMaxCapacity();
         Validator.isTrue(!warehouseOverflow,
-                ApplicationException.getBuilderFor(InvalidDataException.class)
-                        .forReason(ServiceReason.INVALID_DATA_PROVIDED)
+                ApplicationException.getBuilderFor(WarehouseException.class)
+                        .forReason(WarehouseException.Reason.AMOUNT_GREATER_THAN_CAPACITY)
                         .withMessage("Warehouse overflow")
                         .build()
         );

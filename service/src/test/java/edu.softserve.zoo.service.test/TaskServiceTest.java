@@ -1,7 +1,7 @@
 package edu.softserve.zoo.service.test;
 
 import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.exceptions.service.ServiceException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.service.TaskService;
 import edu.softserve.zoo.service.config.ServiceConfig;
 import edu.softserve.zoo.util.AppProfiles;
@@ -42,17 +42,17 @@ public class TaskServiceTest {
         taskService.taskGetAllByAssignerId(invalidEmployeeId);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void nullEmployeeIdForStatistics() {
         taskService.getStatistics(null);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void nullEmployeeIdForAllByAssignee() {
         taskService.taskGetAllByAssigneeId(null);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ValidationException.class)
     public void nullEmployeeIdForAllByAssigner() {
         taskService.taskGetAllByAssignerId(null);
     }

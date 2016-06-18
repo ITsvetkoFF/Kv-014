@@ -1,9 +1,8 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl.employee;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.Employee;
-import edu.softserve.zoo.persistence.exception.PersistenceReason;
+import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.hibernate.criterion.DetachedCriteria;
@@ -22,9 +21,9 @@ public class GetEmployeeByEmailSpecification implements DetachedCriteriaSpecific
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(email, ApplicationException.getBuilderFor(PersistenceException.class)
-                .forReason(PersistenceReason.NULL_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+        Validator.notNull(email, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_EMAIL)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null email")
                 .build());
         return DetachedCriteria.forClass(Employee.class).add(Restrictions.eq(EMPLOYEE_EMAIL, email));
     }

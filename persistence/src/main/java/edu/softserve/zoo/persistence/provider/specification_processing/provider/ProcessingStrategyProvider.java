@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.provider;
 
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
 
@@ -18,7 +18,7 @@ public interface ProcessingStrategyProvider<T extends BaseEntity> {
      *
      * @param specification specification that should be processed.
      * @return appropriate implementation of the {@link SpecificationProcessingStrategy}
-     * @throws {@link PersistenceException} if no {@link SpecificationProcessingStrategy}
+     * @throws {@link PersistenceProviderException} if no {@link SpecificationProcessingStrategy}
      *                implementation found.
      */
     SpecificationProcessingStrategy<T> getStrategy(Specification<T> specification);

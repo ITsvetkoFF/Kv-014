@@ -1,7 +1,7 @@
 package edu.softserve.zoo.persistence.repository;
 
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.specification.Specification;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public interface Repository<T extends BaseEntity> {
      *
      * @param entity - an object that should be stored.
      * @return saved entity with generated identifier.
-     * @throws PersistenceException given the information about the problem that occurred with the storage.
+     * @throws PersistenceProviderException given the information about the problem that occurred with the storage.
      */
     T save(T entity);
 
@@ -46,7 +46,7 @@ public interface Repository<T extends BaseEntity> {
      *
      * @param id   - identifier of object that should be deleted.
      * @param type - type object that should be deleted.
-     * @throws PersistenceException given the information about the problem that occurred with the storage.
+     * @throws PersistenceProviderException given the information about the problem that occurred with the storage.
      */
     boolean delete(Long id, Class<T> type);
 
@@ -55,7 +55,7 @@ public interface Repository<T extends BaseEntity> {
      *
      * @param entity - object which state should be updated.
      * @return entity with updated state.
-     * @throws PersistenceException given the information about the problem that occurred with the storage.
+     * @throws PersistenceProviderException given the information about the problem that occurred with the storage.
      */
     T update(T entity);
 
@@ -64,7 +64,7 @@ public interface Repository<T extends BaseEntity> {
      *
      * @param specification defines restrictions for performed search.
      * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
-     * @throws PersistenceException given the information about the problem that occurred with the storage.
+     * @throws PersistenceProviderException given the information about the problem that occurred with the storage.
      * @see Specification
      */
     List<T> find(Specification<T> specification);

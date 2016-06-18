@@ -2,9 +2,8 @@ package edu.softserve.zoo.persistence.provider.impl;
 
 import com.google.common.collect.Iterables;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
-import edu.softserve.zoo.persistence.exception.PersistenceReason;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
@@ -51,15 +50,15 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
     @Override
     public T findOne(Specification<T> specification) {
         try {
-            Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceException.class)
-                    .forReason(PersistenceReason.SPECIFICATION_IS_NULL)
+            Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceProviderException.class)
+                    .forReason(PersistenceProviderException.Reason.SPECIFICATION_IS_NULL)
                     .withMessage("Specification can not be null")
                     .build());
             List<T> result = processSpecification(specification);
             return Iterables.getFirst(result, null);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "findOne", ex.getMessage());
-            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+            throw ApplicationException.getBuilderFor(PersistenceProviderException.class).forReason(PersistenceProviderException.Reason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -79,7 +78,7 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "save", ex.getMessage());
-            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+            throw ApplicationException.getBuilderFor(PersistenceProviderException.class).forReason(PersistenceProviderException.Reason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -99,7 +98,7 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
             return entity;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "update", ex.getMessage());
-            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+            throw ApplicationException.getBuilderFor(PersistenceProviderException.class).forReason(PersistenceProviderException.Reason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -118,7 +117,7 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
             return getSession().createQuery(String.format(DELETE_QUERY, type.getSimpleName(), id)).executeUpdate() == 1;
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "delete", ex.getMessage());
-            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+            throw ApplicationException.getBuilderFor(PersistenceProviderException.class).forReason(PersistenceProviderException.Reason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage(ex.getMessage()).build();
         }
     }
@@ -131,22 +130,22 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
      *                      using appropriate {@link SpecificationProcessingStrategy}.
      * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
      * if there are no objects in the database that match the specification.
-     * @throws PersistenceException if {@code specification} is incorrect or query errors
+     * @throws PersistenceProviderException if {@code specification} is incorrect or query errors
      * @throws NullPointerException if {@code specification} is {@code null}
      * @see Specification
      */
     @Override
     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
     public List<T> find(Specification<T> specification) {
-        Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceException.class)
-                .forReason(PersistenceReason.SPECIFICATION_IS_NULL)
+        Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceProviderException.class)
+                .forReason(PersistenceProviderException.Reason.SPECIFICATION_IS_NULL)
                 .withMessage("Specification can not be null")
                 .build());
         try {
             return processSpecification(specification);
         } catch (HibernateException ex) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "find", ex.getMessage());
-            throw ApplicationException.getBuilderFor(PersistenceException.class).forReason(PersistenceReason.HIBERNATE_QUERY_FAILED)
+            throw ApplicationException.getBuilderFor(PersistenceProviderException.class).forReason(PersistenceProviderException.Reason.HIBERNATE_QUERY_FAILED)
                     .causedBy(ex).withMessage("Can not perform find by current specification").build();
         }
     }

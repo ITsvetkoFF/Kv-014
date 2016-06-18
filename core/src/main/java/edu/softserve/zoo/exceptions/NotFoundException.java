@@ -11,4 +11,20 @@ public class NotFoundException extends ApplicationException {
     protected NotFoundException(String message, ExceptionReason reason, Throwable cause) {
         super(message, reason, cause);
     }
+
+    public enum Reason implements ExceptionReason {
+        BY_ID("reason.service.not_found_by_id"),
+        BY_EMAIL("reason.service.not_found_by_email");
+
+        private final String message;
+
+        Reason(String message) {
+            this.message = message;
+        }
+
+        @Override
+        public String getMessage() {
+            return message;
+        }
+    }
 }
