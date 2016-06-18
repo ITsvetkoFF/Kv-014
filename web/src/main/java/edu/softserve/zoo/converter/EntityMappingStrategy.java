@@ -32,7 +32,8 @@ class EntityMappingStrategy implements MappingStrategy {
     public Object convertToDto(Object entity) {
         if (ModelConverter.isProxy(entity.getClass())) {
             BaseDto emptyDto = converter.getDto((BaseEntity) entity);
-            Long id = ((BaseEntity) entity).getId();
+            BaseEntity baseEntity = (BaseEntity) entity;
+            Long id = baseEntity.getId();
             emptyDto.setId(id);
             return emptyDto;
         } else return converter.convertToDto((BaseEntity) entity);

@@ -1,4 +1,5 @@
 dependencies {
     compile guava_core
     compile javax_persistence
+    compile lombok
 }
