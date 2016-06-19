@@ -48,7 +48,7 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
         String authToken = request.getHeader(tokenHeaderName);
         String username = jwtUtils.getUsernameFromToken(authToken);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null) {
 
             AuthUserDetails userDetails = (AuthUserDetails) userDetailsService.loadUserByUsername(username);
 
@@ -59,6 +59,7 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
                 LOGGER.warn("Auth token filter encountered invalid token for user: {}", username);
             }
         }
+
         return null;
     }
 
@@ -82,7 +83,6 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
         Employee employee = employeeService.findOne(userDetails.getId());
         employee.setToken(jwtUtils.getIdFromToken(token));
         employeeService.update(employee);
-        //todo wrap ApplicationException? move to UserService and wrap there?
 
         response.setHeader(tokenHeaderName, token);
 
@@ -99,11 +99,11 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
             AuthUserDetails userDetails = (AuthUserDetails) userDetailsService.loadUserByUsername(username);
 
             if (jwtUtils.validateToken(authToken, userDetails)) {
+
                 /* Erasing token ID from user record */
                 Employee employee = employeeService.findOne(userDetails.getId());
                 employee.setToken(null);
                 employeeService.update(employee);
-                //todo wrap ApplicationException? move to UserService and wrap there?
             } else {
                 LOGGER.warn("Auth token filter encountered invalid token for user: {}", username);
             }

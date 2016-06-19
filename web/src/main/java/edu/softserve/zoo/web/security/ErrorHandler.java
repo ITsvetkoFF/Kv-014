@@ -3,6 +3,8 @@ package edu.softserve.zoo.web.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.Error;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
+
 /**
  * Unified exception handler for all security exceptions types.
  *
@@ -24,9 +28,13 @@ import java.io.IOException;
 public class ErrorHandler implements AuthenticationFailureHandler, AuthenticationEntryPoint, AccessDeniedHandler {
 
     private final String JSON_CONTENT_TYPE = "application/json";
+    private final String AUTHENTICATION_REQUIRED = "Security.authentication.required";
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    private MessageSource messageSource;
 
     /**
      * Is called when unauthenticated user tries to access resources which require authentication.
@@ -34,7 +42,11 @@ public class ErrorHandler implements AuthenticationFailureHandler, Authenticatio
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        handleError(exception, response);
+
+        String message = messageSource.getMessage(AUTHENTICATION_REQUIRED, null,
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(), getLocale());
+
+        writeErrorToResponse(message, response);
     }
 
     /**
@@ -43,7 +55,7 @@ public class ErrorHandler implements AuthenticationFailureHandler, Authenticatio
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        handleError(exception, response);
+        writeErrorToResponse(exception.getMessage(), response);
 
     }
 
@@ -53,13 +65,13 @@ public class ErrorHandler implements AuthenticationFailureHandler, Authenticatio
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        handleError(exception, response);
+        writeErrorToResponse(exception.getMessage(), response);
     }
 
-    private void handleError(Exception exception, HttpServletResponse response) throws IOException {
+    private void writeErrorToResponse(String message, HttpServletResponse response) throws IOException {
         response.setContentType(JSON_CONTENT_TYPE);
 
-        Error error = new Error(exception.getMessage());
+        Error error = new Error(message);
 
         objectMapper.writeValue(response.getOutputStream(), error);
     }

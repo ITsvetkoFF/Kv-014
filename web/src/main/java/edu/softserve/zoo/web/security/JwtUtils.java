@@ -6,13 +6,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
@@ -24,6 +23,8 @@ import java.util.UUID;
  */
 @Component
 public class JwtUtils {
+
+    private final static Logger LOGGER = LoggerFactory.logger(JwtUtils.class);
 
     @Value("${token.expiration}")
     private Long expiration;
@@ -66,6 +67,7 @@ public class JwtUtils {
             username = claims.getSubject();
         } catch (Exception e) {
             username = null;
+            LOGGER.debug("Failed to extract username from token");
         }
         return username;
     }
@@ -83,6 +85,7 @@ public class JwtUtils {
             id = claims.getId();
         } catch (Exception e) {
             id = null;
+            LOGGER.debug("Failed to extract id from token.");
         }
         return id;
     }
@@ -112,6 +115,7 @@ public class JwtUtils {
                     .getBody();
         } catch (SignatureException e) {
             claims = null;
+            LOGGER.warn("Failed to extract claims from token. Reason: " + e.getMessage());
         }
         return claims;
     }
@@ -136,6 +140,7 @@ public class JwtUtils {
             created = claims.getIssuedAt();
         } catch (Exception e) {
             created = null;
+            LOGGER.debug("Failed to extract created date from token");
         }
         return created;
     }
@@ -147,6 +152,7 @@ public class JwtUtils {
             expiration = claims.getExpiration();
         } catch (Exception e) {
             expiration = null;
+            LOGGER.debug("Failed to extract expiration date from token");
         }
         return expiration;
     }

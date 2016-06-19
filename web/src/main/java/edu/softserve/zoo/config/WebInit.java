@@ -33,7 +33,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     public void onStartup(ServletContext container) throws ServletException {
-        container.setInitParameter("spring.profiles.default", AppProfiles.TEST);
+        container.setInitParameter("spring.profiles.default", AppProfiles.PRODUCTION);
         AnnotationConfigWebApplicationContext servletContext =
                 new AnnotationConfigWebApplicationContext();
 

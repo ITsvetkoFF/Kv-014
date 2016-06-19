@@ -5,7 +5,7 @@ import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.impl.employee.GetEmployeeByEmailSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.employee.GetEmployeeByEmailSpecification;
 import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.service.exception.ServiceReason;
 import edu.softserve.zoo.util.Validator;
@@ -13,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Locale;
 
 /**
  * @author Ilya Doroshenko
@@ -53,12 +50,10 @@ public class EmployeeServiceImpl extends AbstractService<Employee> implements Em
     @Override
     @Transactional
     public Employee getEmployeeByEmail(String email) {
-        List<Employee> employees = employeeRepository.find(new GetEmployeeByEmailSpecification(email));
+        Employee employee = employeeRepository.findOne(new GetEmployeeByEmailSpecification(email));
 
-        Validator.notEmpty(employees, ApplicationException.getBuilderFor(NotFoundException.class)
+        Validator.notNull(employee, ApplicationException.getBuilderFor(NotFoundException.class)
                 .forReason(ServiceReason.NOT_FOUND).build());
-
-        Employee employee = employees.stream().findFirst().get();
         return employee;
     }
 
