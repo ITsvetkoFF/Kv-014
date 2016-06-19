@@ -28,12 +28,10 @@ public class JwtUtils {
     @Value("${token.expiration}")
     private Long expiration;
 
-    //private Key key;
-
-    private String key = "sdasdasdq2asd123";
+    private Key key;
 
     public JwtUtils() {
-        //key = MacProvider.generateKey(); //todo: make it dependant on a profile or smth, not comment it
+        key = MacProvider.generateKey();
     }
 
     /**

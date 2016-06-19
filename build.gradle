@@ -49,6 +49,7 @@ ext {
     junit = "junit:junit:$junit_version"
     hsqldb = "org.hsqldb:hsqldb:$hsqldb_version"
     servlet_api = "javax.servlet:javax.servlet-api:$servlet_api_version"
+    jjwt = "io.jsonwebtoken:jjwt:$jjwt_version"
 
     /* Logging bridge */
     slf4j = "org.slf4j:slf4j-api:$slf4j_version"

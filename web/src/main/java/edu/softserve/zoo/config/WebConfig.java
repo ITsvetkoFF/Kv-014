@@ -34,8 +34,10 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan({"edu.softserve.zoo.controller.rest", "edu.softserve.zoo.converter", "edu.softserve.zoo.advice",
-        "edu.softserve.zoo.test.endpoints.checking.checker", "edu.softserve.zoo.service", "edu.softserve.zoo.persistence"})
+        "edu.softserve.zoo.test.endpoints.checking.checker", "edu.softserve.zoo.service", "edu.softserve.zoo.persistence",
+        "edu.softserve.zoo.web.security"})
 @PropertySource("classpath:web.properties")
+@ImportResource("classpath:spring/security-ctx.xml")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Resource
     private Environment env;

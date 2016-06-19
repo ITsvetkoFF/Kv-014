@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
  * @author Andrii Abramov on 6/13/16.
  */
 @Configuration
-@ComponentScan({"edu.softserve.zoo.service.impl", "edu.softserve.zoo.persistence"})
+@ComponentScan({"edu.softserve.zoo.service.impl", "edu.softserve.zoo.persistence", "edu.softserve.zoo.service.security"})
 public class ServiceConfig {
 }

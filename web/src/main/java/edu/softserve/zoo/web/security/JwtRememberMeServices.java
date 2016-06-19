@@ -79,14 +79,14 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
         String token = jwtUtils.generateToken(userDetails);
 
         /* Writing token ID to user record */
-        Employee employee = employeeService.findOne(userDetails.getId(), Employee.class);
+        Employee employee = employeeService.findOne(userDetails.getId());
         employee.setToken(jwtUtils.getIdFromToken(token));
         employeeService.update(employee);
         //todo wrap ApplicationException? move to UserService and wrap there?
 
         response.setHeader(tokenHeaderName, token);
 
-        LOGGER.info("User {} received new remember-me token", userDetails.getUsername());
+        LOGGER.debug("User {} received new remember-me token", userDetails.getUsername());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class JwtRememberMeServices implements RememberMeServices, LogoutHandler 
 
             if (jwtUtils.validateToken(authToken, userDetails)) {
                 /* Erasing token ID from user record */
-                Employee employee = employeeService.findOne(userDetails.getId(), Employee.class);
+                Employee employee = employeeService.findOne(userDetails.getId());
                 employee.setToken(null);
                 employeeService.update(employee);
                 //todo wrap ApplicationException? move to UserService and wrap there?
