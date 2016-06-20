@@ -5,18 +5,16 @@ import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsParamDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.dto.TaskDto;
-import edu.softserve.zoo.dto.TaskStatisticsDto;
-import edu.softserve.zoo.dto.TaskStatusDto;
-import edu.softserve.zoo.dto.TaskTypeDto;
 import edu.softserve.zoo.model.Task;
-import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static edu.softserve.zoo.controller.rest.Routes.TASKS;
 
@@ -51,24 +49,6 @@ public class TaskRestController extends AbstractRestController<TaskDto, Task> {
     @RequestMapping(method = RequestMethod.GET)
     public List<TaskDto> getAll() {
         return super.getAll();
-    }
-
-    @DocsTest(pathParameters = "2")
-    @RequestMapping(path = "/statistics/{id}", method = RequestMethod.GET, produces = "application/json")
-    public TaskStatisticsDto getStatistics(@PathVariable @DocsParamDescription("Employee id") Long id) {
-        TaskStatisticsDto dto = new TaskStatisticsDto();
-        TaskStatistics statistics = taskService.getStatistics(id);
-        dto.setTaskStatuses(
-                statistics.getTaskStatuses().entrySet().stream()
-                        .map(pair -> new TaskStatusDto(pair.getKey(), pair.getValue()))
-                        .collect(Collectors.toList())
-        );
-        dto.setTaskTypes(
-                statistics.getTaskTypes().entrySet().stream()
-                        .map(pair -> new TaskTypeDto(pair.getKey(), pair.getValue()))
-                        .collect(Collectors.toList())
-        );
-        return dto;
     }
 
     @Override

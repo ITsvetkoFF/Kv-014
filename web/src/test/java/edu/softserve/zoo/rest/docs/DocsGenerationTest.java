@@ -131,7 +131,7 @@ public class DocsGenerationTest {
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
             final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass);
-            String snippetsPath = requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
+            String snippetsPath = requestMethod.toString().toLowerCase() + StringUtils.remove(StringUtils.remove(path, '{'), '}');
 
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
             if (pathParameters.length > 0)

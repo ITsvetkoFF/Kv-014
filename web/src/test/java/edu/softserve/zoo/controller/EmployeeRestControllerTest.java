@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = WebConfig.class)
 @ActiveProfiles(AppProfiles.TEST)
 @WebAppConfiguration
-public class TaskRestControllerTest {
+public class EmployeeRestControllerTest {
     @Autowired
     private WebApplicationContext context;
     @Autowired
@@ -59,13 +59,14 @@ public class TaskRestControllerTest {
                 new TaskStatusDto(Task.TaskStatus.FAILED, 1L),
                 new TaskStatusDto(Task.TaskStatus.IN_PROGRESS, 2L)
         ));
-        this.mockMvc.perform(get(Routes.TASKS + "/statistics/{id}", 2).contentType(MediaType.APPLICATION_JSON))
+
+        this.mockMvc.perform(get(Routes.EMPLOYEES + "/{id}/performance", 2).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> {
                     TaskStatisticsDto response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), TaskStatisticsDto.class);
                     Assert.assertEquals("Response validation failed", dto, response);
                 });
-        this.mockMvc.perform(get(Routes.TASKS + "/statistics/{id}", 12).contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get(Routes.EMPLOYEES + "/{id}/performance", 12).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 }
