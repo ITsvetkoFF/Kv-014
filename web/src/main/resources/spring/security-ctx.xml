@@ -23,6 +23,8 @@
         <intercept-url pattern="/api/v1/login" access="permitAll"/>
         <intercept-url pattern="/api/v1/logout" access="permitAll"/>
         <intercept-url pattern="/api/v1/user" access="isAuthenticated()"/>
+
+        <intercept-url pattern="/**" method="OPTIONS" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
     </http>
 

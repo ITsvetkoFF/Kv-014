@@ -6,8 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @Component
 public class JwtUtils {
 
-    private final static Logger LOGGER = LoggerFactory.logger(JwtUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${token.expiration}")
     private Long expiration;
@@ -115,7 +115,7 @@ public class JwtUtils {
                     .getBody();
         } catch (SignatureException e) {
             claims = null;
-            LOGGER.warn("Failed to extract claims from token. Reason: " + e.getMessage());
+            LOGGER.warn("Failed to extract claims from token. Reason: {}", e.getMessage());
         }
         return claims;
     }
