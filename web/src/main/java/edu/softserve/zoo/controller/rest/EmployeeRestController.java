@@ -71,6 +71,7 @@ public class EmployeeRestController extends AbstractRestController<EmployeeDto, 
     }
 
     @Override
+    @DocsTest
     @RequestMapping(method = RequestMethod.GET)
     public List<EmployeeDto> getAll() {
         return super.getAll();

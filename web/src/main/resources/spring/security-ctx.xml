@@ -54,10 +54,6 @@
         </authentication-provider>
     </authentication-manager>
 
-    <!-- Password hashing provider for storing in DB -->
-    <beans:bean name="bcryptEncoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
     <!-- Getting security properties from config file -->
     <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <beans:property name="location" value="classpath:security.properties"/>

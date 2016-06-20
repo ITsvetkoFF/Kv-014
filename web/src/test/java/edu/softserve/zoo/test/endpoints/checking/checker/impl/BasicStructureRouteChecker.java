@@ -36,7 +36,7 @@ public class BasicStructureRouteChecker implements RouteChecker {
         CheckResult checkResult = new CheckResult();
         Matcher matcher = BASIC_STRUCTURE_PATTERN.matcher(route.getUri());
         Matcher countMatcher = COUNT_STRUCTURE_PATTERN.matcher(route.getUri());
-        if (!matcher.matches() && !countMatcher.matches() && !route.getUri().contains("statistics")) {
+        if (!matcher.matches() && !countMatcher.matches()) {
             checkResult.addError(String.format(ERROR_MESSAGE_PATTERN, route.toString()));
         }
         return checkResult;
