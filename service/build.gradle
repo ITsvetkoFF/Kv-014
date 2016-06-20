@@ -1,3 +1,4 @@
 dependencies {
     compile project(':persistence')
+    compile spring_security_core
 }

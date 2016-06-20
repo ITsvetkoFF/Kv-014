@@ -19,7 +19,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
@@ -34,8 +33,10 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan({"edu.softserve.zoo.controller.rest", "edu.softserve.zoo.converter", "edu.softserve.zoo.advice",
-        "edu.softserve.zoo.test.endpoints.checking.checker", "edu.softserve.zoo.service", "edu.softserve.zoo.persistence"})
+        "edu.softserve.zoo.test.endpoints.checking.checker", "edu.softserve.zoo.service", "edu.softserve.zoo.persistence",
+        "edu.softserve.zoo.web.security"})
 @PropertySource("classpath:web.properties")
+@ImportResource("classpath:spring/security-ctx.xml")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Resource
     private Environment env;
@@ -89,11 +90,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON).ignoreAcceptHeader(true);
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
     }
 
     @Bean

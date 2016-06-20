@@ -14,6 +14,8 @@ public class Employee extends BaseEntity {
     private LocalDate employmentDate;
     private String email;
     private String password;
+    private boolean enabled;
+    private String token;
     private Set<Role> roles;
 
     public Employee() {
@@ -64,7 +66,15 @@ public class Employee extends BaseEntity {
         this.password = password;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "employee_role_mapping",
             joinColumns = @JoinColumn(name = "employee_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
@@ -74,6 +84,14 @@ public class Employee extends BaseEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

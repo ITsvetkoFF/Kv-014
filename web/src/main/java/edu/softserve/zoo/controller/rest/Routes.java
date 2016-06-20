@@ -14,4 +14,7 @@ public interface Routes {
     String FAMILIES = API_V1 + "/families";
     String TASKS = API_V1 + "/tasks";
 
+    String USER = API_V1 + "/user";
+    String LOGIN = API_V1 + "/login";
+    String LOGOUT = API_V1 + "/logout";
 }
