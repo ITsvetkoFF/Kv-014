@@ -1,5 +1,6 @@
 package edu.softserve.zoo.web.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,6 @@ public class LoginAuthFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected String obtainUsername(HttpServletRequest request) {
-        return request.getHeader(usernameHeader);
+        return StringUtils.upperCase(request.getHeader(usernameHeader));
     }
 }
