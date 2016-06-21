@@ -45,6 +45,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.Filter;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -56,8 +57,10 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static edu.softserve.zoo.controller.rest.Routes.LOGIN;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -86,7 +89,8 @@ public class DocsGenerationTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    EmployeeService employeeService;
+    private List<Filter> springSecurityFilters;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DocsGenerationTest.class);
 
     @Resource(name = "webTestProperties")
@@ -100,6 +104,7 @@ public class DocsGenerationTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
                 .apply(documentationConfiguration(this.restDocumentation))
+                .addFilters(springSecurityFilters.toArray(new Filter[springSecurityFilters.size()]))
                 .build();
     }
 
@@ -112,6 +117,13 @@ public class DocsGenerationTest {
     @Test
     public void run() throws Exception {
         StringBuilder documentation = new StringBuilder(properties.getProperty("fileBegin"));
+        String token = this.mockMvc.perform(post(LOGIN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Username", "ITSV@GMAIL.COM")
+                .header("Password", "123456"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getHeader("X-Auth-Token");
+        System.out.println(token);
         for (Map.Entry<RequestMappingInfo, HandlerMethod> mapping :
                 requestMappingHandlerMapping.getHandlerMethods()
                         .entrySet()
@@ -150,12 +162,11 @@ public class DocsGenerationTest {
             else
                 testDto = null;
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
-            if (testValue.ignore())
-                continue;
             Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every method with request mappings must be annotated with '%s' annotation. Problem method: %s", DocsTest.class.getSimpleName(), mapping.getValue().getMethod())).build());
             final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(), String.class, Object[].class);
             this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-Auth-Token", token)
                     .content(testDto != null ? testDto : ""))
                     .andExpect(status().isOk())
                     .andDo(document);

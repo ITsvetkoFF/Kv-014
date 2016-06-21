@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsClassDescription;
 import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.converter.ModelConverter;
 import edu.softserve.zoo.dto.EmployeeDto;
@@ -21,6 +22,7 @@ import static edu.softserve.zoo.controller.rest.Routes.USER;
  */
 @RestController
 @RequestMapping(USER)
+@DocsClassDescription("User resource")
 public class UserController {
 
     @Autowired
