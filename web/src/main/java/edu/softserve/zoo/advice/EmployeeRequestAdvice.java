@@ -4,7 +4,7 @@ import edu.softserve.zoo.controller.rest.EmployeeRestController;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.dto.RoleDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.web.WebException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,6 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-import static edu.softserve.zoo.exception.WebReason.ENUM_MAPPING_FAILED;
 
 /**
  * This class purpose is to intercept employee rest controller requests and modify request body:
@@ -69,7 +68,7 @@ public class EmployeeRequestAdvice implements RequestBodyAdvice {
             type = Role.Type.valueOf(role.toUpperCase());
         } catch (IllegalArgumentException e) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "convert string to role entity", e.getMessage());
-            throw ApplicationException.getBuilderFor(WebException.class).forReason(ENUM_MAPPING_FAILED).build();
+            throw ApplicationException.getBuilderFor(ValidationException.class).forReason(ValidationException.Reason.ENUM_MAPPING_FAILED).build();
         }
         Long id = (long) type.ordinal();
         RoleDto roleDto = new RoleDto();

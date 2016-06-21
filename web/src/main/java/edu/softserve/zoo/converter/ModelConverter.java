@@ -2,8 +2,8 @@ package edu.softserve.zoo.converter;
 
 import edu.softserve.zoo.converter.mapping.DtoMapper;
 import edu.softserve.zoo.dto.BaseDto;
+import edu.softserve.zoo.exception.ModelConverterException;
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.web.WebException;
 import edu.softserve.zoo.model.BaseEntity;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static edu.softserve.zoo.exception.WebReason.*;
 
 /**
  * <p>Simple DTO<-to->Entity converter</p>
@@ -65,7 +63,7 @@ public class ModelConverter {
             return (Dto) (mapper.getDtoClass(entityClass)).newInstance();
         } catch (NullPointerException | ReflectiveOperationException e) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "get Dto", e.getMessage());
-            throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_DTO_FAILED).causedBy(e).build();
+            throw ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_TO_DTO_FAILED).causedBy(e).build();
         }
     }
 
@@ -81,7 +79,7 @@ public class ModelConverter {
             return (Entity) mapper.getEntityClass(dto.getClass()).newInstance();
         } catch (NullPointerException | ReflectiveOperationException e) {
             LOGGER.debug(ERROR_LOG_TEMPLATE, "get Entity", e.getMessage());
-            throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_ENTITY_FAILED).causedBy(e).build();
+            throw ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_TO_ENTITY_FAILED).causedBy(e).build();
         }
     }
 
@@ -141,12 +139,12 @@ public class ModelConverter {
                                 .filter(strategy -> strategy.isApplicable(fieldProperty))
                                 .findFirst()
                                 .orElseThrow((Supplier<RuntimeException>) () ->
-                                        ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_STRATEGY_NOT_FOUND).build());
+                                        ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_STRATEGY_NOT_FOUND).build());
                         Object result = mappingStrategy.convertToDto(fieldProperty);
                         PropertyUtils.setProperty(dto, field.getName(), result);
                     } catch (ReflectiveOperationException e) {
                         LOGGER.debug(ERROR_LOG_TEMPLATE, "convert to DTO", e.getMessage());
-                        throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_DTO_FAILED).build();
+                        throw ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_TO_DTO_FAILED).build();
                     }
                 }
         );
@@ -173,12 +171,12 @@ public class ModelConverter {
                 MappingStrategy mappingStrategy = strategies.stream()
                         .filter(strategy -> strategy.isApplicable(fieldProperty)).findFirst()
                         .orElseThrow((Supplier<RuntimeException>) () ->
-                                ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_STRATEGY_NOT_FOUND).build());
+                                ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_STRATEGY_NOT_FOUND).build());
                 Object result = mappingStrategy.convertToEntity(fieldProperty);
                 PropertyUtils.setProperty(entity, field.getName(), result);
             } catch (ReflectiveOperationException e) {
                 LOGGER.debug(ERROR_LOG_TEMPLATE, "convert to Entity", e.getMessage());
-                throw ApplicationException.getBuilderFor(WebException.class).forReason(MAPPING_TO_ENTITY_FAILED).build();
+                throw ApplicationException.getBuilderFor(ModelConverterException.class).forReason(ModelConverterException.Reason.MAPPING_TO_ENTITY_FAILED).build();
             }
         });
         return entity;

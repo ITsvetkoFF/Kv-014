@@ -1,8 +1,9 @@
 package edu.softserve.zoo.persistence.test.repository;
 
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.repository.WarehouseRepository;
 import edu.softserve.zoo.persistence.repository.impl.WarehouseRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
@@ -37,32 +38,32 @@ public class WarehouseRepositoryTest {
 
     private static final Long VALID_WAREHOUSE_ID = 1L;
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = ValidationException.class)
     public void testSaveNullArgument() {
         warehouseRepository.save(null);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = ValidationException.class)
     public void testUpdateNullArgument() {
         warehouseRepository.update(null);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = ValidationException.class)
     public void testDeleteNullEntityArgument() {
         warehouseRepository.delete(null, Warehouse.class);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = ValidationException.class)
     public void testDeleteNullTypeArgument() {
         warehouseRepository.delete(VALID_WAREHOUSE_ID, null);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = PersistenceProviderException.class)
     public void testFindOneNullArgument() {
         warehouseRepository.findOne(null);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = PersistenceProviderException.class)
     @Transactional
     public void testFindAllNullArgument() {
         warehouseRepository.find(null);

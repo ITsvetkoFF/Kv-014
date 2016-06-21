@@ -1,8 +1,8 @@
 package edu.softserve.zoo.persistence.provider.specification_processing.provider.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
@@ -39,9 +39,9 @@ public class ProcessingStrategyProviderImpl<T extends BaseEntity> implements Pro
 
         Set<Class<?>> supportedSpecificationTypes = getSupportedSpecificationTypes(specification);
 
-        //TODO add reason when reasons are done
         Validator.isTrue(supportedSpecificationTypes.size() == 1,
-                ApplicationException.getBuilderFor(PersistenceException.class)
+                ApplicationException.getBuilderFor(PersistenceProviderException.class)
+                        .forReason(PersistenceProviderException.Reason.UNABLE_TO_FIND_STRATEGY)
                         .withMessage("Unable to find strategy for: " + specification.getClass().getSimpleName())
                         .build());
 

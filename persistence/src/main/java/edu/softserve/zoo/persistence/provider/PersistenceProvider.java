@@ -2,6 +2,7 @@ package edu.softserve.zoo.persistence.provider;
 
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface PersistenceProvider<T extends BaseEntity> {
      *
      * @param specification defines restrictions for performed search.
      * @return domain object by defined restrictions or null if not found
+     * @throws PersistenceProviderException if the received specification is null
      */
     T findOne(Specification<T> specification);
 
