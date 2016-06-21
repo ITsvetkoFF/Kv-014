@@ -26,6 +26,13 @@ public interface Repository<T extends BaseEntity> {
     T findOne(Specification<T> specification);
 
     /**
+     * Returns objects count in database for specified type.
+     *
+     * @return count.
+     */
+    Long count();
+
+    /**
      * Saves the entity into the repository.
      *
      * @param entity - an object that should be stored.

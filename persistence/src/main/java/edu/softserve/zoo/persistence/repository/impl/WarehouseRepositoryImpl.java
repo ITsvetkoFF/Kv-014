@@ -11,6 +11,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class WarehouseRepositoryImpl extends AbstractRepository<Warehouse> implements WarehouseRepository {
+    @Override
+    protected Class<Warehouse> getEntityType() {
+        return Warehouse.class;
+    }
 
     @Override
     public Warehouse update(Warehouse entity) {

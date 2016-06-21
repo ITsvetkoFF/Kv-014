@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HouseRepositoryImpl extends AbstractRepository<House> implements HouseRepository {
+    @Override
+    protected Class<House> getEntityType() {
+        return House.class;
+    }
 }

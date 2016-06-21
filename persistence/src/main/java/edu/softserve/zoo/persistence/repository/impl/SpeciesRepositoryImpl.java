@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class SpeciesRepositoryImpl extends AbstractRepository<Species> implements SpeciesRepository {
+    @Override
+    protected Class<Species> getEntityType() {
+        return Species.class;
+    }
 }

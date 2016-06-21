@@ -1,5 +1,6 @@
 package edu.softserve.zoo.controller.rest;
 
+import edu.softserve.zoo.annotation.DocsTest;
 import edu.softserve.zoo.converter.ModelConverter;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.model.Employee;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static edu.softserve.zoo.controller.rest.Routes.USER;
 
 /**
- * Controller for operations with currently authentificated user.
+ * Controller for operations with currently authenticated user.
  *
  * @author Ilya Doroshenko
  */
@@ -32,6 +33,7 @@ public class UserController {
      * Handles the request for info about currently authenticated user
      * @return current user
      */
+    @DocsTest(ignore = true)
     @RequestMapping(method = RequestMethod.GET)
     public EmployeeDto getUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

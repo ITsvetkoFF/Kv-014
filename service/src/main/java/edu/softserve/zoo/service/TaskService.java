@@ -1,6 +1,7 @@
 package edu.softserve.zoo.service;
 
 import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.model.TaskStatistics;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ import java.util.List;
 public interface TaskService extends Service<Task> {
     List<Task> taskGetAllByAssignerId(Long assignerId);
     List<Task> taskGetAllByAssigneeId(Long assigneeId);
+    TaskStatistics getStatistics(Long employeeId);
 }

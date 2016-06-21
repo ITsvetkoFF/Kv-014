@@ -6,6 +6,7 @@ import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.web.WebException;
+import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.util.Validator;
 import org.apache.commons.lang3.StringUtils;
@@ -84,6 +85,8 @@ public class DocsGenerationTest {
     private ParameterNameDiscoverer parameterNameDiscoverer;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    EmployeeService employeeService;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocsGenerationTest.class);
 
     @Resource(name = "webTestProperties")
@@ -131,7 +134,7 @@ public class DocsGenerationTest {
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
             final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass);
-            String snippetsPath = requestMethod.toString().toLowerCase() + path.replaceAll("\\{id}", "id");
+            String snippetsPath = requestMethod.toString().toLowerCase() + StringUtils.remove(StringUtils.remove(path, '{'), '}');
 
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
             if (pathParameters.length > 0)
@@ -147,6 +150,8 @@ public class DocsGenerationTest {
             else
                 testDto = null;
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
+            if (testValue.ignore())
+                continue;
             Validator.notNull(testValue, ApplicationException.getBuilderFor(WebException.class).withMessage(String.format("Every method with request mappings must be annotated with '%s' annotation. Problem method: %s", DocsTest.class.getSimpleName(), mapping.getValue().getMethod())).build());
             final Method httpMethod = ReflectionUtils.findMethod(RestDocumentationRequestBuilders.class, requestMethod.toString().toLowerCase(), String.class, Object[].class);
             this.mockMvc.perform(((MockHttpServletRequestBuilder) httpMethod.invoke(this, path, testValue.pathParameters()))

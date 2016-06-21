@@ -81,4 +81,11 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
         List<Animal> allBySpeciesId = animalService.getAllBySpeciesId(speciesId);
         return converter.convertToDto(allBySpeciesId);
     }
+
+    @DocsTest
+    @RequestMapping(path="/count", method = RequestMethod.GET)
+    @Override
+    public Long count() {
+        return super.count();
+    }
 }

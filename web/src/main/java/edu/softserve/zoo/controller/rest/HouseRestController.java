@@ -45,4 +45,11 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         List<House> allByZoneId = houseService.getAllByZooZoneId(zoneId);
         return converter.convertToDto(allByZoneId);
     }
+
+    @DocsTest
+    @RequestMapping(path="/count", method = RequestMethod.GET)
+    @Override
+    public Long count() {
+        return super.count();
+    }
 }

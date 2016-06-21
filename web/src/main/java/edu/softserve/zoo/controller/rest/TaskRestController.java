@@ -9,7 +9,10 @@ import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ import static edu.softserve.zoo.controller.rest.Routes.TASKS;
 @DocsClassDescription("Task resource")
 @RestController
 @RequestMapping(TASKS)
-public class TasksRestController extends AbstractRestController<TaskDto, Task> {
+public class TaskRestController extends AbstractRestController<TaskDto, Task> {
 
     @Autowired
     private TaskService taskService;

@@ -36,6 +36,12 @@ public abstract class AbstractService<T extends BaseEntity> implements Service<T
 
     @Transactional
     @Override
+    public Long count() {
+        return getRepository().count();
+    }
+
+    @Transactional
+    @Override
     public List<T> findAll() {
         return getRepository().find(new GetAllSpecification<>(type));
     }

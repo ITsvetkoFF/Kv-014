@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class RoleRepositoryImpl extends AbstractRepository<Role> implements RoleRepository {
+    @Override
+    protected Class<Role> getEntityType() {
+        return Role.class;
+    }
 }

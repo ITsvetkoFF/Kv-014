@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD})
 public @interface DocsTest {
     String[] pathParameters() default {};
+    boolean ignore() default false;
 }

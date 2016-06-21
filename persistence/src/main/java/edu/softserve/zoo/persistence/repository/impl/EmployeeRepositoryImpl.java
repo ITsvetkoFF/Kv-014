@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class EmployeeRepositoryImpl extends AbstractRepository<Employee> implements EmployeeRepository {
+    @Override
+    protected Class<Employee> getEntityType() {
+        return Employee.class;
+    }
 }

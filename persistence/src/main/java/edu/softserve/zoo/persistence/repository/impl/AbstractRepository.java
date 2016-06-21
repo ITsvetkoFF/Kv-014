@@ -4,13 +4,19 @@ import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.persistence.PersistenceException;
 import edu.softserve.zoo.exceptions.service.ServiceException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.provider.JdbcPersistenceProvider;
 import edu.softserve.zoo.persistence.exception.PersistenceReason;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
+import edu.softserve.zoo.persistence.specification.impl.CountSpecification;
 import edu.softserve.zoo.util.Validator;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.ParameterizedType;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -27,6 +33,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Autowired
     private PersistenceProvider<T> persistenceProvider;
+    @Autowired
+    private JdbcPersistenceProvider jdbcPersistenceProvider;
 
     /**
      * {@inheritDoc}
@@ -35,6 +43,16 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
     public T findOne(Specification<T> specification) {
         return persistenceProvider.findOne(specification);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long count() {
+        return jdbcPersistenceProvider.findOne(new CountSpecification<>(getEntityType()), BigInteger::longValue);
+    }
+
+    protected abstract Class<T> getEntityType();
 
     /**
      * {@inheritDoc}

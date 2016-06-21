@@ -1,0 +1,37 @@
+package edu.softserve.zoo.persistence.test.repository;
+
+import edu.softserve.zoo.persistence.config.PersistenceConfig;
+import edu.softserve.zoo.persistence.repository.StatisticsRepository;
+import edu.softserve.zoo.persistence.repository.impl.StatisticsRepositoryImpl;
+import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
+import edu.softserve.zoo.util.AppProfiles;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import static org.junit.Assert.assertEquals;
+
+/**
+ * @author Taras Zubrei
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = PersistenceConfig.class)
+@ActiveProfiles(AppProfiles.TEST)
+@Transactional
+@RepositoryTest(forRepository = StatisticsRepositoryImpl.class)
+public class StatisticsRepositoryTest {
+    @Autowired
+    StatisticsRepository statisticsRepository;
+
+    @Test
+    public void fedAnimals() {
+        Long fedAnimals = statisticsRepository.getFedAnimals();
+        Assert.notNull(fedAnimals, "Fed animals count has to be not null");
+        assertEquals("Wrong fed animals count", new Long(3), fedAnimals);
+    }
+}

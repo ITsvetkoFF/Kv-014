@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ZooZoneRepositoryImpl extends AbstractRepository<ZooZone> implements ZooZoneRepository {
+    @Override
+    protected Class<ZooZone> getEntityType() {
+        return ZooZone.class;
+    }
 }

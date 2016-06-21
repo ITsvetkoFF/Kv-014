@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class FamilyRepositoryImpl extends AbstractRepository<Family> implements FamilyRepository {
+    @Override
+    protected Class<Family> getEntityType() {
+        return Family.class;
+    }
 }

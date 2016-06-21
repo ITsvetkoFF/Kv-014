@@ -15,7 +15,6 @@ dependencies {
     compile spring_security_web
     compile jjwt
 
-    testCompile spring_test
     testCompile spring_rest_docs
     testCompile hsqldb
     testCompile javax_el

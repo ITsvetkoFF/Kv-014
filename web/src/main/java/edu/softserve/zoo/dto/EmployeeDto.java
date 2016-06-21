@@ -14,7 +14,7 @@ public class EmployeeDto extends BaseDto {
     private String firstName;
     @DocsFieldDescription("Last name")
     private String lastName;
-    @DocsFieldDescription("The date of employment")
+    @DocsFieldDescription(value = "The date of employment", optional = true)
     private LocalDate employmentDate;
     @DocsFieldDescription("E-mail")
     private String email;

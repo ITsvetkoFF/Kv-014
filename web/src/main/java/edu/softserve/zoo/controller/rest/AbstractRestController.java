@@ -49,6 +49,10 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
         return new Error(message);
     }
 
+    public Long count() {
+        return getService().count();
+    }
+
     public Dto getById(@PathVariable Long id) {
         return converter.convertToDto(getService().findOne(id));
     }

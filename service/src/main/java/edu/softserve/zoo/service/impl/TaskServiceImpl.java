@@ -1,16 +1,13 @@
 package edu.softserve.zoo.service.impl;
 
-import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Task;
+import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssigneeIdSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssignerIdSpecification;
 import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.service.TaskService;
-import edu.softserve.zoo.service.exception.ServiceReason;
-import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,27 +41,24 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     @Override
     @Transactional
     public List<Task> taskGetAllByAssignerId(Long assignerId) {
-        Validator.notNull(employeeService.findOne(assignerId),
-                ApplicationException
-                        .getBuilderFor(NotFoundException.class)
-                        .forReason(ServiceReason.NOT_FOUND)
-                        .withMessage("Invalid Employee id supplied")
-                        .build());
-
+        validateNullableArgument(assignerId);
+        employeeService.findOne(assignerId);
         return taskRepository.find(new TaskGetAllByAssignerIdSpecification(assignerId));
     }
 
     @Override
     @Transactional
     public List<Task> taskGetAllByAssigneeId(Long assigneeId) {
-        Validator.notNull(employeeService.findOne(assigneeId),
-                ApplicationException
-                        .getBuilderFor(NotFoundException.class)
-                        .forReason(ServiceReason.NOT_FOUND)
-                        .withMessage("Invalid Employee id supplied")
-                        .build());
-
+        validateNullableArgument(assigneeId);
+        employeeService.findOne(assigneeId);
         return taskRepository.find(new TaskGetAllByAssigneeIdSpecification(assigneeId));
     }
 
+    @Override
+    @Transactional
+    public TaskStatistics getStatistics(Long employeeId) {
+        validateNullableArgument(employeeId);
+        employeeService.findOne(employeeId);
+        return taskRepository.getStatistics(employeeId);
+    }
 }
