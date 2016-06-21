@@ -8,10 +8,15 @@ import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAl
 import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssignerIdSpecification;
 import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.service.TaskService;
+import edu.softserve.zoo.service.exception.InvalidDataException;
+import edu.softserve.zoo.service.exception.ServiceReason;
+import edu.softserve.zoo.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,4 +66,27 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
         employeeService.findOne(employeeId);
         return taskRepository.getStatistics(employeeId);
     }
+    @Override
+    @Transactional
+    public Task save(Task entity) {
+        validateNullableArgument(entity);
+
+        LocalDateTime endDate = entity.getEstimatedFinish();
+        LocalDateTime startDate = entity.getEstimatedStart();
+
+        boolean taskEstimatedTimeIsValid = endDate.isBefore(startDate);
+        Validator.isTrue(!taskEstimatedTimeIsValid,
+                ApplicationException.getBuilderFor(InvalidDataException.class)
+                        .forReason(ServiceReason.INVALID_DATA_PROVIDED)
+                        .withMessage("EstimatedFinish could not be before EstimatedStart").build()
+        );
+        return super.save(entity);
+    }
+
+    @Override
+    @Transactional
+    public List<Task.TaskType> getTaskTypes(){
+        return  Arrays.asList(Task.TaskType.values());
+    }
+
 }
