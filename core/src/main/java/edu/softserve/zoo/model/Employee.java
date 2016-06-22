@@ -74,7 +74,7 @@ public class Employee extends BaseEntity {
         this.enabled = enabled;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "employee_role_mapping",
             joinColumns = @JoinColumn(name = "employee_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
