@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  *
  * @author Julia Siroshtan
  */
-@ControllerAdvice(assignableTypes = {EmployeeRestController.class, UserController.class})
+@ControllerAdvice(assignableTypes = {UserController.class})
 public class EmployeeResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
@@ -40,6 +40,7 @@ public class EmployeeResponseAdvice implements ResponseBodyAdvice<Object> {
         } else {
             employees = Stream.of(body);
         }
+
         employees.forEach(o -> {
             if (!(o instanceof EmployeeDto)) // bad but working way to avoid direct cast to AnimalDto
                 return;
