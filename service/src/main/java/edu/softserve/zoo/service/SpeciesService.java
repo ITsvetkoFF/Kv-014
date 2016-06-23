@@ -8,4 +8,13 @@ import edu.softserve.zoo.model.Species;
  * @author Serhii Alekseichenko
  */
 public interface SpeciesService extends Service<Species> {
+
+    /**
+     * Returns {@link Species} by id with animalsPerHouse field
+     *
+     * @param id of {@link Species}
+     * @return {@link Species} with animalsPerHouse field
+     */
+    Species findOneWithAnimalsPerHouse(Long id);
+
 }

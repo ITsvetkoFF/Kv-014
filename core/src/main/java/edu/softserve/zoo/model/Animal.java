@@ -12,9 +12,6 @@ public class Animal extends BaseEntity {
     private Species species;
     private House house;
     private LocalDate birthday;
-    private Integer temperatureMin;
-    private Integer temperatureMax;
-    private Integer animalsPerHouse;
     private Integer foodConsumption;
 
     public Animal() {
@@ -58,24 +55,6 @@ public class Animal extends BaseEntity {
         this.birthday = birthday;
     }
 
-    @Column(name = "temperature_min", nullable = false)
-    public Integer getTemperatureMin() {
-        return temperatureMin;
-    }
-
-    public void setTemperatureMin(Integer temperatureMin) {
-        this.temperatureMin = temperatureMin;
-    }
-
-    @Column(name = "temperature_max", nullable = false)
-    public Integer getTemperatureMax() {
-        return temperatureMax;
-    }
-
-    public void setTemperatureMax(Integer temperatureMax) {
-        this.temperatureMax = temperatureMax;
-    }
-
     @Column(name = "food_consumption", nullable = false)
     public Integer getFoodConsumption() {
         return foodConsumption;
@@ -83,15 +62,6 @@ public class Animal extends BaseEntity {
 
     public void setFoodConsumption(Integer foodConsumption) {
         this.foodConsumption = foodConsumption;
-    }
-
-    @Column(name = "animals_per_house", nullable = false)
-    public Integer getAnimalsPerHouse() {
-        return animalsPerHouse;
-    }
-
-    public void setAnimalsPerHouse(Integer animalsPerHouse) {
-        this.animalsPerHouse = animalsPerHouse;
     }
 
 
@@ -103,9 +73,6 @@ public class Animal extends BaseEntity {
                 ", species=" + species +
                 ", house=" + house +
                 ", birthday=" + birthday +
-                ", temperatureMin=" + temperatureMin +
-                ", temperatureMax=" + temperatureMax +
-                ", animalsPerHouse=" + animalsPerHouse +
                 ", foodConsumption=" + foodConsumption +
                 '}';
     }
@@ -119,14 +86,11 @@ public class Animal extends BaseEntity {
                 Objects.equals(species, animal.species) &&
                 Objects.equals(house, animal.house) &&
                 Objects.equals(birthday, animal.birthday) &&
-                Objects.equals(temperatureMin, animal.temperatureMin) &&
-                Objects.equals(temperatureMax, animal.temperatureMax) &&
-                Objects.equals(foodConsumption, animal.foodConsumption) &&
-                Objects.equals(animalsPerHouse, animal.animalsPerHouse);
+                Objects.equals(foodConsumption, animal.foodConsumption);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, foodConsumption, animalsPerHouse);
+        return Objects.hash(nickname, species, house, birthday, foodConsumption);
     }
 }

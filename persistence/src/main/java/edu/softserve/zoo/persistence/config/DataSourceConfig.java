@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -46,5 +47,10 @@ public class DataSourceConfig {
                 .addScripts(schemaScript)
                 .addScripts(populateScript)
                 .build();
+    }
+
+    @Bean
+    public JdbcTemplate getJdbcTemplate(DataSource dataSource){
+        return new JdbcTemplate(dataSource);
     }
 }

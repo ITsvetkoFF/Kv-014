@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static edu.softserve.zoo.controller.rest.Routes.ANIMALS;
@@ -50,14 +51,14 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     @DocsTest
     @RequestMapping(method = RequestMethod.POST)
     @Override
-    public AnimalDto create(@RequestBody AnimalDto dto) {
+    public AnimalDto create(@Valid @RequestBody AnimalDto dto) {
         return super.create(dto);
     }
 
     @DocsTest(pathParameters = "1")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @Override
-    public AnimalDto update(@RequestBody AnimalDto dto, @PathVariable @DocsParamDescription("id of animal") Long id) {
+    public AnimalDto update(@Valid @RequestBody AnimalDto dto, @PathVariable @DocsParamDescription("id of animal") Long id) {
         return super.update(dto, id);
     }
 
@@ -83,7 +84,7 @@ public class AnimalRestController extends AbstractRestController<AnimalDto, Anim
     }
 
     @DocsTest
-    @RequestMapping(path="/count", method = RequestMethod.GET)
+    @RequestMapping(path = "/count", method = RequestMethod.GET)
     @Override
     public Long count() {
         return super.count();

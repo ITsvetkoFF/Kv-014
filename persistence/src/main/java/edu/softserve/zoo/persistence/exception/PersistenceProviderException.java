@@ -17,7 +17,8 @@ public class PersistenceProviderException extends ApplicationException {
     public enum Reason implements ExceptionReason {
         SPECIFICATION_IS_NULL("reason.persistence.specification_is_null"),
         HIBERNATE_QUERY_FAILED("reason.persistence.hibernate_query_failed"),
-        UNABLE_TO_FIND_STRATEGY("reason.persistence.unable_to_find_strategy");
+        UNABLE_TO_FIND_STRATEGY("reason.persistence.unable_to_find_strategy"),
+        JDBC_TEMPLATE_QUERY_FAILED("reason.persistence.jdbc_template_query_failed");
 
         private final String message;
 

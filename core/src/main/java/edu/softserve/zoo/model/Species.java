@@ -12,6 +12,9 @@ public class Species extends BaseEntity {
     private String scientificName;
     private String commonName;
     private Set<GeographicalZone> geographicalZones;
+    private Integer animalsPerHouse;
+    private Integer temperatureMin;
+    private Integer temperatureMax;
 
     public Species() {
     }
@@ -26,6 +29,15 @@ public class Species extends BaseEntity {
 
     public void setGeographicalZones(Set<GeographicalZone> geographicalZones) {
         this.geographicalZones = geographicalZones;
+    }
+
+    @Column(name = "animals_per_house", nullable = false)
+    public Integer getAnimalsPerHouse() {
+        return animalsPerHouse;
+    }
+
+    public void setAnimalsPerHouse(Integer animalsPerHouse) {
+        this.animalsPerHouse = animalsPerHouse;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +68,24 @@ public class Species extends BaseEntity {
         this.commonName = commonName;
     }
 
+    @Column(name = "temperature_min", nullable = false)
+    public Integer getTemperatureMin() {
+        return temperatureMin;
+    }
+
+    public void setTemperatureMin(Integer temperatureMin) {
+        this.temperatureMin = temperatureMin;
+    }
+
+    @Column(name = "temperature_max", nullable = false)
+    public Integer getTemperatureMax() {
+        return temperatureMax;
+    }
+
+    public void setTemperatureMax(Integer temperatureMax) {
+        this.temperatureMax = temperatureMax;
+    }
+
     @Override
     public String toString() {
         return "Species{" +
@@ -63,7 +93,10 @@ public class Species extends BaseEntity {
                 ", family=" + family +
                 ", scientificName='" + scientificName + '\'' +
                 ", commonName='" + commonName + '\'' +
+                ", animalsPerHouse=" + animalsPerHouse +
                 ", geographicalZones=" + geographicalZones +
+                ", temperatureMin=" + temperatureMin +
+                ", temperatureMax=" + temperatureMax +
                 '}';
     }
 
@@ -75,11 +108,14 @@ public class Species extends BaseEntity {
         return Objects.equals(family, species.family) &&
                 Objects.equals(scientificName, species.scientificName) &&
                 Objects.equals(commonName, species.commonName) &&
-                Objects.equals(geographicalZones, species.geographicalZones);
+                Objects.equals(geographicalZones, species.geographicalZones) &&
+                Objects.equals(temperatureMin, species.temperatureMin) &&
+                Objects.equals(temperatureMax, species.temperatureMax) &&
+                Objects.equals(animalsPerHouse, species.animalsPerHouse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(family, scientificName, commonName, geographicalZones);
+        return Objects.hash(family, scientificName, commonName, geographicalZones, temperatureMin, temperatureMax, animalsPerHouse);
     }
 }

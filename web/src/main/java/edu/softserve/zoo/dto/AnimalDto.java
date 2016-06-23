@@ -1,15 +1,11 @@
 package edu.softserve.zoo.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import edu.softserve.zoo.annotation.DocsFieldDescription;
 import edu.softserve.zoo.annotation.Dto;
 import edu.softserve.zoo.model.Animal;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -18,8 +14,6 @@ import java.util.Objects;
 public class AnimalDto extends BaseDto {
 
     @DocsFieldDescription(value = "The nickname", optional = true)
-    @NotNull
-    @NotEmpty
     @Length(max = 50)
     private String nickname;
 
@@ -34,20 +28,9 @@ public class AnimalDto extends BaseDto {
     @DocsFieldDescription("The birthday")
     private LocalDate birthday;
 
-    @DocsFieldDescription("The min temperature")
-    @NotNull
-    private Integer temperatureMin;
-
-    @DocsFieldDescription("The max temperature")
-    @NotNull
-    private Integer temperatureMax;
-
-    @DocsFieldDescription("The count of animals per house")
-    @NotNull
-    private Integer animalsPerHouse;
-
     @DocsFieldDescription("The food consumption")
     @NotNull
+    @Min(1)
     private Integer foodConsumption;
 
     public AnimalDto() {
@@ -85,22 +68,6 @@ public class AnimalDto extends BaseDto {
         this.birthday = birthday;
     }
 
-    public Integer getTemperatureMin() {
-        return temperatureMin;
-    }
-
-    public void setTemperatureMin(Integer temperatureMin) {
-        this.temperatureMin = temperatureMin;
-    }
-
-    public Integer getTemperatureMax() {
-        return temperatureMax;
-    }
-
-    public void setTemperatureMax(Integer temperatureMax) {
-        this.temperatureMax = temperatureMax;
-    }
-
     public Integer getFoodConsumption() {
         return foodConsumption;
     }
@@ -108,15 +75,6 @@ public class AnimalDto extends BaseDto {
     public void setFoodConsumption(Integer foodConsumption) {
         this.foodConsumption = foodConsumption;
     }
-
-    public Integer getAnimalsPerHouse() {
-        return animalsPerHouse;
-    }
-
-    public void setAnimalsPerHouse(Integer animalsPerHouse) {
-        this.animalsPerHouse = animalsPerHouse;
-    }
-
 
     @Override
     public String toString() {
@@ -126,9 +84,6 @@ public class AnimalDto extends BaseDto {
                 ", species=" + species +
                 ", house=" + house +
                 ", birthday=" + birthday +
-                ", temperatureMin=" + temperatureMin +
-                ", temperatureMax=" + temperatureMax +
-                ", animalsPerHouse=" + animalsPerHouse +
                 ", foodConsumption=" + foodConsumption +
                 '}';
     }
@@ -142,14 +97,11 @@ public class AnimalDto extends BaseDto {
                 Objects.equals(species, animal.species) &&
                 Objects.equals(house, animal.house) &&
                 Objects.equals(birthday, animal.birthday) &&
-                Objects.equals(temperatureMin, animal.temperatureMin) &&
-                Objects.equals(temperatureMax, animal.temperatureMax) &&
-                Objects.equals(foodConsumption, animal.foodConsumption) &&
-                Objects.equals(animalsPerHouse, animal.animalsPerHouse);
+                Objects.equals(foodConsumption, animal.foodConsumption);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nickname, species, house, birthday, temperatureMin, temperatureMax, foodConsumption, animalsPerHouse);
+        return Objects.hash(nickname, species, house, birthday, foodConsumption);
     }
 }
