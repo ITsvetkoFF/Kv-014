@@ -1,13 +1,13 @@
-package edu.softserve.zoo.rest.docs;
+package edu.softserve.zoo.web.test.controller.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.annotation.*;
-import edu.softserve.zoo.config.WebConfig;
 import edu.softserve.zoo.dto.BaseDto;
 import edu.softserve.zoo.exception.DocsGenerationException;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.util.Validator;
+import edu.softserve.zoo.web.test.config.WebTestConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
@@ -70,7 +70,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Taras Zubrei
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = WebTestConfig.class)
 @ActiveProfiles(AppProfiles.TEST)
 @WebAppConfiguration
 public class DocsGenerationTest {

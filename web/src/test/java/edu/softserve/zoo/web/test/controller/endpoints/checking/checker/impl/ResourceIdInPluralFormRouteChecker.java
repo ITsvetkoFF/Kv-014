@@ -1,8 +1,8 @@
-package edu.softserve.zoo.test.endpoints.checking.checker.impl;
+package edu.softserve.zoo.web.test.controller.endpoints.checking.checker.impl;
 
-import edu.softserve.zoo.test.endpoints.Route;
-import edu.softserve.zoo.test.endpoints.checking.CheckResult;
-import edu.softserve.zoo.test.endpoints.checking.checker.RouteChecker;
+import edu.softserve.zoo.web.test.controller.endpoints.checking.CheckResult;
+import edu.softserve.zoo.web.test.controller.endpoints.checking.checker.RouteChecker;
+import edu.softserve.zoo.web.test.controller.endpoints.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
