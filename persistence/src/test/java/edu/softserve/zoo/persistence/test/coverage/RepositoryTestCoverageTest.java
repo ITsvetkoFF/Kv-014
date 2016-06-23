@@ -3,6 +3,7 @@ package edu.softserve.zoo.persistence.test.coverage;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
 import edu.softserve.zoo.util.AppProfiles;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import static org.junit.Assert.assertTrue;
  * @author Andrii Abramov on 6/15/16.
  * @see edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = PersistenceConfig.class)
 @ActiveProfiles(AppProfiles.TEST)

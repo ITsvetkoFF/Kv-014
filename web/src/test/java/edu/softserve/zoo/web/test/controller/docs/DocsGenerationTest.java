@@ -2,7 +2,10 @@ package edu.softserve.zoo.web.test.controller.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.annotation.*;
+import edu.softserve.zoo.controller.rest.EmployeeRestController;
+import edu.softserve.zoo.controller.rest.UserController;
 import edu.softserve.zoo.dto.BaseDto;
+import edu.softserve.zoo.dto.TaskDto;
 import edu.softserve.zoo.exception.DocsGenerationException;
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.util.AppProfiles;
@@ -141,7 +144,7 @@ public class DocsGenerationTest {
             final Class dtoClass = getDtoClass(mapping.getValue());
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
-            final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass);
+            final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass, mapping.getValue().getMethod().getDeclaringClass());
             String snippetsPath = requestMethod.toString().toLowerCase() + StringUtils.remove(StringUtils.remove(path, '{'), '}');
 
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
@@ -217,7 +220,7 @@ public class DocsGenerationTest {
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
     }
 
-    private FieldDescriptor[] getResponseFields(final boolean isArray, Class<?> dtoClass) {
+    private FieldDescriptor[] getResponseFields(final boolean isArray, Class<?> dtoClass, Class<?> controller) {
         List<Field> fields = new LinkedList<>(Arrays.asList(dtoClass.getDeclaredFields()));
         if (BaseDto.class.equals(dtoClass.getSuperclass())) {
             fields.addAll(0, Arrays.asList(dtoClass.getSuperclass().getDeclaredFields()));
@@ -228,7 +231,7 @@ public class DocsGenerationTest {
                     return field;
                 })
                 .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
-                .filter(pair -> !pair.right.optional())
+                .filter(pair -> !pair.right.optional() && (!TaskDto.class.equals(dtoClass) && !EmployeeRestController.class.equals(controller)))
                 .map(pair -> fieldWithPath((isArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
     }

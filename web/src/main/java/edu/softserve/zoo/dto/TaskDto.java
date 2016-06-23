@@ -28,10 +28,10 @@ public class TaskDto extends BaseDto {
     @NotNull
     private LocalDateTime estimatedFinish;
 
-    @DocsFieldDescription("The actual start")
+    @DocsFieldDescription(value = "The actual start", optional = true)
     private LocalDateTime actualStart;
 
-    @DocsFieldDescription("The actual finish")
+    @DocsFieldDescription(value = "The actual finish", optional = true)
     private LocalDateTime actualFinish;
 
     @DocsFieldDescription("The task type")
@@ -42,7 +42,7 @@ public class TaskDto extends BaseDto {
     @NotNull
     private ZooZoneDto zone;
 
-    @DocsFieldDescription("The description")
+    @DocsFieldDescription(value = "The description", optional = true)
     @Length(max = 100)
     private String description;
 
