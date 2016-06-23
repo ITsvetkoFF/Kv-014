@@ -1,4 +1,4 @@
-package edu.softserve.zoo.rest.request;
+package edu.softserve.zoo.web.test.controller.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.dto.InvalidRequestDto;
