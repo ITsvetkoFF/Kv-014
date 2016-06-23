@@ -43,12 +43,11 @@ public class TaskDto extends BaseDto {
     private ZooZoneDto zone;
 
     @DocsFieldDescription("The description")
-    @NotNull
     @Length(max = 100)
     private String description;
 
     @DocsFieldDescription("The status")
-    // TODO nullable ?
+    @NotNull
     private Task.TaskStatus status;
 
     public TaskDto() {

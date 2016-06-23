@@ -9,11 +9,9 @@ import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static edu.softserve.zoo.controller.rest.Routes.TASKS;
@@ -33,15 +31,15 @@ public class TaskRestController extends AbstractRestController<TaskDto, Task> {
     @DocsTest(pathParameters = "1")
     @RequestMapping(method = RequestMethod.GET, params = "assigneeId")
     public List<TaskDto> tasksGetAllByAssignee(@RequestParam("assigneeId") @DocsParamDescription("The id of assignee") Long assigneeId) {
-        List<Task> taskList = taskService.taskGetAllByAssigneeId(assigneeId);
-        return converter.convertToDto(taskList);
+        List<Task> taskListByAssignee = taskService.taskGetAllByAssigneeId(assigneeId);
+        return converter.convertToDto(taskListByAssignee);
     }
 
     @DocsTest(pathParameters = "1")
     @RequestMapping(method = RequestMethod.GET, params = "assignerId")
     public List<TaskDto> tasksGetAllByAssigner(@RequestParam("assignerId") @DocsParamDescription("The id of assigner") Long assignerId) {
-        List<Task> taskList = taskService.taskGetAllByAssignerId(assignerId);
-        return converter.convertToDto(taskList);
+        List<Task> taskListByAssigner = taskService.taskGetAllByAssignerId(assignerId);
+        return converter.convertToDto(taskListByAssigner);
     }
 
     @DocsTest
@@ -51,7 +49,14 @@ public class TaskRestController extends AbstractRestController<TaskDto, Task> {
         return super.getAll();
     }
 
+    @DocsTest
     @Override
+    @RequestMapping(method = RequestMethod.POST)
+    public TaskDto create(@Valid @RequestBody TaskDto dto){
+       return super.create(dto);
+    }
+
+        @Override
     protected Service<Task> getService() {
         return taskService;
     }
