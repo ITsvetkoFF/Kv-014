@@ -1,13 +1,12 @@
-package edu.softserve.zoo.test.endpoints;
+package edu.softserve.zoo.web.test.controller.endpoints;
 
-import edu.softserve.zoo.config.WebConfig;
-import edu.softserve.zoo.test.endpoints.checking.CheckResult;
-import edu.softserve.zoo.test.endpoints.checking.checker.RouteChecker;
+import edu.softserve.zoo.web.test.config.WebTestConfig;
+import edu.softserve.zoo.web.test.controller.endpoints.checking.checker.RouteChecker;
+import edu.softserve.zoo.web.test.controller.endpoints.checking.CheckResult;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,11 +27,10 @@ import static org.junit.Assert.assertFalse;
  *
  * @author Bohdan Cherniakh
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfig.class)
-@ComponentScan("edu.softserve.zoo.test.endpoints.checking.checker")
 @WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = WebTestConfig.class)
 public class RoutesCorrectnessTest {
 
     @Autowired

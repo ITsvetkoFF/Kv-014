@@ -1,12 +1,14 @@
-import edu.softserve.zoo.config.WebConfig;
+package edu.softserve.zoo.web.test.i18n;
+
 import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.exceptions.ExceptionReason;
-import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.service.exception.WarehouseException;
+import edu.softserve.zoo.util.AppProfiles;
+import edu.softserve.zoo.web.test.config.WebTestConfig;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +33,7 @@ import java.util.stream.Stream;
  * @author Serhii Alekseichenko
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = WebTestConfig.class)
 @WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
 public class I18nTest {

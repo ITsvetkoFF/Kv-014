@@ -1,4 +1,4 @@
-package edu.softserve.zoo.test.endpoints;
+package edu.softserve.zoo.web.test.controller.endpoints;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
