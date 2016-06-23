@@ -1,5 +1,6 @@
 package edu.softserve.zoo.service.impl;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.persistence.repository.Repository;

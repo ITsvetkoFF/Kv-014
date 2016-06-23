@@ -14,7 +14,9 @@ import java.util.List;
 import static edu.softserve.zoo.controller.rest.Routes.TASK_TYPES;
 
 /**
- * Created by Julia Avdeionok
+ * RestController implementation for TaskTypes enumeration.
+ *
+ * @author Julia Avdeionok
  */
 
 @DocsClassDescription("Task types resource")
