@@ -4,7 +4,7 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.model.Species;
 import edu.softserve.zoo.persistence.repository.HouseRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.hibernate.impl.house.GetAllByZooZoneIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.house.GetAllHousesWIthNamesByZooZoneIdSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.house.HouseGetAllBySpeciesIdSpecification;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.SpeciesService;
@@ -33,7 +33,7 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     @Override
     @Transactional
     public List<House> getAllByZooZoneId(Long id) {
-        return repository.find(new GetAllByZooZoneIdSpecification(id));
+        return repository.find(new GetAllHousesWIthNamesByZooZoneIdSpecification(id));
     }
 
     @Override
