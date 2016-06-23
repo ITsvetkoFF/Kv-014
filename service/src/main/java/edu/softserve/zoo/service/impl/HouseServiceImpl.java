@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +52,11 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     @Override
     public Long getHouseCurrentCapacity(Long houseId) {
         return repository.getCapacityMap().get(houseId);
+    }
+
+    @Override
+    public Map<Long, Long> getHouseCapacities() {
+        return repository.getCapacityMap();
     }
 
     @Override

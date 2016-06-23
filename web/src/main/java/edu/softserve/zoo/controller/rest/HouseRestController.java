@@ -9,12 +9,11 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static edu.softserve.zoo.controller.rest.Routes.HOUSES;
 
@@ -44,10 +43,44 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
     }
 
     @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @Override
+    public HouseDto getById(@PathVariable @DocsParamDescription("id of house") Long id) {
+        return super.getById(id);
+    }
+
+    @DocsTest
+    @RequestMapping(method = RequestMethod.POST)
+    @Override
+    public HouseDto create(@RequestBody HouseDto dto) {
+        return super.create(dto);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    @Override
+    public HouseDto update(@RequestBody HouseDto dto, @PathVariable @DocsParamDescription("id of house") Long id) {
+        return super.update(dto, id);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @Override
+    public ResponseEntity delete(@PathVariable @DocsParamDescription("id of house") Long id) {
+        return super.delete(id);
+    }
+
+    @DocsTest(pathParameters = "1")
     @RequestMapping(method = RequestMethod.GET, params = "zoneId")
     public List<HouseDto> getAllByZooZoneId(@RequestParam @DocsParamDescription("The zone") Long zoneId) {
         List<House> allByZoneId = houseService.getAllByZooZoneId(zoneId);
         return converter.convertToDto(allByZoneId);
+    }
+
+    @DocsTest
+    @RequestMapping(path = "/populations", method = RequestMethod.GET)
+    public Map<Long, Long> getHouseCapacities() {
+        return houseService.getHouseCapacities();
     }
 
     @DocsTest(pathParameters = "159795")
@@ -58,7 +91,7 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
     }
 
     @DocsTest
-    @RequestMapping(path="/count", method = RequestMethod.GET)
+    @RequestMapping(path = "/count", method = RequestMethod.GET)
     @Override
     public Long count() {
         return super.count();
