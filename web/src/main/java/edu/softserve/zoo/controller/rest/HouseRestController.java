@@ -63,7 +63,7 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         return super.update(dto, id);
     }
 
-    @DocsTest(pathParameters = "1")
+    @DocsTest(pathParameters = "5")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @Override
     public ResponseEntity delete(@PathVariable @DocsParamDescription("id of house") Long id) {
@@ -85,7 +85,7 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
 
     @DocsTest(pathParameters = "159795")
     @RequestMapping(method = RequestMethod.GET, params = "speciesId")
-    public List<AnimalDto> getAllBySpeciesId(@RequestParam @DocsParamDescription("Species id") Long speciesId) {
+    public List<HouseDto> getAllBySpeciesId(@RequestParam @DocsParamDescription("Species id") Long speciesId) {
         List<House> allBySpeciesId = houseService.getAllAcceptableForNewAnimalBySpeciesId(speciesId);
         return converter.convertToDto(allBySpeciesId);
     }

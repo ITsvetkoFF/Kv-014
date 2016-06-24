@@ -3,8 +3,10 @@ package edu.softserve.zoo.web.test.controller.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.softserve.zoo.annotation.*;
 import edu.softserve.zoo.controller.rest.EmployeeRestController;
+import edu.softserve.zoo.controller.rest.HouseRestController;
 import edu.softserve.zoo.controller.rest.UserController;
 import edu.softserve.zoo.dto.BaseDto;
+import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.dto.TaskDto;
 import edu.softserve.zoo.exception.DocsGenerationException;
 import edu.softserve.zoo.exceptions.ApplicationException;
@@ -13,6 +15,7 @@ import edu.softserve.zoo.util.Validator;
 import edu.softserve.zoo.web.test.config.WebTestConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.NameValueExpression;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -138,14 +142,26 @@ public class DocsGenerationTest {
                         .withMessage("Not supported Request Method")
                         .build();
 
-            final String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
+            String path = mapping.getKey().getPatternsCondition().getPatterns().stream().findFirst().get();
+            if (!mapping.getKey().getParamsCondition().getExpressions().isEmpty()) {
+                Set<NameValueExpression<String>> params = mapping
+                        .getKey().getParamsCondition()
+                        .getExpressions();
+                for (NameValueExpression<String> parameter : params) {
+                    if (path.contains("?"))
+                        path += String.format("&%s={%s}", parameter.getName(), parameter.getName());
+                    else
+                        path += String.format("?%s={%s}", parameter.getName(), parameter.getName());
+                }
+
+            }
             LOGGER.info(requestMethod + ": " + path);
             final boolean isArray = mapping.getValue().getMethod().getGenericReturnType() instanceof ParameterizedType;
             final Class dtoClass = getDtoClass(mapping.getValue());
             final ParameterDescriptor[] pathParameters = getPathParameters(mapping.getValue());
             final FieldDescriptor[] requestFields = getRequestFields(mapping.getValue());
             final FieldDescriptor[] responseFields = getResponseFields(isArray, dtoClass, mapping.getValue().getMethod().getDeclaringClass());
-            String snippetsPath = requestMethod.toString().toLowerCase() + StringUtils.remove(StringUtils.remove(path, '{'), '}');
+            String snippetsPath = requestMethod.toString().toLowerCase() + StringUtils.remove(StringUtils.remove(path, '{'), '}').replace('?','_');
 
             final RestDocumentationResultHandler document = documentPrettyPrintReqResp(snippetsPath);
             if (pathParameters.length > 0)
@@ -156,8 +172,11 @@ public class DocsGenerationTest {
                 document.snippets(requestFields(requestFields));
 
             String testDto = properties.getProperty("dto." + dtoClass.getSimpleName());
-            if (Arrays.asList(RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT).contains(requestMethod))
+            if (Arrays.asList(RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT).contains(requestMethod)) {
                 Validator.notNull(testDto, ApplicationException.getBuilderFor(DocsGenerationException.class).withMessage("'dto." + dtoClass.getSimpleName() + "' property is missing. It is needed for POST, PATCH and PUT").build());
+                if (Objects.equals(mapping.getValue().getMethod().getDeclaringClass(), HouseRestController.class) && RequestMethod.PUT.equals(requestMethod))
+                    testDto = testDto.replace("Africa house 8", "Africa house 10");
+            }
             else
                 testDto = null;
             final DocsTest testValue = mapping.getValue().getMethod().getAnnotation(DocsTest.class);
@@ -179,7 +198,7 @@ public class DocsGenerationTest {
             Validator.notNull(docsClassDescription, ApplicationException.getBuilderFor(DocsGenerationException.class).withMessage(String.format("All rest controllers have to be annotated with '%s' annotation. Problem class: %s", DocsClassDescription.class.getSimpleName(), mapping.getValue().getMethod().getDeclaringClass())).build());
             snippetsPath = "/" + snippetsPath;
             documentation
-                    .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), '-'), entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), ' ')))
+                    .append(String.format("\n[[resource-%s-%s]]\n== %s - %s\n", entity.getSimpleName(), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), '-'), entity.getSimpleName().replace("Dto",""), StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(mapping.getValue().getMethod().getName()), ' ')))
                     .append(docsClassDescription.value())
                     .append("\n\n");
             if (pathParameters.length > 0)
@@ -231,7 +250,7 @@ public class DocsGenerationTest {
                     return field;
                 })
                 .map(field -> new ImmutablePair<>(field, field.getAnnotation(DocsFieldDescription.class)))
-                .filter(pair -> !pair.right.optional() && (!TaskDto.class.equals(dtoClass) && !EmployeeRestController.class.equals(controller)))
+                .filter(pair -> !pair.right.optional() && (!TaskDto.class.equals(dtoClass) && !(EmployeeRestController.class.equals(controller) && EmployeeDto.class.equals(dtoClass))))
                 .map(pair -> fieldWithPath((isArray ? "[]." : "") + pair.left.getName()).description(pair.right.value()))
                 .toArray(FieldDescriptor[]::new) : new FieldDescriptor[]{};
     }
