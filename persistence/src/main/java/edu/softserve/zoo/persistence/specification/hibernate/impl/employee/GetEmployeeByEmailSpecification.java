@@ -18,16 +18,15 @@ public class GetEmployeeByEmailSpecification implements DetachedCriteriaSpecific
     private String email;
 
     public GetEmployeeByEmailSpecification(String email) {
+        Validator.notNull(email, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_EMAIL)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null email")
+                .build());
         this.email = email;
     }
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(email, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_EMAIL)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null email")
-                .build());
-
         return DetachedCriteria.forClass(Employee.class)
                 .setFetchMode(EMPLOYEE_ROLES, FetchMode.JOIN)
                 .add(Restrictions.eq(EMPLOYEE_EMAIL, email));

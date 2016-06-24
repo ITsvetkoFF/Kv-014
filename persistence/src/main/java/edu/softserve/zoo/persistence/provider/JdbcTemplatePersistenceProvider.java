@@ -14,7 +14,7 @@ public interface JdbcTemplatePersistenceProvider {
 
     /**
      * Get parametrized map from the persistent storage according to given Specification.
-     * In most keys key is an Id and value is a result of an aggregation function
+     * In most cases key is an Id and value is a result of an aggregation function
      *
      * @param specification defines restrictions for performed search.
      * @return map of Key-Values pairs

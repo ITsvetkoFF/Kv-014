@@ -19,15 +19,15 @@ public class HouseGetAllBySpeciesIdSpecification implements HQLSpecification<Hou
      * @param speciesId {@link Species} identifier to filter houses
      */
     public HouseGetAllBySpeciesIdSpecification(Long speciesId) {
+        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.speciesId = speciesId;
     }
 
     @Override
     public String query() {
-        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
-                .build());
         return String.format("select h from House h join ZooZone z on h.zone.id = z.id " +
                 "join GeographicalZone g on z.geographicalZone.id = g.id " +
                 "where g in (select geo.id from Species s join s.geographicalZones geo where s.id = %d)", speciesId);

@@ -23,15 +23,15 @@ public class AnimalGetAllByHouseIdSpecification implements DetachedCriteriaSpeci
      * @param houseId {@link House} identifier to filter animals
      */
     public AnimalGetAllByHouseIdSpecification(Long houseId) {
+        Validator.notNull(houseId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.houseId = houseId;
     }
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(houseId, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
-                .build());
         return DetachedCriteria.forClass(Animal.class)
                 .add(Restrictions.eq(HOUSE_ID, houseId));
     }

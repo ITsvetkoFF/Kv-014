@@ -23,15 +23,15 @@ public class AnimalGetAllBySpeciesIdSpecification implements DetachedCriteriaSpe
      * @param speciesId {@link Species} identifier to filter animals
      */
     public AnimalGetAllBySpeciesIdSpecification(Long speciesId) {
+        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.speciesId = speciesId;
     }
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
-                .build());
         return DetachedCriteria.forClass(Animal.class)
                 .add(Restrictions.eq(SPECIES_ID, speciesId));
     }
