@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 
 
 @RepositoryTest(forRepository = ZooZoneRepositoryImpl.class)
-public class ZooZoneRepositoryTest extends AbstracRepositoryTest<ZooZone> {
+public class ZooZoneRepositoryTest extends AbstractRepositoryTest<ZooZone> {
 
     private static final Long VALID_ZOO_ZONE_ID = 1L;
     @Autowired
@@ -42,7 +42,7 @@ public class ZooZoneRepositoryTest extends AbstracRepositoryTest<ZooZone> {
     @Transactional
     public void testSaveOnValidZone() {
         ZooZone expected = getValidEntity();
-        ZooZone savedEntity = testSave(expected, 6L);
+        ZooZone savedEntity = testSave(expected, 8L);
 
         assertPrimaryEquality(expected, savedEntity);
     }
@@ -70,7 +70,7 @@ public class ZooZoneRepositoryTest extends AbstracRepositoryTest<ZooZone> {
     @Test
     @Transactional
     public void testZooZoneQuantity() {
-        testFind(new GetAllSpecification<>(getType()), 5);
+        testFind(new GetAllSpecification<>(getType()), 7);
     }
 
 

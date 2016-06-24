@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.assertEquals;
 
 @RepositoryTest(forRepository = GeographicalZoneRepositoryImpl.class)
-public class GeographicalZoneRepositoryTest extends AbstracRepositoryTest<GeographicalZone> {
+public class GeographicalZoneRepositoryTest extends AbstractRepositoryTest<GeographicalZone> {
 
     @Autowired
     private PersistenceProvider<GeographicalZone> persistenceProvider;
