@@ -13,7 +13,8 @@ public class ZooZoneException extends ApplicationException {
     }
 
     public enum Reason implements ExceptionReason {
-        CAPACITY_IS_LESS_THAN_CURRENT("reason.service.zoo-zone.capacity_is_less_than_current");
+        CAPACITY_IS_LESS_THAN_CURRENT("reason.service.zoo-zone.capacity_is_less_than_current"),
+        GEO_ZONE_CANNOT_BE_UPDATED("reason.service.zoo-zone.geo_zone_cannot_be_updated");
 
         private final String message;
 

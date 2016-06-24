@@ -6,7 +6,7 @@ import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.exception.SpecificationException;
-import edu.softserve.zoo.service.exception.WarehouseException;
+import edu.softserve.zoo.service.exception.*;
 import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.web.test.config.WebTestConfig;
 import org.junit.Assert;
@@ -50,7 +50,10 @@ public class I18nTest {
                 ValidationException.class,
                 PersistenceProviderException.class,
                 SpecificationException.class,
-                WarehouseException.class);
+                WarehouseException.class,
+                ZooZoneException.class,
+                AnimalException.class,
+                HouseException.class);
 
         // filters collection of Exceptions by ExceptionReason and retrieves each reason from it
         exceptions.stream()
