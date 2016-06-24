@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>Implementation of the {@link HouseRepository} specific for {@link House} domain objects</p>
@@ -26,7 +26,7 @@ public class HouseRepositoryImpl extends AbstractRepository<House> implements Ho
 
     @PostConstruct
     public void initHouseCapacityMap() {
-        houseCapacityMap = Collections.synchronizedMap(persistenceProvider.getMap(new HouseGetCapacityMapSpecification()));
+        houseCapacityMap = new ConcurrentHashMap<>(persistenceProvider.getMap(new HouseGetCapacityMapSpecification()));
     }
 
     @Override

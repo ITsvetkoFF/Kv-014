@@ -23,15 +23,15 @@ public class AnimalFindOneWithBirthdayHouseAndSpeciesSpecification implements De
      * @param animalId {@link Animal} identifier
      */
     public AnimalFindOneWithBirthdayHouseAndSpeciesSpecification(Long animalId) {
+        Validator.notNull(animalId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.animalId = animalId;
     }
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(animalId, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
-                .build());
         return DetachedCriteria.forClass(Animal.class)
                 .add(Restrictions.idEq(animalId))
                 .setProjection(Projections.projectionList()

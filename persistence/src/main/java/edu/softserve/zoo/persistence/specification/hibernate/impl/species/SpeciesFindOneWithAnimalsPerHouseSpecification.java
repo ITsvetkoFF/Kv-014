@@ -22,15 +22,15 @@ public class SpeciesFindOneWithAnimalsPerHouseSpecification implements DetachedC
      * @param speciesId {@link Species} identifier
      */
     public SpeciesFindOneWithAnimalsPerHouseSpecification(Long speciesId) {
+        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.speciesId = speciesId;
     }
 
     @Override
     public DetachedCriteria query() {
-        Validator.notNull(speciesId, ApplicationException.getBuilderFor(SpecificationException.class)
-                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
-                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
-                .build());
         return DetachedCriteria.forClass(Species.class)
                 .add(Restrictions.idEq(speciesId))
                 .setProjection(Projections.projectionList()
