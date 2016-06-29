@@ -14,4 +14,5 @@ public interface TaskService extends Service<Task> {
     List<Task> taskGetAllByAssignerId(Long assignerId);
     List<Task> taskGetAllByAssigneeId(Long assigneeId);
     TaskStatistics getStatistics(Long employeeId);
+    List<Task.TaskType> getTaskTypes();
 }
