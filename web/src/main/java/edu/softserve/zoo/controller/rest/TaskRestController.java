@@ -9,11 +9,9 @@ import edu.softserve.zoo.model.Task;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static edu.softserve.zoo.controller.rest.Routes.TASKS;
@@ -49,6 +47,13 @@ public class TaskRestController extends AbstractRestController<TaskDto, Task> {
     @RequestMapping(method = RequestMethod.GET)
     public List<TaskDto> getAll() {
         return super.getAll();
+    }
+
+    @DocsTest
+    @Override
+    @RequestMapping(method = RequestMethod.POST)
+    public TaskDto create(@Valid @RequestBody TaskDto dto){
+        return super.create(dto);
     }
 
     @Override

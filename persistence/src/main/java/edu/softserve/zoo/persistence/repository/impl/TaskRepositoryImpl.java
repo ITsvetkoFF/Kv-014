@@ -56,4 +56,23 @@ public class TaskRepositoryImpl extends AbstractRepository<Task> implements Task
     protected Class<Task> getEntityType() {
         return Task.class;
     }
+
+    @Override
+    public Task save(Task entity) {
+        validateNullableArgument(entity);
+        return super.save(entity);
+    }
+
+    @Override
+    public Task update(Task entity) {
+        validateNullableArgument(entity);
+        return super.update(entity);
+    }
+
+    @Override
+    public boolean delete(Long id, Class<Task> type) {
+        validateNullableArgument(id);
+        validateNullableArgument(type);
+        return super.delete(id, type);
+    }
 }
