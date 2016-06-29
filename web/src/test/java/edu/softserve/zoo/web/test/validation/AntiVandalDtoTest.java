@@ -1,7 +1,9 @@
-import edu.softserve.zoo.config.WebConfig;
+package edu.softserve.zoo.web.test.validation;
+
 import edu.softserve.zoo.converter.mapping.DtoMapperImpl;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.util.AppProfiles;
+import edu.softserve.zoo.web.test.config.WebTestConfig;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +43,7 @@ import static org.junit.Assert.assertTrue;
  * @author Andrii Abramov on 23-May-16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = WebTestConfig.class)
 @WebAppConfiguration
 @ActiveProfiles(AppProfiles.TEST)
 public class AntiVandalDtoTest {

@@ -1,7 +1,7 @@
-package edu.softserve.zoo.test.endpoints.checking.checker;
+package edu.softserve.zoo.web.test.controller.endpoints.checking.checker;
 
-import edu.softserve.zoo.test.endpoints.Route;
-import edu.softserve.zoo.test.endpoints.checking.CheckResult;
+import edu.softserve.zoo.web.test.controller.endpoints.Route;
+import edu.softserve.zoo.web.test.controller.endpoints.checking.CheckResult;
 
 /**
  * Checks the route with some rules

@@ -1,4 +1,4 @@
-package edu.softserve.zoo.test.endpoints.checking;
+package edu.softserve.zoo.web.test.controller.endpoints.checking;
 
 import org.apache.commons.lang3.Validate;
 

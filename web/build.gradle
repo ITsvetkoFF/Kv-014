@@ -22,7 +22,7 @@ dependencies {
 
 war {
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
+    from("${asciidoctor.outputDir}/html5") {
         into 'docs'
     }
 }
@@ -34,10 +34,10 @@ ext {
 
 test {
     outputs.dir snippetsDir
-    exclude 'edu/softserve/zoo/rest/docs/**'
+    exclude 'edu/softserve/zoo/web/test/controller/docs/**'
 }
 task docsTest(type: Test) {
-    include 'edu/softserve/zoo/rest/docs/**'
+    include 'edu/softserve/zoo/web/test/controller/docs/**'
 }
 
 asciidoctor {
