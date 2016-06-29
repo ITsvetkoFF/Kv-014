@@ -1,9 +1,12 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl.animal;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.House;
+import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
+import edu.softserve.zoo.util.Validator;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -14,12 +17,16 @@ import org.hibernate.criterion.Restrictions;
  */
 public class AnimalGetAllByHouseIdSpecification implements DetachedCriteriaSpecification<Animal> {
     private static final String HOUSE_ID = Specification.getPropertyNameForWhereClause(House.class, "id");
-    private Long houseId;
+    private final Long houseId;
 
     /**
      * @param houseId {@link House} identifier to filter animals
      */
     public AnimalGetAllByHouseIdSpecification(Long houseId) {
+        Validator.notNull(houseId, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.houseId = houseId;
     }
 

@@ -16,7 +16,7 @@ public class WarehouseException extends ApplicationException {
     }
 
     public enum Reason implements ExceptionReason {
-        AMOUNT_GREATER_THAN_CAPACITY("reason.service.invalid_data_provided");
+        AMOUNT_GREATER_THAN_CAPACITY("reason.service.warehouse.invalid_data_provided");
 
         private final String message;
 

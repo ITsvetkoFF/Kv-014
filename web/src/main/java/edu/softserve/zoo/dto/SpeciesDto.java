@@ -29,6 +29,18 @@ public class SpeciesDto extends BaseDto {
     @Length(max = 50)
     private String commonName;
 
+    @NotNull
+    @DocsFieldDescription("The min temperature")
+    private Integer temperatureMin;
+
+    @NotNull
+    @DocsFieldDescription("The max temperature")
+    private Integer temperatureMax;
+
+    @NotNull
+    @DocsFieldDescription("The count od animals per house")
+    private Integer animalsPerHouse;
+
     @DocsFieldDescription(value = "The geographical zones", optional = true)
     private Set<GeographicalZoneDto> geographicalZones;
 
@@ -67,6 +79,30 @@ public class SpeciesDto extends BaseDto {
         this.commonName = commonName;
     }
 
+    public Integer getTemperatureMin() {
+        return temperatureMin;
+    }
+
+    public void setTemperatureMin(Integer temperatureMin) {
+        this.temperatureMin = temperatureMin;
+    }
+
+    public Integer getTemperatureMax() {
+        return temperatureMax;
+    }
+
+    public void setTemperatureMax(Integer temperatureMax) {
+        this.temperatureMax = temperatureMax;
+    }
+
+    public Integer getAnimalsPerHouse() {
+        return animalsPerHouse;
+    }
+
+    public void setAnimalsPerHouse(Integer animalsPerHouse) {
+        this.animalsPerHouse = animalsPerHouse;
+    }
+
     @Override
     public String toString() {
         return "SpeciesDto{" +
@@ -74,6 +110,9 @@ public class SpeciesDto extends BaseDto {
                 ", family=" + family +
                 ", scientificName='" + scientificName + '\'' +
                 ", commonName='" + commonName + '\'' +
+                ", animalsPerHouse=" + animalsPerHouse +
+                ", temperatureMin=" + temperatureMin +
+                ", temperatureMax=" + temperatureMax +
                 ", geographicalZones=" + geographicalZones +
                 '}';
     }
@@ -82,15 +121,18 @@ public class SpeciesDto extends BaseDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SpeciesDto speciesDto = (SpeciesDto) o;
-        return Objects.equals(family, speciesDto.family) &&
-                Objects.equals(scientificName, speciesDto.scientificName) &&
-                Objects.equals(commonName, speciesDto.commonName) &&
-                Objects.equals(geographicalZones, speciesDto.geographicalZones);
+        SpeciesDto that = (SpeciesDto) o;
+        return Objects.equals(family, that.family) &&
+                Objects.equals(scientificName, that.scientificName) &&
+                Objects.equals(commonName, that.commonName) &&
+                Objects.equals(animalsPerHouse, that.animalsPerHouse) &&
+                Objects.equals(temperatureMin, that.temperatureMin) &&
+                Objects.equals(temperatureMax, that.temperatureMax) &&
+                Objects.equals(geographicalZones, that.geographicalZones);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(family, scientificName, commonName, geographicalZones);
+        return Objects.hash(family, scientificName, commonName, animalsPerHouse, temperatureMin, temperatureMax, geographicalZones);
     }
 }
