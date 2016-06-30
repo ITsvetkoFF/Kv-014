@@ -33,8 +33,8 @@ public class EmployeeServiceImpl extends AbstractService<Employee> implements Em
     @Override
     @Transactional
     public Employee save(Employee entity) {
-        String encodedPassword = passwordEncoder.encode(entity.getPassword());
-        entity.setPassword(encodedPassword);
+        //String encodedPassword = passwordEncoder.encode(entity.getPassword());
+        entity.setPassword("somepass");
         return super.save(entity);
     }
 
