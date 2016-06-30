@@ -3,6 +3,8 @@ package edu.softserve.zoo.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import edu.softserve.zoo.converter.mapping.DtoMapperImpl;
 import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.validation.InvalidRequestProcessor;
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -53,6 +57,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder = new Jackson2ObjectMapperBuilder();
         jackson2ObjectMapperBuilder
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .deserializerByType(LocalDateTime.class,new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME))
                 .indentOutput(true)
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return jackson2ObjectMapperBuilder.build();
