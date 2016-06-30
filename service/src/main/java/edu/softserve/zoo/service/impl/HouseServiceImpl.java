@@ -30,6 +30,13 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     private SpeciesService speciesService;
 
     @Override
+    public House save(House entity) {
+        House savedHouse = super.save(entity);
+        repository.getCapacityMap().put(savedHouse.getId(), 0L);
+        return savedHouse;
+    }
+
+    @Override
     @Transactional
     public List<House> getAllByZooZoneId(Long id) {
         return repository.find(new GetAllByZooZoneIdSpecification(id));
