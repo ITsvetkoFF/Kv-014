@@ -1,8 +1,11 @@
 package edu.softserve.zoo.persistence.specification.hibernate.impl;
 
+import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
+import edu.softserve.zoo.util.Validator;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -22,6 +25,10 @@ public class GetByIdSpecification<T extends BaseEntity> implements DetachedCrite
      * @param id        identifier to filter entities
      */
     public GetByIdSpecification(Class<T> forEntity, Long id) {
+        Validator.notNull(id, ApplicationException.getBuilderFor(SpecificationException.class)
+                .forReason(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION)
+                .withMessage("cannot perform " + this.getClass().getSimpleName() + " with null id")
+                .build());
         this.FOR_ENTITY = forEntity;
         this.ID = id;
     }

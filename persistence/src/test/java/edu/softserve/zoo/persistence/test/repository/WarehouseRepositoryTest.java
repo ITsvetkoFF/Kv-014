@@ -3,7 +3,6 @@ package edu.softserve.zoo.persistence.test.repository;
 import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Warehouse;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
-import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.repository.WarehouseRepository;
 import edu.softserve.zoo.persistence.repository.impl.WarehouseRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
@@ -33,10 +32,9 @@ import static org.junit.Assert.assertNotNull;
 @RepositoryTest(forRepository = WarehouseRepositoryImpl.class)
 public class WarehouseRepositoryTest {
 
+    private static final Long VALID_WAREHOUSE_ID = 1L;
     @Autowired
     private WarehouseRepository warehouseRepository;
-
-    private static final Long VALID_WAREHOUSE_ID = 1L;
 
     @Test(expected = ValidationException.class)
     public void testSaveNullArgument() {
@@ -58,12 +56,12 @@ public class WarehouseRepositoryTest {
         warehouseRepository.delete(VALID_WAREHOUSE_ID, null);
     }
 
-    @Test(expected = PersistenceProviderException.class)
+    @Test(expected = ValidationException.class)
     public void testFindOneNullArgument() {
         warehouseRepository.findOne(null);
     }
 
-    @Test(expected = PersistenceProviderException.class)
+    @Test(expected = ValidationException.class)
     @Transactional
     public void testFindAllNullArgument() {
         warehouseRepository.find(null);

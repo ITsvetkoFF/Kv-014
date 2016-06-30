@@ -15,26 +15,4 @@ public class WarehouseRepositoryImpl extends AbstractRepository<Warehouse> imple
     protected Class<Warehouse> getEntityType() {
         return Warehouse.class;
     }
-
-    @Override
-    public Warehouse update(Warehouse entity) {
-
-        validateNullableArgument(entity);
-        return super.update(entity);
-    }
-
-    @Override
-    public boolean delete(Long id, Class<Warehouse> type) {
-
-        validateNullableArgument(id);
-        validateNullableArgument(type);
-        return super.delete(id, type);
-    }
-
-    @Override
-    public Warehouse save(Warehouse entity) {
-
-        validateNullableArgument(entity);
-        return super.save(entity);
-    }
 }
