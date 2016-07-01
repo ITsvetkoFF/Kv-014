@@ -36,6 +36,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public T findOne(Specification<T> specification) {
+        validateNullableArgument(specification);
         return persistenceProvider.findOne(specification);
     }
 
@@ -54,6 +55,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public T save(T entity) {
+        validateNullableArgument(entity);
         return persistenceProvider.save(entity);
     }
 
@@ -62,6 +64,8 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public boolean delete(Long id, Class<T> type) {
+        validateNullableArgument(id);
+        validateNullableArgument(type);
         return persistenceProvider.delete(id, type);
     }
 
@@ -70,6 +74,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public T update(T entity) {
+        validateNullableArgument(entity);
         return persistenceProvider.update(entity);
     }
 
@@ -78,6 +83,7 @@ public abstract class AbstractRepository<T extends BaseEntity> implements Reposi
      */
     @Override
     public List<T> find(Specification<T> specification) {
+        validateNullableArgument(specification);
         return persistenceProvider.find(specification);
     }
 

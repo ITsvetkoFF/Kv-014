@@ -1,8 +1,8 @@
 package edu.softserve.zoo.persistence.test.repository;
 
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.model.ZooZone;
-import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.impl.ZooZoneRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
@@ -33,7 +33,7 @@ public class ZooZoneRepositoryTest extends AbstractRepositoryTest<ZooZone> {
         assertPrimaryEquality(expected, actual);
     }
 
-    @Test(expected = PersistenceProviderException.class)
+    @Test(expected = ValidationException.class)
     @Transactional
     public void testFindNullParam() {
         repository.find(null);
@@ -43,7 +43,7 @@ public class ZooZoneRepositoryTest extends AbstractRepositoryTest<ZooZone> {
     @Transactional
     public void testSaveOnValidZone() {
         ZooZone expected = getValidEntity();
-        ZooZone savedEntity = save(expected, 6L);
+        ZooZone savedEntity = save(expected, 8L);
 
         assertPrimaryEquality(expected, savedEntity);
     }
@@ -71,7 +71,7 @@ public class ZooZoneRepositoryTest extends AbstractRepositoryTest<ZooZone> {
     @Test
     @Transactional
     public void testZooZoneQuantity() {
-        find(new GetAllSpecification<>(getType()), 5);
+        find(new GetAllSpecification<>(getType()), 7);
     }
 
 
