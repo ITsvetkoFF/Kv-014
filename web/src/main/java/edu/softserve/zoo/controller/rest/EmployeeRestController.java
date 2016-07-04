@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 import java.util.List;
@@ -57,9 +58,9 @@ public class EmployeeRestController extends AbstractRestController<EmployeeDto, 
     }
 
     @DocsTest(pathParameters = "1")
-    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
     @Override
-    public EmployeeDto update(@RequestBody EmployeeDto dto, @PathVariable @DocsParamDescription("id of employee") Long id) {
+    public EmployeeDto update(@Valid @RequestBody EmployeeDto dto, @PathVariable @DocsParamDescription("id of employee") Long id) {
         return super.update(dto, id);
     }
 

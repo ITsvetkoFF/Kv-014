@@ -7,6 +7,7 @@ import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import edu.softserve.zoo.util.Validator;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 

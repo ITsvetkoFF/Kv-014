@@ -17,8 +17,8 @@
         <custom-filter position="REMEMBER_ME_FILTER" ref="tokenAuthFilter"/>
 
         <!-- Put the most specific matches at the top -->
-        <intercept-url pattern="/api/v1/employees*" method="GET" access="hasAnyRole('ROLE_MANAGER, ROLE_ADMIN')"/>
-        <intercept-url pattern="/api/v1/employees*" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/api/v1/employees/**" method="GET" access="hasAnyRole('ROLE_MANAGER, ROLE_ADMIN')"/>
+        <intercept-url pattern="/api/v1/employees/**" access="hasRole('ROLE_ADMIN')"/>
 
         <intercept-url pattern="/api/v1/login" access="permitAll"/>
         <intercept-url pattern="/api/v1/logout" access="permitAll"/>

@@ -1,27 +1,49 @@
 package edu.softserve.zoo.dto;
 
 import edu.softserve.zoo.annotation.DocsFieldDescription;
-import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.annotation.Dto;
+import edu.softserve.zoo.model.Employee;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
 @Dto(Employee.class)
 public class EmployeeDto extends BaseDto {
+
     @DocsFieldDescription("First name")
+    @NotNull
     private String firstName;
+
     @DocsFieldDescription("Last name")
+    @NotNull
     private String lastName;
+
     @DocsFieldDescription(value = "The date of employment", optional = true)
     private LocalDate employmentDate;
+
     @DocsFieldDescription("E-mail")
+    @NotNull
     private String email;
+
     @DocsFieldDescription("The roles of employee")
+    @NotNull
     private Set<Object> roles;
 
+    @DocsFieldDescription("Whether employee account enabled or not")
+    @NotNull
+    private Boolean enabled;
+
     public EmployeeDto() {
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getFirstName() {
