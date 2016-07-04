@@ -7,6 +7,7 @@ import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.specification.Specification;
 import edu.softserve.zoo.persistence.specification.hibernate.DetachedCriteriaSpecification;
 import edu.softserve.zoo.util.Validator;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -16,7 +17,10 @@ import org.hibernate.criterion.Restrictions;
  * @author Serhii Alekseichenko
  */
 public class AnimalGetAllByHouseIdSpecification implements DetachedCriteriaSpecification<Animal> {
+
     private static final String HOUSE_ID = Specification.getPropertyNameForWhereClause(House.class, "id");
+    private static final String ANIMAL_SPECIES = "species";
+
     private final Long houseId;
 
     /**
@@ -33,6 +37,7 @@ public class AnimalGetAllByHouseIdSpecification implements DetachedCriteriaSpeci
     @Override
     public DetachedCriteria query() {
         return DetachedCriteria.forClass(Animal.class)
+                .setFetchMode(ANIMAL_SPECIES, FetchMode.JOIN)
                 .add(Restrictions.eq(HOUSE_ID, houseId));
     }
 }

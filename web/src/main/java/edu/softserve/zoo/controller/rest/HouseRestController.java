@@ -9,12 +9,11 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static edu.softserve.zoo.controller.rest.Routes.HOUSES;
 
@@ -36,6 +35,33 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
         return houseService;
     }
 
+    @DocsTest(pathParameters = "1")
+    @Override
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public HouseDto getById(@PathVariable Long id) {
+        return super.getById(id);
+    }
+
+    @Override
+    @RequestMapping(method = RequestMethod.POST)
+    public HouseDto create(@RequestBody HouseDto dto) {
+        return super.create(dto);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @Override
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    public HouseDto update(@RequestBody HouseDto dto, @PathVariable Long id) {
+        return super.update(dto, id);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @Override
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity delete(@PathVariable Long id) {
+        return super.delete(id);
+    }
+
     @DocsTest
     @Override
     @RequestMapping(method = RequestMethod.GET)
@@ -55,6 +81,12 @@ public class HouseRestController extends AbstractRestController<HouseDto, House>
     public List<AnimalDto> getAllBySpeciesId(@RequestParam @DocsParamDescription("Species id") Long speciesId) {
         List<House> allBySpeciesId = houseService.getAllAcceptableForNewAnimalBySpeciesId(speciesId);
         return converter.convertToDto(allBySpeciesId);
+    }
+
+    @DocsTest
+    @RequestMapping(path = "/populations", method = RequestMethod.GET)
+    public Map<Long, Long> getCapacityMap() {
+        return houseService.getHousesCurrentCapacityMap();
     }
 
     @DocsTest
