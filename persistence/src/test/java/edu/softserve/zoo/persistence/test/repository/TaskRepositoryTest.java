@@ -6,11 +6,13 @@ import edu.softserve.zoo.model.TaskStatistics;
 import edu.softserve.zoo.model.ZooZone;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
+import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
 import edu.softserve.zoo.persistence.repository.ZooZoneRepository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
 import edu.softserve.zoo.util.AppProfiles;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Taras Zubrei
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceConfig.class)
-@ActiveProfiles(AppProfiles.TEST)
 @Transactional
 public class TaskRepositoryTest {
+@RepositoryTest(forRepository = TaskRepositoryImpl.class)
+public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
+
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
+
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
@@ -72,5 +75,35 @@ public class TaskRepositoryTest {
         task = taskRepository.save(task);
         assertEquals("Update operation failed", Task.TaskType.FEEDING, task.getTaskType());
         Assert.isTrue(taskRepository.delete(task.getId(), Task.class), "Delete operation failed");
+    }
+
+//    @Override
+
+    @Before
+    public void setupData(){
+        Task task = new Task();
+        Employee assignee = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 2L));
+        Employee assigner = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 1L));
+        task.setAssignee(assignee);
+        task.setAssigner(assigner);
+        task.setStatus(Task.TaskStatus.ACCOMPLISHED);
+        task.setTaskType(Task.TaskType.HEALTH_INSPECTION);
+        task.setActualStart(LocalDateTime.now().minusDays(1));
+        task.setActualFinish(LocalDateTime.now().minusMinutes(2));
+        task.setEstimatedStart(LocalDateTime.now().minusHours(5));
+        task.setEstimatedFinish(LocalDateTime.now().plusHours(19));
+        ZooZone zone = zooZoneRepository.findOne(new GetByIdSpecification<>(ZooZone.class, 1L));
+        task.setZone(zone);
+
+    }
+
+    @Override
+    protected Repository<Task> getRepository() {
+        return taskRepository;
+    }
+
+    @Override
+    protected Class<Task> getType() {
+        return Task.class;
     }
 }
