@@ -190,6 +190,6 @@ public class ModelConverter {
      * @return list of dto
      */
     public <Entity extends BaseEntity, Dto extends BaseDto> List<Dto> convertToDto(List<Entity> entities) {
-        return entities.stream().map(this::convertToDto).map(object -> ((Dto) object)).collect(Collectors.toList());
+        return entities.stream().map(this::convertToDto).map(object -> (Dto) object).collect(Collectors.toList());
     }
 }

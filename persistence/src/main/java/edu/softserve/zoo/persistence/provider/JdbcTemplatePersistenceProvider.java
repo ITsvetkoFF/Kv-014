@@ -10,6 +10,7 @@ import java.util.Map;
  *
  * @author Serhii Alekseichenko
  */
+@FunctionalInterface
 public interface JdbcTemplatePersistenceProvider {
 
     /**

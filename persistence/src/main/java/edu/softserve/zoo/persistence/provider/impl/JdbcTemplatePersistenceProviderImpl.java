@@ -32,6 +32,7 @@ public class JdbcTemplatePersistenceProviderImpl implements JdbcTemplatePersiste
     /**
      * {@inheritDoc}
      */
+    @Override
     public <K extends Number, V extends Number> Map<K, V> getMap(SqlGetMapSpecification<K, V> specification) {
         try {
             Validator.notNull(specification, ApplicationException.getBuilderFor(PersistenceProviderException.class)

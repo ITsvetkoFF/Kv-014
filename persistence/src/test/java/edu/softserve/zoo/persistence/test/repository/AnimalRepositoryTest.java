@@ -8,11 +8,11 @@ import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.persistence.repository.AnimalRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.repository.impl.AnimalRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.animal.AnimalFindOneWithBirthdayHouseAndSpeciesSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.animal.AnimalGetAllByHouseIdSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.animal.AnimalGetAllBySpeciesIdSpecification;
-import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,15 +25,14 @@ import static org.junit.Assert.*;
  * @author Serhii Alekseichenko
  */
 @Transactional
-@RepositoryTest(forRepository = AnimalRepositoryImpl.class)
 public class AnimalRepositoryTest extends AbstractRepositoryTest<Animal> {
 
-    private static final long EXISTENT_ANIMAL_ID = 1L;
-    private static final long EXISTENT_HOUSE_ID = 1L;
-    private static final long EXISTENT_SPECIES_ID = 161130L;
-    private static final long NONEXISTENT_ANIMAL_ID = 100L;
-    private static final long ANIMALS_AMOUNT = 17L;
-    private static final long NEXT_ANIMAL_ID = 18L;
+    private static final Long EXISTENT_ANIMAL_ID = 1L;
+    private static final Long EXISTENT_HOUSE_ID = 1L;
+    private static final Long EXISTENT_SPECIES_ID = 161130L;
+    private static final Long NONEXISTENT_ANIMAL_ID = 100L;
+    private static final Long ANIMALS_AMOUNT = 17L;
+    private static final Long NEXT_ANIMAL_ID = 18L;
 
     @Autowired
     private AnimalRepository animalRepository;
@@ -43,6 +42,16 @@ public class AnimalRepositoryTest extends AbstractRepositoryTest<Animal> {
         Animal expectedAnimal = getValidAnimal();
         Animal actualAnimal = super.findOne(new GetByIdSpecification<>(Animal.class, EXISTENT_ANIMAL_ID), EXISTENT_ANIMAL_ID);
         assertByPrimaryFields(expectedAnimal, actualAnimal);
+    }
+
+    @Test
+    public void findOneWithBirthdayHouseAndSpecies() throws Exception {
+        Animal actualAnimal = super.findOne(new AnimalFindOneWithBirthdayHouseAndSpeciesSpecification(EXISTENT_ANIMAL_ID), EXISTENT_ANIMAL_ID);
+        Assert.assertNotNull(actualAnimal.getBirthday());
+        Assert.assertNotNull(actualAnimal.getHouse());
+        Assert.assertNotNull(actualAnimal.getSpecies());
+        Assert.assertNull(actualAnimal.getNickname());
+        Assert.assertNull(actualAnimal.getFoodConsumption());
     }
 
     @Test(expected = SpecificationException.class)
@@ -59,7 +68,7 @@ public class AnimalRepositoryTest extends AbstractRepositoryTest<Animal> {
     @Test
     public void count() throws Exception {
         Long actualAmount = animalRepository.count();
-        assertEquals(ANIMALS_AMOUNT, actualAmount.longValue());
+        assertEquals(ANIMALS_AMOUNT, actualAmount);
     }
 
     @Test

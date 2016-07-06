@@ -21,8 +21,8 @@ public abstract class ApplicationException extends RuntimeException {
      * Constructs application exception instance.
      *
      * @param message specific details about the exception
-     * @param reason the reason this exception is thrown
-     * @param cause the throwable that caused this exception to get thrown
+     * @param reason  the reason this exception is thrown
+     * @param cause   the throwable that caused this exception to get thrown
      */
     protected ApplicationException(final String message, final ExceptionReason reason, final Throwable cause) {
         super(message, cause);
@@ -39,12 +39,12 @@ public abstract class ApplicationException extends RuntimeException {
         return new Builder(exceptionClass);
     }
 
-    public void setReason(final ExceptionReason reason) {
-        this.reason = reason;
-    }
-
     public ExceptionReason getReason() {
         return reason;
+    }
+
+    public void setReason(final ExceptionReason reason) {
+        this.reason = reason;
     }
 
     /**
@@ -55,33 +55,30 @@ public abstract class ApplicationException extends RuntimeException {
     public static class Builder {
 
         /**
+         * Application exception class.
+         */
+        private Class<? extends ApplicationException> exceptionClass;
+        /**
+         * Specific details about the exception.
+         */
+        private String message;
+        /**
+         * The throwable that caused this exception to get thrown.
+         */
+        private Throwable cause;
+        /**
+         * Reason this exception is thrown.
+         * Possible values defined in {@code ExceptionReason} enum.
+         */
+        private ExceptionReason reason;
+
+        /**
          * This class should be instantiated via fabric method {@code ApplicationException.getBuilderFor()} method,
          * so default constructor is hidden.
          */
         private Builder() {
             throw new UnsupportedOperationException("Use ApplicationException.getBuilderFor() method");
         }
-
-        /**
-         * Application exception class.
-         */
-        private Class<? extends ApplicationException> exceptionClass;
-
-        /**
-         * Specific details about the exception.
-         */
-        private String message;
-
-        /**
-         * The throwable that caused this exception to get thrown.
-         */
-        private Throwable cause;
-
-        /**
-         * Reason this exception is thrown.
-         * Possible values defined in {@code ExceptionReason} enum.
-         */
-        private ExceptionReason reason;
 
         /**
          * Constructs this builder object.
@@ -138,7 +135,8 @@ public abstract class ApplicationException extends RuntimeException {
                 constructor.setAccessible(true);
                 return constructor.newInstance(message, reason, cause);
             } catch (ReflectiveOperationException e) {
-                throw new RuntimeException("Can't instantiate " + exceptionClass, e);
+                throw new ExceptionBuilderException("Can't instantiate " + exceptionClass,
+                        ExceptionBuilderException.Reason.BUILDER_FAILS, e);
             }
         }
     }

@@ -2,17 +2,14 @@ package edu.softserve.zoo.persistence.test.repository;
 
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.repository.impl.GeographicalZoneRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
-import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 
-@RepositoryTest(forRepository = GeographicalZoneRepositoryImpl.class)
 public class GeographicalZoneRepositoryTest extends AbstractRepositoryTest<GeographicalZone> {
 
     @Autowired

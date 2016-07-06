@@ -75,7 +75,7 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
     public Animal save(Animal entity) {
         validateNullableArgument(entity);
         Validator.isTrue(!entity.getBirthday().isAfter(LocalDate.now()),
-                ApplicationException.getBuilderFor(HouseException.class)
+                ApplicationException.getBuilderFor(AnimalException.class)
                         .forReason(AnimalException.Reason.WRONG_BIRTHDAY)
                         .withMessage("Wrong animal birthday provided").build());
         Species species = speciesService.findOneWithAnimalsPerHouse(entity.getSpecies().getId());
@@ -93,12 +93,12 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         Long oldSpeciesId = animal.getSpecies().getId();
 
         Validator.isTrue(Objects.equals(oldSpeciesId, entity.getSpecies().getId()),
-                ApplicationException.getBuilderFor(HouseException.class)
+                ApplicationException.getBuilderFor(AnimalException.class)
                         .forReason(AnimalException.Reason.SPECIES_CHANGED)
                         .withMessage("Attempt to change animal species").build());
 
         Validator.isTrue(Objects.equals(animal.getBirthday(), entity.getBirthday()),
-                ApplicationException.getBuilderFor(HouseException.class)
+                ApplicationException.getBuilderFor(AnimalException.class)
                         .forReason(AnimalException.Reason.BIRTHDAY_CHANGED)
                         .withMessage("Attempt to change animal birthday").build());
 
