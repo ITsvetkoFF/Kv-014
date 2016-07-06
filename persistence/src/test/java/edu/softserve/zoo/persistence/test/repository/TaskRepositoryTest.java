@@ -1,16 +1,16 @@
 package edu.softserve.zoo.persistence.test.repository;
 
-import edu.softserve.zoo.model.Employee;
-import edu.softserve.zoo.model.Task;
-import edu.softserve.zoo.model.TaskStatistics;
-import edu.softserve.zoo.model.ZooZone;
+import edu.softserve.zoo.model.*;
 import edu.softserve.zoo.persistence.config.PersistenceConfig;
+import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
 import edu.softserve.zoo.persistence.repository.ZooZoneRepository;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssigneeIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.task.TaskGetAllByAssignerIdSpecification;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,13 +25,14 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Taras Zubrei
+ * @author Julia Avdeionok
  */
 @Transactional
-public class TaskRepositoryTest {
-@RepositoryTest(forRepository = TaskRepositoryImpl.class)
 public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
 
     @Autowired
@@ -44,6 +45,13 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
 
     private Task expectedTask;
     private static final Long VALID_TASK_ID = 5L;
+    private static final Long INVALID_TASK_ID = 33L;
+    private static final Long VALID_ASSIGNEE_ID = 3L;
+    private static final Long VALID_ASSIGNER_ID = 1L;
+    private static final Long TASK_AMOUNT = 18L;
+    private static final int TASK_AMOUNT_BY_ASSIGNEE_ID = 6;
+    private static final int TASK_AMOUNT_BY_ASSIGNER_ID = 4;
+    private static final Long NEXT_TASK_ID = 19L;
 
     @Test
     public void taskStatistics() {
@@ -53,55 +61,74 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
         Assert.notEmpty(statistics.getTaskTypes(), "Task types map of the employee(id=" + 2 + ") has to be not empty");
     }
 
-    @Test
-    public void crud() {
-        Task task = new Task();
-        Employee assignee = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 2L));
-        Employee assigner = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 1L));
-        task.setAssignee(assignee);
-        task.setAssigner(assigner);
-        task.setStatus(Task.TaskStatus.ACCOMPLISHED);
-        task.setTaskType(Task.TaskType.HEALTH_INSPECTION);
-        task.setActualStart(LocalDateTime.now().minusDays(1));
-        task.setActualFinish(LocalDateTime.now().minusMinutes(2));
-        task.setEstimatedStart(LocalDateTime.now().minusHours(5));
-        task.setEstimatedFinish(LocalDateTime.now().plusHours(19));
-        ZooZone zone = zooZoneRepository.findOne(new GetByIdSpecification<>(ZooZone.class, 1L));
-        task.setZone(zone);
-
-        task = taskRepository.save(task);
-        Assert.notNull(task, "Create operation failed");
-        Assert.notNull(task.getId(), "Id has to be not null after persisting");
-        Assert.notNull(taskRepository.findOne(new GetByIdSpecification<>(Task.class, 5L)), "Read one operation failed");
-        Assert.notEmpty(taskRepository.find(new GetAllSpecification<>(Task.class)), "Read all operation failed");
-        task.setTaskType(Task.TaskType.FEEDING);
-        task = taskRepository.save(task);
-        assertEquals("Update operation failed", Task.TaskType.FEEDING, task.getTaskType());
-        Assert.isTrue(taskRepository.delete(task.getId(), Task.class), "Delete operation failed");
-    }
-
-    @Test
+       @Test
     public void findOneTest(){
-        Task actualTask = findOne(new GetByIdSpecification<>(getType(), expectedTask.getId()), expectedTask.getId());
+        Task actualTask = super.findOne(new GetByIdSpecification<>(getType(), VALID_TASK_ID), VALID_TASK_ID);
+        assertEquals(actualTask, expectedTask);
     }
 
+    @Test
+    public void findGetAllByAssigneeIdTest(){
+        super.find(new TaskGetAllByAssigneeIdSpecification(VALID_ASSIGNEE_ID), TASK_AMOUNT_BY_ASSIGNEE_ID);
+    }
+
+    @Test
+    public void findGetAllByAssignerIdTest(){
+        super.find(new TaskGetAllByAssignerIdSpecification(VALID_ASSIGNEE_ID), TASK_AMOUNT_BY_ASSIGNER_ID);
+    }
+
+    @Test
+    public void countTest(){
+        Long actualAmount = taskRepository.count();
+        assertEquals(TASK_AMOUNT, actualAmount);
+    }
+
+    @Test
+    public void saveTest(){
+        Task actualTask = super.save(expectedTask, NEXT_TASK_ID);
+        assertEquals(actualTask, expectedTask);
+    }
+
+    @Test(expected = PersistenceProviderException.class)
+    public void saveWithNullFieldsTest(){
+        expectedTask.setAssignee(null);
+        expectedTask.setZone(null);
+        super.save(expectedTask, NEXT_TASK_ID);
+    }
+
+    @Test
+    public void deleteTest(){
+        super.delete(VALID_TASK_ID);
+    }
+
+    @Test
+    public void deleteWithWrongIdTest(){
+        assertFalse(taskRepository.delete(INVALID_TASK_ID, getType()));
+    }
+
+    @Test
+    public void updateTest(){
+        Task expectedTask = super.findOne(new GetByIdSpecification<>(getType(), VALID_TASK_ID), VALID_TASK_ID);
+        expectedTask.setStatus(Task.TaskStatus.FAILED);
+        Task actualTask = super.update(expectedTask);
+        assertEquals(actualTask, expectedTask);
+    }
 
     @Before
     public void setupData(){
         expectedTask = new Task();
-        Employee assignee = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 2L));
-        Employee assigner = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 1L));
+        expectedTask.setId(VALID_TASK_ID);
+        Employee assignee = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, VALID_ASSIGNEE_ID));
+        Employee assigner = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, VALID_ASSIGNER_ID));
         expectedTask.setAssignee(assignee);
         expectedTask.setAssigner(assigner);
-        expectedTask.setStatus(Task.TaskStatus.ACCOMPLISHED);
-        expectedTask.setTaskType(Task.TaskType.HEALTH_INSPECTION);
-        expectedTask.setActualStart(LocalDateTime.now().minusDays(1));
-        expectedTask.setActualFinish(LocalDateTime.now().minusMinutes(2));
-        expectedTask.setEstimatedStart(LocalDateTime.now().minusHours(5));
-        expectedTask.setEstimatedFinish(LocalDateTime.now().plusHours(19));
-        ZooZone zone = zooZoneRepository.findOne(new GetByIdSpecification<>(ZooZone.class, 1L));
+        expectedTask.setStatus(Task.TaskStatus.IN_PROGRESS);
+        expectedTask.setTaskType(Task.TaskType.FEEDING);
+        expectedTask.setEstimatedStart(LocalDateTime.of(2016,5,14,10,0));
+        expectedTask.setEstimatedFinish(LocalDateTime.of(2016,5,16,10,0));
+        expectedTask.setActualStart(LocalDateTime.of(2016,5,15,10,0));
+        ZooZone zone = zooZoneRepository.findOne(new GetByIdSpecification<>(ZooZone.class, 4L));
         expectedTask.setZone(zone);
-
     }
 
     @Override
