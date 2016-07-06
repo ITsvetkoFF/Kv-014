@@ -53,9 +53,4 @@
             <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>
-
-    <!-- Getting security properties from config file -->
-    <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <beans:property name="location" value="classpath:security.properties"/>
-    </beans:bean>
 </beans:beans>
