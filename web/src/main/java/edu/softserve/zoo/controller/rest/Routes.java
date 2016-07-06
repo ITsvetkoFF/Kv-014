@@ -15,6 +15,7 @@ public interface Routes {
     String TASKS = API_V1 + "/tasks";
     String DASHBOARD = API_V1 + "/dashboard";
     String TASK_TYPES = API_V1 + "/task-types";
+    String ROLES = API_V1 + "/roles";
 
     String USER = API_V1 + "/user";
     String LOGIN = API_V1 + "/login";

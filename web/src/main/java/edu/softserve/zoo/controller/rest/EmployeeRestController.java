@@ -13,11 +13,10 @@ import edu.softserve.zoo.service.EmployeeService;
 import edu.softserve.zoo.service.Service;
 import edu.softserve.zoo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 import java.util.List;
@@ -45,9 +44,36 @@ public class EmployeeRestController extends AbstractRestController<EmployeeDto, 
         return employeeService;
     }
 
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @Override
+    public EmployeeDto getById(@PathVariable @DocsParamDescription("id of employee") Long id) {
+        return super.getById(id);
+    }
+    @DocsTest
+    @RequestMapping(method = RequestMethod.POST)
+    @Override
+    public EmployeeDto create(@RequestBody EmployeeDto dto) {
+        return super.create(dto);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PUT})
+    @Override
+    public EmployeeDto update(@Valid @RequestBody EmployeeDto dto, @PathVariable @DocsParamDescription("id of employee") Long id) {
+        return super.update(dto, id);
+    }
+
+    @DocsTest(pathParameters = "1")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @Override
+    public ResponseEntity delete(@PathVariable @DocsParamDescription("id of employee") Long id) {
+        return super.delete(id);
+    }
+
     @DocsTest(pathParameters = "2")
     @RequestMapping(path = "/{id}/performance", method = RequestMethod.GET, produces = "application/json")
-    public TaskStatisticsDto getStatistics(@PathVariable @DocsParamDescription("Employee id") Long id) {
+    public TaskStatisticsDto getStatistics(@PathVariable @DocsParamDescription("id of employee") Long id) {
         TaskStatisticsDto dto = new TaskStatisticsDto();
         TaskStatistics statistics = taskService.getStatistics(id);
         dto.setTaskStatuses(

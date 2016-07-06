@@ -56,9 +56,11 @@ public class EmployeeRequestAdvice implements RequestBodyAdvice {
                                 Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
 
         EmployeeDto dto = (EmployeeDto) body;
-        Set<RoleDto> roles = new HashSet<>();
-        dto.getRoles().stream().forEach(r -> roles.add(stringToRoleDto(r.toString())));
-        dto.setRoles((Set) roles);
+        if (dto.getRoles() != null) {
+            Set<RoleDto> roles = new HashSet<>();
+            dto.getRoles().stream().forEach(r -> roles.add(stringToRoleDto(r.toString())));
+            dto.setRoles((Set) roles);
+        }
         return body;
     }
 

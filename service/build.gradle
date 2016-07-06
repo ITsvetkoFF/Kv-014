@@ -1,4 +1,6 @@
 dependencies {
     compile project(':persistence')
     compile spring_security_core
+    compile spring_context_support
+    compile javax_mail
 }

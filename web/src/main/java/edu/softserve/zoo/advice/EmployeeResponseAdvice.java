@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  *
  * @author Julia Siroshtan
  */
-@ControllerAdvice(assignableTypes = {UserController.class})
+@ControllerAdvice(assignableTypes = {UserController.class, EmployeeRestController.class})
 public class EmployeeResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
