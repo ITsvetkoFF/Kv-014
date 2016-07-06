@@ -4,7 +4,8 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.model.Species;
 import edu.softserve.zoo.persistence.repository.HouseRepository;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.specification.hibernate.impl.house.GetAllByZooZoneIdSpecification;
+import edu.softserve.zoo.persistence.specification.hibernate.composite.fields.HouseField;
+import edu.softserve.zoo.persistence.specification.hibernate.impl.house.GetAllHousesByZooZoneId;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.house.HouseGetAllBySpeciesIdSpecification;
 import edu.softserve.zoo.service.HouseService;
 import edu.softserve.zoo.service.SpeciesService;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +51,15 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
     @Override
     @Transactional
     public List<House> getAllByZooZoneId(Long id) {
-        return repository.find(new GetAllByZooZoneIdSpecification(id));
+        return getAllByZooZoneId(id, null);
+    }
+
+    @Override
+    @Transactional
+    public List<House> getAllByZooZoneId(Long id, Set<HouseField> fields) {
+        GetAllHousesByZooZoneId specification = new GetAllHousesByZooZoneId(id);
+        specification.setEntityFields(fields);
+        return repository.find(specification);
     }
 
     @Override
