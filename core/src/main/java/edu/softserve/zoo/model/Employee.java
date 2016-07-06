@@ -14,7 +14,7 @@ public class Employee extends BaseEntity {
     private LocalDate employmentDate;
     private String email;
     private String password;
-    private boolean enabled;
+    private Boolean enabled;
     private String token;
     private Set<Role> roles;
 
