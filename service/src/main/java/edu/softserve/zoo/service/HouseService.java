@@ -4,6 +4,7 @@ import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.model.Species;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * House specific methods and business logic for service layer
@@ -38,7 +39,14 @@ public interface HouseService extends Service<House> {
     List<House> getAllAcceptableForNewAnimalBySpeciesId(Long speciesId);
 
     /**
-     * Returns the List of {@link House} by specified {@link Species} id
+     * All houses capacities.
+     *
+     * @return map of all houses capacities
+     */
+    Map<Long, Long> getHousesCurrentCapacityMap();
+
+    /**
+     * Houses's current capacity.
      *
      * @param houseId of {@link House}
      * @return current capacity of specified house

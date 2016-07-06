@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +29,21 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
 
     @Autowired
     private SpeciesService speciesService;
+
+    @Override
+    @Transactional
+    public House save(House entity) {
+        House savedHouse = super.save(entity);
+        repository.getCapacityMap().put(savedHouse.getId(), 0L);
+        return savedHouse;
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        super.delete(id);
+        repository.getCapacityMap().remove(id);
+    }
 
     @Override
     @Transactional
@@ -47,6 +63,10 @@ public class HouseServiceImpl extends AbstractService<House> implements HouseSer
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public Map<Long, Long> getHousesCurrentCapacityMap() {
+        return repository.getCapacityMap();
+    }
 
     @Override
     public Long getHouseCurrentCapacity(Long houseId) {
