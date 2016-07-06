@@ -42,6 +42,9 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
     @Autowired
     ZooZoneRepository zooZoneRepository;
 
+    private Task expectedTask;
+    private static final Long VALID_TASK_ID = 5L;
+
     @Test
     public void taskStatistics() {
         TaskStatistics statistics = taskRepository.getStatistics(2L);
@@ -77,23 +80,27 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
         Assert.isTrue(taskRepository.delete(task.getId(), Task.class), "Delete operation failed");
     }
 
-//    @Override
+    @Test
+    public void findOneTest(){
+        Task actualTask = findOne(new GetByIdSpecification<>(getType(), expectedTask.getId()), expectedTask.getId());
+    }
+
 
     @Before
     public void setupData(){
-        Task task = new Task();
+        expectedTask = new Task();
         Employee assignee = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 2L));
         Employee assigner = employeeRepository.findOne(new GetByIdSpecification<>(Employee.class, 1L));
-        task.setAssignee(assignee);
-        task.setAssigner(assigner);
-        task.setStatus(Task.TaskStatus.ACCOMPLISHED);
-        task.setTaskType(Task.TaskType.HEALTH_INSPECTION);
-        task.setActualStart(LocalDateTime.now().minusDays(1));
-        task.setActualFinish(LocalDateTime.now().minusMinutes(2));
-        task.setEstimatedStart(LocalDateTime.now().minusHours(5));
-        task.setEstimatedFinish(LocalDateTime.now().plusHours(19));
+        expectedTask.setAssignee(assignee);
+        expectedTask.setAssigner(assigner);
+        expectedTask.setStatus(Task.TaskStatus.ACCOMPLISHED);
+        expectedTask.setTaskType(Task.TaskType.HEALTH_INSPECTION);
+        expectedTask.setActualStart(LocalDateTime.now().minusDays(1));
+        expectedTask.setActualFinish(LocalDateTime.now().minusMinutes(2));
+        expectedTask.setEstimatedStart(LocalDateTime.now().minusHours(5));
+        expectedTask.setEstimatedFinish(LocalDateTime.now().plusHours(19));
         ZooZone zone = zooZoneRepository.findOne(new GetByIdSpecification<>(ZooZone.class, 1L));
-        task.setZone(zone);
+        expectedTask.setZone(zone);
 
     }
 
