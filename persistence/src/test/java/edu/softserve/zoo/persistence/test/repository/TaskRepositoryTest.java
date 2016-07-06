@@ -8,10 +8,8 @@ import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import edu.softserve.zoo.persistence.repository.EmployeeRepository;
 import edu.softserve.zoo.persistence.repository.TaskRepository;
 import edu.softserve.zoo.persistence.repository.ZooZoneRepository;
-import edu.softserve.zoo.persistence.repository.impl.TaskRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
-import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +31,6 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = PersistenceConfig.class)
 @ActiveProfiles(AppProfiles.TEST)
 @Transactional
-@RepositoryTest(forRepository = TaskRepositoryImpl.class)
 public class TaskRepositoryTest {
     @Autowired
     TaskRepository taskRepository;

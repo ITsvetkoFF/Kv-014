@@ -1,6 +1,5 @@
 package edu.softserve.zoo.advice;
 
-import edu.softserve.zoo.controller.rest.EmployeeRestController;
 import edu.softserve.zoo.controller.rest.UserController;
 import edu.softserve.zoo.dto.EmployeeDto;
 import edu.softserve.zoo.dto.RoleDto;
@@ -12,7 +11,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

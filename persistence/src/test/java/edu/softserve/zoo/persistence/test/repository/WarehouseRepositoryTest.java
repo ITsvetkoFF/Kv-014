@@ -6,7 +6,6 @@ import edu.softserve.zoo.persistence.config.PersistenceConfig;
 import edu.softserve.zoo.persistence.repository.WarehouseRepository;
 import edu.softserve.zoo.persistence.repository.impl.WarehouseRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
-import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
 import edu.softserve.zoo.util.AppProfiles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,6 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles(AppProfiles.TEST)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = PersistenceConfig.class)
-@RepositoryTest(forRepository = WarehouseRepositoryImpl.class)
 public class WarehouseRepositoryTest {
 
     private static final Long VALID_WAREHOUSE_ID = 1L;

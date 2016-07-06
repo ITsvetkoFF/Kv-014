@@ -3,7 +3,9 @@ package edu.softserve.zoo.converter.mapping;
 import edu.softserve.zoo.annotation.Dto;
 import edu.softserve.zoo.annotation.IrrespectiveDto;
 import edu.softserve.zoo.dto.BaseDto;
+import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.BaseEntity;
+import edu.softserve.zoo.service.exception.DtoMapperException;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.slf4j.Logger;
@@ -117,7 +119,8 @@ public class DtoMapperImpl implements DtoMapper {
         try {
             return (Class<? extends BaseDto>) ClassUtils.forName(className, null);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Error while loading class: " + className, e);
+            throw ApplicationException.getBuilderFor(DtoMapperException.class).causedBy(e).forReason(DtoMapperException.Reason.DTO_NOT_FOUND)
+                    .withMessage("Error while loading class: " + className).build();
         }
     }
 

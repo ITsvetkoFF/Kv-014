@@ -4,10 +4,8 @@ import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.GeographicalZone;
 import edu.softserve.zoo.model.ZooZone;
 import edu.softserve.zoo.persistence.repository.Repository;
-import edu.softserve.zoo.persistence.repository.impl.ZooZoneRepositoryImpl;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetAllSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.GetByIdSpecification;
-import edu.softserve.zoo.persistence.test.coverage.annotation.RepositoryTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
-@RepositoryTest(forRepository = ZooZoneRepositoryImpl.class)
 public class ZooZoneRepositoryTest extends AbstractRepositoryTest<ZooZone> {
 
     private static final Long VALID_ZOO_ZONE_ID = 1L;
