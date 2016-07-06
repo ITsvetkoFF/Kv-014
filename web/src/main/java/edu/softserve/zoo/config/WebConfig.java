@@ -39,7 +39,7 @@ import java.util.List;
 @ComponentScan({"edu.softserve.zoo.controller.rest", "edu.softserve.zoo.converter",
         "edu.softserve.zoo.advice", "edu.softserve.zoo.service",
         "edu.softserve.zoo.persistence", "edu.softserve.zoo.web.security"})
-@PropertySource("classpath:web.properties")
+@PropertySource({"classpath:web.properties", "classpath:security.properties"})
 @ImportResource("classpath:spring/security-ctx.xml")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Resource

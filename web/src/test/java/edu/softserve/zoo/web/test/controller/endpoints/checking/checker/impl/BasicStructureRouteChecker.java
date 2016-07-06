@@ -25,7 +25,7 @@ public class BasicStructureRouteChecker implements RouteChecker {
     * /api/v[number, one digit]/[basic resource id, required]/[parameter in {}, optional]/[resource id, optional]
     */
     private static final String BASIC_STRUCTURE_REGEX = "^/api/v\\d/(?:[a-z-]+)((?:/\\{[a-z-]+\\})(?:/[a-z-]+)?)?$";
-    private static final String EXCLUDE_STRUCTURE_REGEX = "^/api/v\\d/[a-z-]+/.*$";
+    private static final String EXCLUDE_STRUCTURE_REGEX = "^/api/v\\d/[a-z-]+/[a-z-]+$";
 
     private static final String ERROR_MESSAGE_PATTERN = "%s breaks the basic route structure!";
     private static final Pattern BASIC_STRUCTURE_PATTERN = Pattern.compile(BASIC_STRUCTURE_REGEX);

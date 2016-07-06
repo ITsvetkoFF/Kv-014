@@ -3,11 +3,14 @@ package edu.softserve.zoo.service.config;
 import edu.softserve.zoo.service.notifier.EmailEmployeeNotifier;
 import edu.softserve.zoo.service.notifier.EmployeeNotifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -27,7 +30,7 @@ import java.util.Properties;
  * @author Andrii Abramov on 6/13/16.
  */
 @Configuration
-@PropertySource("classpath:email.properties")
+@PropertySource({"classpath:email.properties","classpath:service-security.properties"})
 @ComponentScan({"edu.softserve.zoo.service.impl", "edu.softserve.zoo.persistence", "edu.softserve.zoo.service.security"})
 public class ServiceConfig {
 
@@ -43,6 +46,11 @@ public class ServiceConfig {
         een.setPasswordMessageTemplate(passwordEmailMessageTemplate());
         een.setMailSender(javaMailSender());
         return een;
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean
