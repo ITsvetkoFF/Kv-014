@@ -5,6 +5,7 @@ import edu.softserve.zoo.model.Employee;
 import edu.softserve.zoo.service.exception.NotifierException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class EmailEmployeeNotifier implements EmployeeNotifier {
      * @param employee to send message to
      * @param password to include in message body
      */
+    @Async
     public void sendPassword(Employee employee, String password) {
 
         try {

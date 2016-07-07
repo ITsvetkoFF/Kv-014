@@ -9,7 +9,6 @@ import edu.softserve.zoo.persistence.specification.hibernate.impl.employee.GetAl
 import edu.softserve.zoo.persistence.specification.hibernate.impl.employee.GetEmployeeByEmailSpecification;
 import edu.softserve.zoo.persistence.specification.hibernate.impl.employee.GetEmployeeByIdWithRolesSpecification;
 import edu.softserve.zoo.service.EmployeeService;
-import edu.softserve.zoo.service.notifier.EmailEmployeeNotifier;
 import edu.softserve.zoo.service.notifier.EmployeeNotifier;
 import edu.softserve.zoo.service.security.PasswordGenerator;
 import edu.softserve.zoo.service.util.BeanPropertiesUtils;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -92,6 +92,7 @@ public class EmployeeServiceImpl extends AbstractService<Employee> implements Em
         String password = PasswordGenerator.generate(passwordLength);
         String encodedPassword = passwordEncoder.encode(password);
         entity.setPassword(encodedPassword);
+        entity.setPasswordChangeDate(LocalDateTime.now());
 
         entity.setEmail(StringUtils.upperCase(entity.getEmail()));
 

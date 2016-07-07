@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             Employee employee = employeeService.getEmployeeByEmail(username);
             Set<GrantedAuthority> authorities = mapRolesToGrantedAuthorities(employee.getRoles());
             return new AuthUserDetails(employee.getId(), employee.getEmail(), employee.getPassword(),
-                    employee.isEnabled(), employee.getToken(), authorities);
+                    employee.isEnabled(), employee.getToken(), employee.getPasswordChangeDate(), authorities);
         }
         catch (NotFoundException ex) {
             throw new UsernameNotFoundException(ex.getReason().getMessage());

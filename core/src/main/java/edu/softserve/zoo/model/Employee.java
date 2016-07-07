@@ -2,6 +2,7 @@ package edu.softserve.zoo.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class Employee extends BaseEntity {
     private Boolean enabled;
     private String token;
     private Set<Role> roles;
+    private LocalDateTime passwordChangeDate;
 
     public Employee() {
     }
@@ -66,6 +68,7 @@ public class Employee extends BaseEntity {
         this.password = password;
     }
 
+    @Column(name = "enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -92,6 +95,15 @@ public class Employee extends BaseEntity {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Column(name = "password_change_date")
+    public LocalDateTime getPasswordChangeDate() {
+        return passwordChangeDate;
+    }
+
+    public void setPasswordChangeDate(LocalDateTime passwordChangedTime) {
+        this.passwordChangeDate = passwordChangedTime;
     }
 
     @Override
