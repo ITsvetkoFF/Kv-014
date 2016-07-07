@@ -1,6 +1,8 @@
 package edu.softserve.zoo.service.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.ExceptionReason;
+import edu.softserve.zoo.exceptions.NotFoundException;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.model.House;
@@ -22,8 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Implementation of {@link AnimalService} logic for {@link Animal} entity
@@ -32,6 +36,9 @@ import java.util.Objects;
  */
 @Service
 public class AnimalServiceImpl extends AbstractService<Animal> implements AnimalService {
+
+    private final static int MAXIMUM_NICKNAME_LENGTH = 50;
+    private static final String ERROR_LOG_TEMPLATE = "An exception occurred during %s operation.";
 
     @Autowired
     private AnimalRepository repository;
@@ -73,48 +80,60 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
     @Override
     @Transactional
     public Animal save(Animal entity) {
-        validateNullableArgument(entity);
-        Validator.isTrue(!entity.getBirthday().isAfter(LocalDate.now()),
-                ApplicationException.getBuilderFor(AnimalException.class)
-                        .forReason(AnimalException.Reason.WRONG_BIRTHDAY)
-                        .withMessage("Wrong animal birthday provided").build());
-        Species species = speciesService.findOneWithAnimalsPerHouse(entity.getSpecies().getId());
-        validateHouse(entity.getHouse().getId(), species);
-        Animal animal = super.save(entity);
-        houseService.increaseHouseCapacity(animal.getHouse().getId(), species.getAnimalsPerHouse());
-        return animal;
+        validateAnimal(entity, ApplicationException.getBuilderFor(AnimalException.class)
+                .forReason(AnimalException.Reason.SAVE_FAILED)
+                .withMessage(String.format(ERROR_LOG_TEMPLATE, "save")).build());
+        try {
+            Species species = speciesService.findOneWithAnimalsPerHouse(entity.getSpecies().getId());
+            Validator.notNull(species, ApplicationException.getBuilderFor(AnimalException.class)
+                    .forReason(AnimalException.Reason.WRONG_SPECIES)
+                    .withMessage("Wrong animal species provided").build());
+            validateHouseForNewAnimal(entity.getHouse().getId(), species);
+            Animal animal = super.save(entity);
+            houseService.increaseHouseCapacity(animal.getHouse().getId(), species.getAnimalsPerHouse());
+            return animal;
+        } catch (ApplicationException ex) {
+            throw ApplicationException.getBuilderFor(AnimalException.class)
+                    .forReason(AnimalException.Reason.SAVE_FAILED)
+                    .withCause(ex.getReason()).build();
+        }
     }
 
     @Override
     @Transactional
     public Animal update(Animal entity) {
-        Animal animal = findOneWithBirthdayHouseAndSpecies(entity.getId());
-        Long oldHouseId = animal.getHouse().getId();
-        Long oldSpeciesId = animal.getSpecies().getId();
-
-        Validator.isTrue(Objects.equals(oldSpeciesId, entity.getSpecies().getId()),
-                ApplicationException.getBuilderFor(AnimalException.class)
-                        .forReason(AnimalException.Reason.SPECIES_CHANGED)
-                        .withMessage("Attempt to change animal species").build());
-
-        Validator.isTrue(Objects.equals(animal.getBirthday(), entity.getBirthday()),
-                ApplicationException.getBuilderFor(AnimalException.class)
-                        .forReason(AnimalException.Reason.BIRTHDAY_CHANGED)
-                        .withMessage("Attempt to change animal birthday").build());
-
-        Long newHouseId = entity.getHouse().getId();
-        Species species = speciesService.findOneWithAnimalsPerHouse(animal.getSpecies().getId());
-        BeanUtils.copyProperties(entity, animal);
-
-        if (!Objects.equals(oldHouseId, newHouseId)) {
-            validateHouse(newHouseId, species);
-            animal = super.update(animal);
-            houseService.decreaseHouseCapacity(oldHouseId, species.getAnimalsPerHouse());
-            houseService.increaseHouseCapacity(newHouseId, species.getAnimalsPerHouse());
-        } else {
-            animal = super.update(animal);
+        validateAnimal(entity, ApplicationException.getBuilderFor(AnimalException.class)
+                .forReason(AnimalException.Reason.UPDATE_FAILED)
+                .withMessage(String.format(ERROR_LOG_TEMPLATE, "update")).build());
+        try {
+            Animal animal = findOneWithBirthdayHouseAndSpecies(entity.getId());
+            Long oldHouseId = animal.getHouse().getId();
+            Long oldSpeciesId = animal.getSpecies().getId();
+            Validator.isTrue(Objects.equals(oldSpeciesId, entity.getSpecies().getId()),
+                    ApplicationException.getBuilderFor(AnimalException.class)
+                            .forReason(AnimalException.Reason.SPECIES_CHANGED)
+                            .withMessage("Attempt to change animal species").build());
+            Validator.isTrue(Objects.equals(animal.getBirthday(), entity.getBirthday()),
+                    ApplicationException.getBuilderFor(AnimalException.class)
+                            .forReason(AnimalException.Reason.BIRTHDAY_CHANGED)
+                            .withMessage("Attempt to change animal birthday").build());
+            Long newHouseId = entity.getHouse().getId();
+            Species species = speciesService.findOneWithAnimalsPerHouse(animal.getSpecies().getId());
+            BeanUtils.copyProperties(entity, animal);
+            if (!Objects.equals(oldHouseId, newHouseId)) {
+                validateHouseForNewAnimal(newHouseId, species);
+                animal = super.update(animal);
+                houseService.decreaseHouseCapacity(oldHouseId, species.getAnimalsPerHouse());
+                houseService.increaseHouseCapacity(newHouseId, species.getAnimalsPerHouse());
+            } else {
+                animal = super.update(animal);
+            }
+            return animal;
+        } catch (ApplicationException ex) {
+            throw ApplicationException.getBuilderFor(AnimalException.class)
+                    .forReason(AnimalException.Reason.UPDATE_FAILED)
+                    .withCause(ex.getReason()).build();
         }
-        return animal;
     }
 
     @Override
@@ -122,12 +141,16 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
     public void delete(Long id) {
         validateNullableArgument(id);
         Animal animal = findOneWithBirthdayHouseAndSpecies(id);
+        Validator.notNull(animal,
+                ApplicationException.getBuilderFor(NotFoundException.class)
+                        .forReason(NotFoundException.Reason.BY_ID)
+                        .withMessage("Not found animal with id: " + id).build());
         Species species = speciesService.findOneWithAnimalsPerHouse(animal.getSpecies().getId());
         super.delete(id);
         houseService.decreaseHouseCapacity(animal.getHouse().getId(), species.getAnimalsPerHouse());
     }
 
-    private void validateHouse(Long houseId, Species species) {
+    private void validateHouseForNewAnimal(Long houseId, Species species) {
         House house = houseService.findOne(houseId);
         Long currentCapacity = houseService.getHouseCurrentCapacity(house.getId());
         boolean isHouseCanApplyNewAnimal = currentCapacity + species.getAnimalsPerHouse() <= house.getMaxCapacity();
@@ -138,7 +161,30 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         acceptableForNewAnimal.stream().map(BaseEntity::getId).filter(acceptableHouseId -> acceptableHouseId.equals(houseId))
                 .findAny().orElseThrow(() -> ApplicationException.getBuilderFor(HouseException.class)
                 .forReason(HouseException.Reason.WRONG_HOUSE)
-                .withMessage("House not suitable for this type of animal species").build());
+                .withMessage("House is not suitable for this type of animal species").build());
 
+    }
+
+    private void validateAnimal(Animal entity, ApplicationException exception) {
+        Set<ExceptionReason> exceptions = new HashSet<>();
+        Validator.notNull(entity, ApplicationException.getBuilderFor(AnimalException.class)
+                .forReason(AnimalException.Reason.ANIMAL_IS_NULL)
+                .withMessage("Null animal provided").build());
+        Validator.notNull(entity.getFoodConsumption(), AnimalException.Reason.WRONG_FOOD_CONSUMPTION, exceptions);
+        if (entity.getFoodConsumption() != null) {
+            Validator.isTrue(entity.getFoodConsumption() > 0, AnimalException.Reason.WRONG_FOOD_CONSUMPTION, exceptions);
+        }
+        Validator.notNull(entity.getHouse(), AnimalException.Reason.WRONG_HOUSE, exceptions);
+        Validator.notNull(entity.getSpecies(), AnimalException.Reason.WRONG_SPECIES, exceptions);
+        if (entity.getBirthday() != null) {
+            Validator.isTrue(!entity.getBirthday().isAfter(LocalDate.now()), AnimalException.Reason.WRONG_BIRTHDAY, exceptions);
+        }
+        if (entity.getNickname() != null) {
+            Validator.isTrue(entity.getNickname().length() <= MAXIMUM_NICKNAME_LENGTH, AnimalException.Reason.LONG_NICKNAME, exceptions);
+        }
+        if (!exceptions.isEmpty()) {
+            exception.setQualificationReasons(exceptions);
+            throw exception;
+        }
     }
 }

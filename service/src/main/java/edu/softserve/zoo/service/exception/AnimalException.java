@@ -23,8 +23,15 @@ public class AnimalException extends ApplicationException {
 
     public enum Reason implements ExceptionReason {
         SPECIES_CHANGED("reason.service.animal.species_changed"),
+        LONG_NICKNAME("reason.service.animal.long_nickname"),
         BIRTHDAY_CHANGED("reason.service.animal.birthday_changed"),
-        WRONG_BIRTHDAY("reason.service.animal.wrong_birthday");
+        WRONG_BIRTHDAY("reason.service.animal.wrong_birthday"),
+        WRONG_FOOD_CONSUMPTION("reason.service.animal.wrong_food_consumption"),
+        WRONG_HOUSE("reason.service.animal.wrong_house"),
+        WRONG_SPECIES("reason.service.animal.wrong_species"),
+        UPDATE_FAILED("reason.service.animal.update_failed"),
+        SAVE_FAILED("reason.service.animal.save_failed"),
+        ANIMAL_IS_NULL("reason.service.animal.animal_is_null");
 
         private final String message;
 
