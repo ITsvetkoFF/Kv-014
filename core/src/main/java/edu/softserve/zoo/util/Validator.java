@@ -1,8 +1,10 @@
 package edu.softserve.zoo.util;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
+import edu.softserve.zoo.exceptions.ExceptionReason;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * <p>This utility class helps to validate data in the application workflow</p>
@@ -39,7 +41,7 @@ public class Validator {
      * @param <E>        the exception type.
      */
     public static <E extends ApplicationException> void isTrue(boolean expression, E exception) {
-        if (expression == false) {
+        if (!expression) {
             throw exception;
         }
     }
@@ -59,6 +61,50 @@ public class Validator {
 
         if (collection.isEmpty()) {
             throw exception;
+        }
+    }
+
+    /**
+     * <p>Validate that the specified argument is not {@code null};
+     * otherwise add defined {@link ExceptionReason} to causes set</p>
+     *
+     * @param value  the value for validation.
+     * @param reason an exception reason.
+     * @param causes reasons set.
+     */
+    public static void notNull(Object value, ExceptionReason reason, Set<ExceptionReason> causes) {
+        if (value == null) {
+            causes.add(reason);
+        }
+    }
+
+    /**
+     * <p>Validate that the argument condition is {@code true}.
+     * Otherwise add defined {@link ExceptionReason} to causes set</p>
+     *
+     * @param expression the boolean expression to check.
+     * @param reason     an exception reason.
+     * @param causes     reasons set.
+     */
+    public static void isTrue(boolean expression, ExceptionReason reason, Set<ExceptionReason> causes) {
+        if (!expression) {
+            causes.add(reason);
+        }
+    }
+
+    /**
+     * <p>Validate that the specified argument collection is neither {@code null}
+     * nor empty. Otherwise add defined {@link ExceptionReason} to causes set</p>
+     *
+     * @param collection the collection for validation.
+     * @param reason     an exception reason.
+     * @param <T>        reasons set.
+     */
+    public static <T extends Collection<?>> void notEmpty(T collection, ExceptionReason reason, Set<ExceptionReason> causes) {
+        notNull(collection, reason, causes);
+
+        if (collection.isEmpty()) {
+            causes.add(reason);
         }
     }
 }
