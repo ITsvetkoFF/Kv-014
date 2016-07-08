@@ -84,7 +84,7 @@ public class AnimalServiceTest {
             animalService.getAllByHouseId(null);
             fail();
         } catch (SpecificationException ex) {
-            assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
+            assertEquals(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION, ex.getReason());
         }
     }
 
@@ -107,7 +107,7 @@ public class AnimalServiceTest {
             animalService.getAllBySpeciesId(null);
             fail();
         } catch (SpecificationException ex) {
-            assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
+            assertEquals(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION, ex.getReason());
         }
     }
 
@@ -127,7 +127,7 @@ public class AnimalServiceTest {
             animalService.findOneWithBirthdayHouseAndSpecies(null);
             fail();
         } catch (SpecificationException ex) {
-            assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
+            assertEquals(SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION, ex.getReason());
         }
     }
 
@@ -161,8 +161,8 @@ public class AnimalServiceTest {
             animalService.save(getValidAnimal());
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertEquals(ex.getQualificationReason(), HouseException.Reason.HOUSE_IS_FULL);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
+            assertEquals(HouseException.Reason.HOUSE_IS_FULL, ex.getQualificationReason());
         }
     }
 
@@ -176,8 +176,8 @@ public class AnimalServiceTest {
             animalService.save(animalToSave);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertEquals(ex.getQualificationReason(), NotFoundException.Reason.BY_ID);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
+            assertEquals(NotFoundException.Reason.BY_ID, ex.getQualificationReason());
         }
 
     }
@@ -192,8 +192,8 @@ public class AnimalServiceTest {
             animalService.save(animalToSave);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertEquals(ex.getQualificationReason(), AnimalException.Reason.WRONG_SPECIES);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
+            assertEquals(AnimalException.Reason.WRONG_SPECIES, ex.getQualificationReason());
         }
 
     }
@@ -206,7 +206,7 @@ public class AnimalServiceTest {
             animalService.save(animalToSave);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
         }
     }
 
@@ -218,7 +218,7 @@ public class AnimalServiceTest {
             animalService.save(animalToSave);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
         }
     }
 
@@ -230,7 +230,7 @@ public class AnimalServiceTest {
             animalService.save(animalToSave);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+            assertEquals(AnimalException.Reason.SAVE_FAILED, ex.getReason());
         }
     }
 
@@ -252,8 +252,8 @@ public class AnimalServiceTest {
             animalService.update(animal);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
-            assertEquals(ex.getQualificationReason(), HouseException.Reason.WRONG_HOUSE);
+            assertEquals(AnimalException.Reason.UPDATE_FAILED, ex.getReason());
+            assertEquals(HouseException.Reason.WRONG_HOUSE, ex.getQualificationReason());
         }
     }
 
@@ -273,8 +273,8 @@ public class AnimalServiceTest {
         } finally {
             houseService.increaseHouseCapacity(EXISTENT_HOUSE_ID, existentAnimalAnimalsPerHouse);
             houseService.decreaseHouseCapacity(NEW_HOUSE_ID, existentAnimalAnimalsPerHouse);
-            assertEquals(existentHouseCapacity, houseService.getHouseCurrentCapacity(EXISTENT_HOUSE_ID));
-            assertEquals(newHouseCapacity, houseService.getHouseCurrentCapacity(NEW_HOUSE_ID));
+            assertEquals(houseService.getHouseCurrentCapacity(EXISTENT_HOUSE_ID), existentHouseCapacity);
+            assertEquals(houseService.getHouseCurrentCapacity(NEW_HOUSE_ID), newHouseCapacity);
         }
     }
 
@@ -287,8 +287,8 @@ public class AnimalServiceTest {
             animalService.update(animal);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
-            assertEquals(ex.getQualificationReason(), AnimalException.Reason.SPECIES_CHANGED);
+            assertEquals(AnimalException.Reason.UPDATE_FAILED, ex.getReason());
+            assertEquals(AnimalException.Reason.SPECIES_CHANGED, ex.getQualificationReason());
         }
     }
 
@@ -300,8 +300,8 @@ public class AnimalServiceTest {
             animalService.update(animal);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
-            assertEquals(ex.getQualificationReason(), (AnimalException.Reason.BIRTHDAY_CHANGED));
+            assertEquals(AnimalException.Reason.UPDATE_FAILED, ex.getReason());
+            assertEquals(AnimalException.Reason.BIRTHDAY_CHANGED, ex.getQualificationReason());
         }
     }
 
@@ -328,7 +328,7 @@ public class AnimalServiceTest {
             animalService.delete(null);
             fail();
         } catch (AnimalException ex) {
-            assertEquals(ex.getReason(), AnimalException.Reason.DELETE_FAILED);
+            assertEquals(AnimalException.Reason.DELETE_FAILED, ex.getReason());
         }
     }
 

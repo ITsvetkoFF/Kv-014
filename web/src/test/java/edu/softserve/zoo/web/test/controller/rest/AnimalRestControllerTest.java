@@ -9,7 +9,6 @@ import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.service.exception.AnimalException;
 import edu.softserve.zoo.util.AppProfiles;
 import edu.softserve.zoo.web.test.config.WebTestConfig;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Serhii Alekseichenko
@@ -51,13 +53,13 @@ public class AnimalRestControllerTest {
     @Test
     public void getAll() throws Exception {
         List<AnimalDto> all = controller.getAll();
-        Assert.assertEquals(ANIMALS_AMOUNT, all.size());
+        assertEquals(ANIMALS_AMOUNT, all.size());
     }
 
     @Test
     public void testGetById() throws Exception {
         AnimalDto actual = controller.getById(EXISTENT_ANIMAL_ID);
-        Assert.assertEquals(getValidAnimalDto(), actual);
+        assertEquals(getValidAnimalDto(), actual);
     }
 
     @Test(expected = NotFoundException.class)
@@ -77,8 +79,8 @@ public class AnimalRestControllerTest {
         houseDto.setId(EMPTY_HOUSE_ID);
         validAnimalDto.setHouse(houseDto);
         AnimalDto animalDto = controller.create(validAnimalDto);
-        Assert.assertEquals(NEXT_ANIMAL_ID, animalDto.getId());
-        Assert.assertEquals(validAnimalDto, animalDto);
+        assertEquals(NEXT_ANIMAL_ID, animalDto.getId());
+        assertEquals(validAnimalDto, animalDto);
     }
 
     @Test(expected = AnimalException.class)
@@ -107,13 +109,13 @@ public class AnimalRestControllerTest {
         AnimalDto animalDto = getValidAnimalDto();
         animalDto.setNickname("Testy");
         AnimalDto updatedAnimalDto = controller.update(animalDto, EXISTENT_ANIMAL_ID);
-        Assert.assertEquals(animalDto, updatedAnimalDto);
+        assertEquals(animalDto, updatedAnimalDto);
     }
 
     @Test
     public void delete() throws Exception {
         ResponseEntity delete = controller.delete(EXISTENT_ANIMAL_ID);
-        Assert.assertTrue(delete.getStatusCode().is2xxSuccessful());
+        assertTrue(delete.getStatusCode().is2xxSuccessful());
     }
 
     @Test(expected = AnimalException.class)
@@ -129,14 +131,14 @@ public class AnimalRestControllerTest {
     @Test
     public void getAllByHouseId() throws Exception {
         List<AnimalDto> allByHouseId = controller.getAllByHouseId(EXISTENT_HOUSE_ID);
-        Assert.assertEquals(4, allByHouseId.size());
-        allByHouseId.forEach(animalDto -> Assert.assertEquals(animalDto.getHouse().getId(), EXISTENT_HOUSE_ID));
+        assertEquals(4, allByHouseId.size());
+        allByHouseId.forEach(animalDto -> assertEquals(EXISTENT_HOUSE_ID, animalDto.getHouse().getId()));
     }
 
     @Test
     public void getAllByHouseWrongId() throws Exception {
         List<AnimalDto> allByHouseId = controller.getAllByHouseId(NONEXISTENT_HOUSE_ID);
-        Assert.assertTrue(allByHouseId.isEmpty());
+        assertTrue(allByHouseId.isEmpty());
     }
 
     @Test(expected = SpecificationException.class)
@@ -147,14 +149,14 @@ public class AnimalRestControllerTest {
     @Test
     public void getAllBySpeciesId() throws Exception {
         List<AnimalDto> allBySpeciesId = controller.getAllBySpeciesId(EXISTENT_SPECIES_ID);
-        Assert.assertEquals(1, allBySpeciesId.size());
-        allBySpeciesId.forEach(animalDto -> Assert.assertEquals(animalDto.getSpecies().getId(), EXISTENT_SPECIES_ID));
+        assertEquals(1, allBySpeciesId.size());
+        allBySpeciesId.forEach(animalDto -> assertEquals(EXISTENT_SPECIES_ID, animalDto.getSpecies().getId()));
     }
 
     @Test
     public void getAllBySpeciesWrongId() throws Exception {
         List<AnimalDto> allBySpeciesId = controller.getAllBySpeciesId(NONEXISTENT_SPECIES_ID);
-        Assert.assertTrue(allBySpeciesId.isEmpty());
+        assertTrue(allBySpeciesId.isEmpty());
     }
 
     @Test(expected = SpecificationException.class)
@@ -165,7 +167,7 @@ public class AnimalRestControllerTest {
     @Test
     public void count() throws Exception {
         Long count = controller.count();
-        Assert.assertEquals(ANIMALS_AMOUNT, count.intValue());
+        assertEquals(ANIMALS_AMOUNT, count.intValue());
     }
 
 
