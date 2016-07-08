@@ -50,7 +50,7 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
     private static final Long VALID_ASSIGNER_ID = 1L;
     private static final Long TASK_AMOUNT = 18L;
     private static final int TASK_AMOUNT_BY_ASSIGNEE_ID = 6;
-    private static final int TASK_AMOUNT_BY_ASSIGNER_ID = 4;
+    private static final int TASK_AMOUNT_BY_ASSIGNER_ID = 9;
     private static final Long NEXT_TASK_ID = 19L;
 
     @Test
@@ -74,7 +74,7 @@ public class TaskRepositoryTest extends AbstractRepositoryTest<Task>{
 
     @Test
     public void findGetAllByAssignerIdTest(){
-        super.find(new TaskGetAllByAssignerIdSpecification(VALID_ASSIGNEE_ID), TASK_AMOUNT_BY_ASSIGNER_ID);
+        super.find(new TaskGetAllByAssignerIdSpecification(VALID_ASSIGNER_ID), TASK_AMOUNT_BY_ASSIGNER_ID);
     }
 
     @Test
