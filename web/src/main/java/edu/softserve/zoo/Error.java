@@ -1,27 +1,25 @@
 package edu.softserve.zoo;
 
-import java.util.Set;
-
 public class Error {
 
     private String message;
 
-    private Set<String> causes;
+    private String qualificationMessage;
 
     public Error(String message) {
         this.message = message;
     }
 
-    public Error(String message, Set<String> causes) {
+    public Error(String message, String qualificationMessage) {
         this.message = message;
-        this.causes = causes;
+        this.qualificationMessage = qualificationMessage;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public Set<String> getCauses() {
-        return causes;
+    public String getQualificationMessage() {
+        return qualificationMessage;
     }
 }

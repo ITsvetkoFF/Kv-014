@@ -1,8 +1,8 @@
 package edu.softserve.zoo.service.impl;
 
 import edu.softserve.zoo.exceptions.ApplicationException;
-import edu.softserve.zoo.exceptions.ExceptionReason;
 import edu.softserve.zoo.exceptions.NotFoundException;
+import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.model.House;
@@ -23,11 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Implementation of {@link AnimalService} logic for {@link Animal} entity
@@ -36,9 +33,6 @@ import java.util.Set;
  */
 @Service
 public class AnimalServiceImpl extends AbstractService<Animal> implements AnimalService {
-
-    private final static int MAXIMUM_NICKNAME_LENGTH = 50;
-    private static final String ERROR_LOG_TEMPLATE = "An exception occurred during %s operation.";
 
     @Autowired
     private AnimalRepository repository;
@@ -63,7 +57,6 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
 
     @Override
     public Animal findOneWithBirthdayHouseAndSpecies(Long id) {
-        validateNullableArgument(id);
         return repository.findOne(new AnimalFindOneWithBirthdayHouseAndSpeciesSpecification(id));
     }
 
@@ -80,9 +73,6 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
     @Override
     @Transactional
     public Animal save(Animal entity) {
-        validateAnimal(entity, ApplicationException.getBuilderFor(AnimalException.class)
-                .forReason(AnimalException.Reason.SAVE_FAILED)
-                .withMessage(String.format(ERROR_LOG_TEMPLATE, "save")).build());
         try {
             Species species = speciesService.findOneWithAnimalsPerHouse(entity.getSpecies().getId());
             Validator.notNull(species, ApplicationException.getBuilderFor(AnimalException.class)
@@ -95,18 +85,20 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         } catch (ApplicationException ex) {
             throw ApplicationException.getBuilderFor(AnimalException.class)
                     .forReason(AnimalException.Reason.SAVE_FAILED)
-                    .withCause(ex.getReason()).build();
+                    .withMessage("Animal save is failed")
+                    .withQualificationReason(ex.getReason())
+                    .build();
         }
     }
 
     @Override
     @Transactional
     public Animal update(Animal entity) {
-        validateAnimal(entity, ApplicationException.getBuilderFor(AnimalException.class)
-                .forReason(AnimalException.Reason.UPDATE_FAILED)
-                .withMessage(String.format(ERROR_LOG_TEMPLATE, "update")).build());
         try {
             Animal animal = findOneWithBirthdayHouseAndSpecies(entity.getId());
+            Validator.notNull(animal, ApplicationException.getBuilderFor(ValidationException.class)
+                    .forReason(NotFoundException.Reason.BY_ID)
+                    .withMessage("Animal for update is not founded").build());
             Long oldHouseId = animal.getHouse().getId();
             Long oldSpeciesId = animal.getSpecies().getId();
             Validator.isTrue(Objects.equals(oldSpeciesId, entity.getSpecies().getId()),
@@ -132,22 +124,32 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         } catch (ApplicationException ex) {
             throw ApplicationException.getBuilderFor(AnimalException.class)
                     .forReason(AnimalException.Reason.UPDATE_FAILED)
-                    .withCause(ex.getReason()).build();
+                    .withQualificationReason(ex.getReason())
+                    .withMessage("Animal update is failed")
+                    .build();
         }
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        validateNullableArgument(id);
-        Animal animal = findOneWithBirthdayHouseAndSpecies(id);
-        Validator.notNull(animal,
-                ApplicationException.getBuilderFor(NotFoundException.class)
-                        .forReason(NotFoundException.Reason.BY_ID)
-                        .withMessage("Not found animal with id: " + id).build());
-        Species species = speciesService.findOneWithAnimalsPerHouse(animal.getSpecies().getId());
-        super.delete(id);
-        houseService.decreaseHouseCapacity(animal.getHouse().getId(), species.getAnimalsPerHouse());
+        try {
+            validateNullableArgument(id);
+            Animal animal = findOneWithBirthdayHouseAndSpecies(id);
+            Validator.notNull(animal,
+                    ApplicationException.getBuilderFor(NotFoundException.class)
+                            .forReason(NotFoundException.Reason.BY_ID)
+                            .withMessage("Not found animal with id: " + id).build());
+            Species species = speciesService.findOneWithAnimalsPerHouse(animal.getSpecies().getId());
+            super.delete(id);
+            houseService.decreaseHouseCapacity(animal.getHouse().getId(), species.getAnimalsPerHouse());
+        } catch (ApplicationException ex) {
+            throw ApplicationException.getBuilderFor(AnimalException.class)
+                    .forReason(AnimalException.Reason.DELETE_FAILED)
+                    .withQualificationReason(ex.getReason())
+                    .withMessage("Animal deletion is failed")
+                    .build();
+        }
     }
 
     private void validateHouseForNewAnimal(Long houseId, Species species) {
@@ -162,29 +164,5 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
                 .findAny().orElseThrow(() -> ApplicationException.getBuilderFor(HouseException.class)
                 .forReason(HouseException.Reason.WRONG_HOUSE)
                 .withMessage("House is not suitable for this type of animal species").build());
-
-    }
-
-    private void validateAnimal(Animal entity, ApplicationException exception) {
-        Set<ExceptionReason> exceptions = new HashSet<>();
-        Validator.notNull(entity, ApplicationException.getBuilderFor(AnimalException.class)
-                .forReason(AnimalException.Reason.ANIMAL_IS_NULL)
-                .withMessage("Null animal provided").build());
-        Validator.notNull(entity.getFoodConsumption(), AnimalException.Reason.WRONG_FOOD_CONSUMPTION, exceptions);
-        if (entity.getFoodConsumption() != null) {
-            Validator.isTrue(entity.getFoodConsumption() > 0, AnimalException.Reason.WRONG_FOOD_CONSUMPTION, exceptions);
-        }
-        Validator.notNull(entity.getHouse(), AnimalException.Reason.WRONG_HOUSE, exceptions);
-        Validator.notNull(entity.getSpecies(), AnimalException.Reason.WRONG_SPECIES, exceptions);
-        if (entity.getBirthday() != null) {
-            Validator.isTrue(!entity.getBirthday().isAfter(LocalDate.now()), AnimalException.Reason.WRONG_BIRTHDAY, exceptions);
-        }
-        if (entity.getNickname() != null) {
-            Validator.isTrue(entity.getNickname().length() <= MAXIMUM_NICKNAME_LENGTH, AnimalException.Reason.LONG_NICKNAME, exceptions);
-        }
-        if (!exceptions.isEmpty()) {
-            exception.setQualificationReasons(exceptions);
-            throw exception;
-        }
     }
 }

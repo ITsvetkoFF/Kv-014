@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 
@@ -40,8 +38,12 @@ public abstract class AbstractRestController<Dto extends BaseDto, Entity extends
     public Error handleApplicationException(ApplicationException exception) {
         String message = messageSource.getMessage(exception.getReason().getMessage(), null,
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), getLocale());
-        Set<String> causes = exception.getQualificationReasons().stream().map(reason -> messageSource.getMessage(reason.getMessage(), null, getLocale())).collect(Collectors.toSet());
-        return new Error(message, causes);
+        if (exception.getQualificationReason() != null) {
+            String qualificationMessage = messageSource.getMessage(exception.getQualificationReason().getMessage(), null, getLocale());
+            return new Error(message, qualificationMessage);
+        } else {
+            return new Error(message);
+        }
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
