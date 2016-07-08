@@ -2,8 +2,11 @@ package edu.softserve.zoo.service;
 
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.model.Species;
+import edu.softserve.zoo.model.ZooZone;
+import edu.softserve.zoo.persistence.specification.hibernate.composite.fields.HouseField;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
 /**
@@ -14,12 +17,22 @@ import java.util.Map;
 public interface HouseService extends Service<House> {
 
     /**
-     * Returns the List of {@link House} by specified {@link edu.softserve.zoo.model.ZooZone} id
+     * Returns the List of {@link House} by specified {@link ZooZone} id
      *
-     * @param id of {@link edu.softserve.zoo.model.ZooZone}
+     * @param id of {@link ZooZone}
      * @return List of {@link House}
      */
     List<House> getAllByZooZoneId(Long id);
+
+    /**
+     * Returns the List of {@link House} by specified {@link ZooZone} id.
+     * {@link House}s in this list are modified using HouseFields.
+     *
+     * @param id of {@link ZooZone}
+     * @param fields requested fields of House
+     * @return List of {@link House}
+     */
+    List<House> getAllByZooZoneId(Long id, Set<HouseField> fields);
 
     /**
      * Returns the List of {@link House} by specified {@link Species} id

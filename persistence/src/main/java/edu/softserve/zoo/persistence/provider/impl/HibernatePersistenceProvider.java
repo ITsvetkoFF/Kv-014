@@ -5,9 +5,12 @@ import edu.softserve.zoo.exceptions.ApplicationException;
 import edu.softserve.zoo.model.BaseEntity;
 import edu.softserve.zoo.persistence.exception.PersistenceProviderException;
 import edu.softserve.zoo.persistence.provider.PersistenceProvider;
+import edu.softserve.zoo.persistence.provider.specification_processing.builder.CompositeSpecificationBuilder;
+import edu.softserve.zoo.persistence.provider.specification_processing.provider.CompositeSpecificationBuilderProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.provider.ProcessingStrategyProvider;
 import edu.softserve.zoo.persistence.provider.specification_processing.strategy.SpecificationProcessingStrategy;
 import edu.softserve.zoo.persistence.specification.Specification;
+import edu.softserve.zoo.persistence.specification.hibernate.composite.CompositeSpecification;
 import edu.softserve.zoo.util.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,6 +43,9 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
 
     @Autowired
     private ProcessingStrategyProvider<T> processingStrategyProvider;
+
+    @Autowired
+    private CompositeSpecificationBuilderProvider<T> builderProvider;
 
     public HibernatePersistenceProvider() {
     }
@@ -131,7 +137,7 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
      * @return The {@link List} of domain objects or empty list if there are no objects in the database that match the query.
      * if there are no objects in the database that match the specification.
      * @throws PersistenceProviderException if {@code specification} is incorrect or query errors
-     * @throws NullPointerException if {@code specification} is {@code null}
+     * @throws NullPointerException         if {@code specification} is {@code null}
      * @see Specification
      */
     @Override
@@ -152,6 +158,10 @@ public class HibernatePersistenceProvider<T extends BaseEntity> implements Persi
 
     private List<T> processSpecification(Specification<T> specification) {
         SpecificationProcessingStrategy<T> processingStrategy = processingStrategyProvider.getStrategy(specification);
+        if (CompositeSpecification.class.isAssignableFrom(specification.getClass())) {
+            CompositeSpecificationBuilder<T> compositeSpecificationBuilder = builderProvider.getBuilderFor(processingStrategy);
+            specification = compositeSpecificationBuilder.build((CompositeSpecification<T>) specification);
+        }
         return processingStrategy.process(specification);
     }
 
