@@ -85,6 +85,7 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         } catch (ApplicationException ex) {
             throw ApplicationException.getBuilderFor(AnimalException.class)
                     .forReason(AnimalException.Reason.SAVE_FAILED)
+                    .causedBy(ex)
                     .withMessage("Animal save is failed")
                     .withQualificationReason(ex.getReason())
                     .build();
@@ -124,6 +125,7 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         } catch (ApplicationException ex) {
             throw ApplicationException.getBuilderFor(AnimalException.class)
                     .forReason(AnimalException.Reason.UPDATE_FAILED)
+                    .causedBy(ex)
                     .withQualificationReason(ex.getReason())
                     .withMessage("Animal update is failed")
                     .build();
@@ -146,6 +148,7 @@ public class AnimalServiceImpl extends AbstractService<Animal> implements Animal
         } catch (ApplicationException ex) {
             throw ApplicationException.getBuilderFor(AnimalException.class)
                     .forReason(AnimalException.Reason.DELETE_FAILED)
+                    .causedBy(ex)
                     .withQualificationReason(ex.getReason())
                     .withMessage("Animal deletion is failed")
                     .build();
