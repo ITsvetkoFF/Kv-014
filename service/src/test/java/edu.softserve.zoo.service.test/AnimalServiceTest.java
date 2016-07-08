@@ -1,7 +1,6 @@
 package edu.softserve.zoo.service.test;
 
 import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.model.Animal;
 import edu.softserve.zoo.model.House;
 import edu.softserve.zoo.model.Species;
@@ -84,7 +83,7 @@ public class AnimalServiceTest {
         try {
             animalService.getAllByHouseId(null);
             fail();
-        } catch (SpecificationException ex){
+        } catch (SpecificationException ex) {
             assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
         }
     }
@@ -104,10 +103,10 @@ public class AnimalServiceTest {
 
     @Test
     public void getAllBySpeciesIdNullId() throws Exception {
-        try{
+        try {
             animalService.getAllBySpeciesId(null);
             fail();
-        }catch (SpecificationException ex){
+        } catch (SpecificationException ex) {
             assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
         }
     }
@@ -127,8 +126,8 @@ public class AnimalServiceTest {
         try {
             animalService.findOneWithBirthdayHouseAndSpecies(null);
             fail();
-        }catch (ValidationException ex){
-            assertEquals(ex.getReason(), ValidationException.Reason.ARGUMENT_IS_NULL);
+        } catch (SpecificationException ex) {
+            assertEquals(ex.getReason(), SpecificationException.Reason.NULL_ID_VALUE_IN_SPECIFICATION);
         }
     }
 
@@ -161,24 +160,24 @@ public class AnimalServiceTest {
         try {
             animalService.save(getValidAnimal());
             fail();
-        } catch (AnimalException ex){
+        } catch (AnimalException ex) {
             assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertTrue(ex.getQualificationReasons().contains(HouseException.Reason.HOUSE_IS_FULL));
+            assertEquals(ex.getQualificationReason(), HouseException.Reason.HOUSE_IS_FULL);
         }
     }
 
     @Test
     public void saveWrongHouse() throws Exception {
-        try{
+        try {
             Animal animalToSave = getValidAnimal();
             House house = new House();
             house.setId(NOT_EXISTENT_HOUSE_ID);
             animalToSave.setHouse(house);
             animalService.save(animalToSave);
             fail();
-        }catch (AnimalException ex){
+        } catch (AnimalException ex) {
             assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertTrue(ex.getQualificationReasons().contains(NotFoundException.Reason.BY_ID));
+            assertEquals(ex.getQualificationReason(), NotFoundException.Reason.BY_ID);
         }
 
     }
@@ -192,42 +191,47 @@ public class AnimalServiceTest {
             animalToSave.setSpecies(species);
             animalService.save(animalToSave);
             fail();
-        } catch (AnimalException ex){
+        } catch (AnimalException ex) {
             assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
-            assertTrue(ex.getQualificationReasons().contains(NotFoundException.Reason.BY_ID));
+            assertEquals(ex.getQualificationReason(), AnimalException.Reason.WRONG_SPECIES);
         }
 
     }
 
-    @Test(expected = AnimalException.class)
+    @Test
     public void saveWrongBirthday() throws Exception {
-        Animal animalToSave = getValidAnimal();
-        animalToSave.setBirthday(LocalDate.MAX);
-        animalService.save(animalToSave);
+        try {
+            Animal animalToSave = getValidAnimal();
+            animalToSave.setBirthday(LocalDate.MAX);
+            animalService.save(animalToSave);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+        }
     }
 
-    @Test(expected = AnimalException.class)
+    @Test
     public void saveWrongFoodConsumption() throws Exception {
-        Animal animalToSave = getValidAnimal();
-        animalToSave.setFoodConsumption(0);
-        animalService.save(animalToSave);
+        try {
+            Animal animalToSave = getValidAnimal();
+            animalToSave.setFoodConsumption(0);
+            animalService.save(animalToSave);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+        }
     }
 
-    @Test(expected = AnimalException.class)
+    @Test
     public void saveLongNickname() throws Exception {
-        Animal animalToSave = getValidAnimal();
-        animalToSave.setNickname(VERY_LONG_NICKNAME);
-        animalService.save(animalToSave);
-    }
-
-    @Test(expected = AnimalException.class)
-    public void saveNullEntity() throws Exception {
-        animalService.save(null);
-    }
-
-    @Test(expected = AnimalException.class)
-    public void saveEmptyEntity() throws Exception {
-        animalService.save(new Animal());
+        try {
+            Animal animalToSave = getValidAnimal();
+            animalToSave.setNickname(VERY_LONG_NICKNAME);
+            animalService.save(animalToSave);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.SAVE_FAILED);
+        }
     }
 
     @Test
@@ -238,23 +242,19 @@ public class AnimalServiceTest {
         assertByPrimaryFields(animal, updatedAnimal);
     }
 
-    @Test(expected = AnimalException.class)
-    public void updateNullAnimal() throws Exception {
-        animalService.update(null);
-    }
-
-    @Test(expected = AnimalException.class)
-    public void updateEmptyAnimal() throws Exception {
-        animalService.update(new Animal());
-    }
-
-    @Test(expected = AnimalException.class)
+    @Test
     public void updateWrongHouse() throws Exception {
-        Animal animal = getValidAnimal();
-        House house = new House();
-        house.setId(NOT_SUITABLE_HOUSE_ID);
-        animal.setHouse(house);
-        animalService.update(animal);
+        try {
+            Animal animal = getValidAnimal();
+            House house = new House();
+            house.setId(NOT_SUITABLE_HOUSE_ID);
+            animal.setHouse(house);
+            animalService.update(animal);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
+            assertEquals(ex.getQualificationReason(), HouseException.Reason.WRONG_HOUSE);
+        }
     }
 
     @Test
@@ -278,22 +278,34 @@ public class AnimalServiceTest {
         }
     }
 
-    @Test(expected = AnimalException.class)
+    @Test
     public void updateSpeciesChanged() throws Exception {
-        Animal animal = getValidAnimal();
-        Species species = speciesService.findOne(VALID_SPECIES_ID);
-        animal.setSpecies(species);
-        animalService.update(animal);
+        try {
+            Animal animal = getValidAnimal();
+            Species species = speciesService.findOne(VALID_SPECIES_ID);
+            animal.setSpecies(species);
+            animalService.update(animal);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
+            assertEquals(ex.getQualificationReason(), AnimalException.Reason.SPECIES_CHANGED);
+        }
     }
 
-    @Test(expected = AnimalException.class)
+    @Test
     public void updateBirthdayChanged() throws Exception {
-        Animal animal = getValidAnimal();
-        animal.setBirthday(LocalDate.now());
-        animalService.update(animal);
+        try {
+            Animal animal = getValidAnimal();
+            animal.setBirthday(LocalDate.now());
+            animalService.update(animal);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.UPDATE_FAILED);
+            assertEquals(ex.getQualificationReason(), (AnimalException.Reason.BIRTHDAY_CHANGED));
+        }
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void delete() throws Exception {
         try {
             Long houseCapacityBeforeDelete = houseService.getHouseCurrentCapacity(EXISTENT_HOUSE_ID);
@@ -301,15 +313,23 @@ public class AnimalServiceTest {
             Long houseCapacityAfterDelete = houseService.getHouseCurrentCapacity(EXISTENT_HOUSE_ID);
             assertEquals(houseCapacityBeforeDelete - existentAnimalAnimalsPerHouse, houseCapacityAfterDelete.longValue());
             animalService.findOne(EXISTENT_ANIMAL_ID);
+            fail();
+        } catch (NotFoundException ex) {
+            assertEquals(ex.getReason(), NotFoundException.Reason.BY_ID);
         } finally {
             houseService.increaseHouseCapacity(EXISTENT_HOUSE_ID, existentAnimalAnimalsPerHouse);
             assertEquals(existentHouseCapacity, houseService.getHouseCurrentCapacity(EXISTENT_HOUSE_ID));
         }
     }
 
-    @Test(expected = ValidationException.class)
+    @Test
     public void deleteNullId() throws Exception {
-        animalService.delete(null);
+        try {
+            animalService.delete(null);
+            fail();
+        } catch (AnimalException ex) {
+            assertEquals(ex.getReason(), AnimalException.Reason.DELETE_FAILED);
+        }
     }
 
     private Animal getValidAnimal() {

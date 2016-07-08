@@ -5,7 +5,6 @@ import edu.softserve.zoo.dto.AnimalDto;
 import edu.softserve.zoo.dto.HouseDto;
 import edu.softserve.zoo.dto.SpeciesDto;
 import edu.softserve.zoo.exceptions.NotFoundException;
-import edu.softserve.zoo.exceptions.ValidationException;
 import edu.softserve.zoo.persistence.exception.SpecificationException;
 import edu.softserve.zoo.service.exception.AnimalException;
 import edu.softserve.zoo.util.AppProfiles;
@@ -83,15 +82,6 @@ public class AnimalRestControllerTest {
     }
 
     @Test(expected = AnimalException.class)
-    public void createNullFields() throws Exception {
-        AnimalDto validAnimalDto = getValidAnimalDto();
-        validAnimalDto.setHouse(null);
-        validAnimalDto.setSpecies(null);
-        validAnimalDto.setFoodConsumption(null);
-        controller.create(validAnimalDto);
-    }
-
-    @Test(expected = AnimalException.class)
     public void createFullHouse() throws Exception {
         AnimalDto validAnimalDto = getValidAnimalDto();
         controller.create(validAnimalDto);
@@ -126,12 +116,12 @@ public class AnimalRestControllerTest {
         Assert.assertTrue(delete.getStatusCode().is2xxSuccessful());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test(expected = AnimalException.class)
     public void deleteWrongId() throws Exception {
         controller.delete(NONEXISTENT_ANIMAL_ID);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = AnimalException.class)
     public void deleteNull() throws Exception {
         controller.delete(null);
     }

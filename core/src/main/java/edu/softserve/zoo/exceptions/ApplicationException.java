@@ -1,8 +1,6 @@
 package edu.softserve.zoo.exceptions;
 
 import java.lang.reflect.Constructor;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This is a common superclass of all exceptions thrown by application.
@@ -20,10 +18,10 @@ public abstract class ApplicationException extends RuntimeException {
     private ExceptionReason reason;
 
     /**
-     * Set of Qualification reasons.
+     * Set of Qualification reason.
      * Possible values defined in {@code ExceptionReason} enum.
      */
-    private Set<ExceptionReason> qualificationReasons;
+    private ExceptionReason qualificationReason;
 
     /**
      * Constructs application exception instance.
@@ -55,12 +53,12 @@ public abstract class ApplicationException extends RuntimeException {
         this.reason = reason;
     }
 
-    public Set<ExceptionReason> getQualificationReasons() {
-        return qualificationReasons;
+    public ExceptionReason getQualificationReason() {
+        return qualificationReason;
     }
 
-    public void setQualificationReasons(Set<ExceptionReason> qualificationReasons) {
-        this.qualificationReasons = qualificationReasons;
+    public void setQualificationReason(ExceptionReason qualificationReason) {
+        this.qualificationReason = qualificationReason;
     }
 
     /**
@@ -89,10 +87,10 @@ public abstract class ApplicationException extends RuntimeException {
         private ExceptionReason reason;
 
         /**
-         * Set of Qualification reasons.
+         * Qualification reason.
          * Possible values defined in {@code ExceptionReason} enum.
          */
-        private Set<ExceptionReason> qualificationReasons;
+        private ExceptionReason qualificationReason;
 
         /**
          * This class should be instantiated via fabric method {@code ApplicationException.getBuilderFor()} method,
@@ -150,11 +148,8 @@ public abstract class ApplicationException extends RuntimeException {
          * @param reason exception reason
          * @return this builder instance
          */
-        public Builder withCause(final ExceptionReason reason) {
-            if (qualificationReasons == null) {
-                qualificationReasons = new HashSet<>();
-            }
-            qualificationReasons.add(reason);
+        public Builder withQualificationReason(final ExceptionReason reason) {
+            qualificationReason = reason;
             return this;
         }
 
@@ -169,7 +164,7 @@ public abstract class ApplicationException extends RuntimeException {
                         exceptionClass.getDeclaredConstructor(String.class, ExceptionReason.class, Throwable.class);
                 constructor.setAccessible(true);
                 ApplicationException applicationException = constructor.newInstance(message, reason, cause);
-                applicationException.setQualificationReasons(qualificationReasons);
+                applicationException.setQualificationReason(qualificationReason);
                 return applicationException;
             } catch (ReflectiveOperationException e) {
                 throw new ExceptionBuilderException("Can't instantiate " + exceptionClass,
