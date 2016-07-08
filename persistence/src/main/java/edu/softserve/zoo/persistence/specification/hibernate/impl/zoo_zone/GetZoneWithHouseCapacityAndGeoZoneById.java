@@ -10,14 +10,14 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
 /**
  * @author Vadym Holub
  */
-public class GetZoneWithHouseCapacityById implements DetachedCriteriaSpecification<ZooZone> {
+public class GetZoneWithHouseCapacityAndGeoZoneById implements DetachedCriteriaSpecification<ZooZone> {
 
     private static final String ID_FIELD = "id";
 
 
     private final Long zoneId;
 
-    public GetZoneWithHouseCapacityById(Long zoneId) {
+    public GetZoneWithHouseCapacityAndGeoZoneById(Long zoneId) {
         this.zoneId = zoneId;
     }
 
@@ -27,7 +27,8 @@ public class GetZoneWithHouseCapacityById implements DetachedCriteriaSpecificati
                 .add(Restrictions.eq(ID_FIELD, zoneId))
                 .setProjection(Projections.projectionList()
                         .add(Projections.property("id"), "id")
-                        .add(Projections.property("houseCapacity"), "houseCapacity"))
+                        .add(Projections.property("houseCapacity"), "houseCapacity")
+                        .add(Projections.property("geographicalZone"), "geographicalZone"))
                 .setResultTransformer(new AliasToBeanResultTransformer(ZooZone.class));
     }
 }

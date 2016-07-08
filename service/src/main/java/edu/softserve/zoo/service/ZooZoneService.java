@@ -8,4 +8,6 @@ import edu.softserve.zoo.model.ZooZone;
  * @author Vadym Holub
  */
 public interface ZooZoneService extends Service<ZooZone> {
+
+    Long getZoneCapacityById(Long zoneId);
 }
