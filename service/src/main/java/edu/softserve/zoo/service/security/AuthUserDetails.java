@@ -3,6 +3,7 @@ package edu.softserve.zoo.service.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -19,15 +20,17 @@ public class AuthUserDetails implements UserDetails {
     private boolean enabled;
     private String token;
     private Set<GrantedAuthority> authorities;
+    private LocalDateTime passwordChangeDate;
 
     public AuthUserDetails(Long id, String username, String password, boolean enabled,
-                           String token, Set<GrantedAuthority> authorities) {
+                           String token, LocalDateTime passwordChangeDate, Set<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.token = token;
         this.authorities = authorities;
+        this.passwordChangeDate = passwordChangeDate;
     }
 
     @Override
@@ -79,6 +82,14 @@ public class AuthUserDetails implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getPasswordChangeDate() {
+        return passwordChangeDate;
+    }
+
+    public void setPasswordChangeDate(LocalDateTime passwordChangeDate) {
+        this.passwordChangeDate = passwordChangeDate;
     }
 
     @Override

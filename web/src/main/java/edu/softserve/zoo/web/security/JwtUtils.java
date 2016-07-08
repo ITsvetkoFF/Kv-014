@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,12 +40,11 @@ public class JwtUtils {
     /**
      * Validates token against given {@link UserDetails}
      *
-     * @param token       token to validate
-     * @param userDetails info about the user token is associated with
+     * @param token token to validate
+     * @param user  info about the user token is associated with
      * @return true if token is valid
      */
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        AuthUserDetails user = (AuthUserDetails) userDetails;
+    public Boolean validateToken(String token, AuthUserDetails user) {
         Claims claims = getClaimsFromToken(token);
 
         String tokenId = claims.getId();
@@ -51,6 +52,7 @@ public class JwtUtils {
 
         return (username.equals(user.getUsername())
                 && !(isExpired(token))
+                && tokenIssuedAfterLastPasswordChange(token, user)
                 && tokenId.equals(user.getToken()));
     }
 
@@ -155,6 +157,13 @@ public class JwtUtils {
             LOGGER.debug("Failed to extract expiration date from token");
         }
         return expiration;
+    }
+
+    private Boolean tokenIssuedAfterLastPasswordChange(String token, AuthUserDetails userDetails) {
+        LocalDateTime dateTime = userDetails.getPasswordChangeDate();
+        Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        return getCreatedDateFromToken(token).after(date);
     }
 
 }

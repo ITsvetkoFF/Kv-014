@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.FileCopyUtils;
@@ -32,6 +33,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource({"classpath:email.properties","classpath:service-security.properties"})
 @ComponentScan({"edu.softserve.zoo.service.impl", "edu.softserve.zoo.persistence", "edu.softserve.zoo.service.security"})
+@EnableAsync
 public class ServiceConfig {
 
     @javax.annotation.Resource
